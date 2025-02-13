@@ -3,11 +3,22 @@ package edu.ntnu.idi.idatt;
 import edu.ntnu.idi.idatt.Die;
 import java.util.ArrayList;
 
+/**
+ *  The Dice class is responsible for creating and storing die objects, rolling the dice,
+ *  summing their values, and retrieving the value of a specific die.
+ *
+ * @version 1.0
+ */
 public class Dice {
 
   private ArrayList<Die> dice = new ArrayList<>();
   static Die die = new Die();
 
+  /**
+   * Creates new die objects and adds them to the dice list.
+   *
+   * @param numberOfDice objects to be created and added
+   */
   public ArrayList<Die> Dice(int numberOfDice){
     for (int i = 0; i < numberOfDice; i++) {
       dice.add(new Die());
@@ -15,6 +26,11 @@ public class Dice {
     return dice;
   }
 
+  /**
+   * Rolls the dice in the list individually and sums the values.
+   *
+   * @return the sum of the rolled dice
+   */
   public int roll(){
     int rollDice = 0;
     int roll;
