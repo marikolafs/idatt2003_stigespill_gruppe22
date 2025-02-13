@@ -11,9 +11,7 @@ import java.util.Random;
 public class Die {
   private int lastRolledValue;
   private int number;
-  Random rand = new Random();
-  int max = 6;
-  int min = 1;
+
 
 
   /**
@@ -36,8 +34,13 @@ public class Die {
    * @return the last rolled value
    */
   public int roll() {
+    Random rand = new Random();
+    int max = 6;
+    int min = 1;
+
     int rolledValue = rand.nextInt(max - min + 1) + min;
     lastRolledValue = rolledValue;
+
     return rolledValue;
   }
 
