@@ -37,7 +37,7 @@ public class Dice {
     int rollDice = 0;
     int roll;
     for (Die die : dice) {
-      roll = die.Roll();
+      roll = die.roll();
       System.out.println("rolled " + roll);
       rollDice += roll;
     }
