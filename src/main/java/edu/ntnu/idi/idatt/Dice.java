@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt;
 
+import edu.ntnu.idi.idatt.Die;
 import java.util.ArrayList;
 
 public class Dice {
@@ -26,13 +27,18 @@ public class Dice {
     return rollDice;
   }
 
+  /**
+   * Retrieves the value of a specific die from the dice list.
+   *
+   * @param dieNumber the index of the die subtracted by 1 to retrieve the value from.
+   * @return the value of the die at the spedified index
+   * @throws IllegalArgumentException if the provided dieNumber is more or less than existing dice
+   */
   public int getDie(int dieNumber){
-    for (Die die : dice) {
-      if(dieNumber == die.GetNumber()){
-        int dieRoll = die.GetValue();
-      }
-    }
-    return roll();
+    if (dieNumber <= 0 || dieNumber > dice.size()) {
+    throw new IllegalArgumentException("dieNumber cannot be less or more than existing dice");
+  }
+    return dice.get(dieNumber - 1).getValue();
   }
 }
 
