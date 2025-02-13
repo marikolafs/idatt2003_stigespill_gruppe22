@@ -2,8 +2,6 @@ package edu.ntnu.idi.idatt;
 
 public class Board {
 
-  private int numberOfTiles;
-
 }
 
 /*Representerer selve spillbrettet bestående av en samling felt (engelsk: Tile). Spillbrettet holder også
