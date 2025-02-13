@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.Die;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  The Dice class is responsible for creating and storing die objects, rolling the dice,
@@ -10,20 +11,21 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Dice {
-
-  private ArrayList<Die> dice = new ArrayList<>();
-  static Die die = new Die();
+  private List<Die> dice;
 
   /**
-   * Creates new die objects and adds them to the dice list.
+   * The constructor constructs a new die objects based on numberOfDice and adds them to the list.
    *
-   * @param numberOfDice objects to be created and added
+   * @param numberOfDice the number of die objects to be constructed and added to the dice list
    */
-  public ArrayList<Die> Dice(int numberOfDice){
+
+  public Dice(int numberOfDice) {
+    this.dice = new ArrayList<>();
+
     for (int i = 0; i < numberOfDice; i++) {
-      dice.add(new Die());
+      Die die = new Die();
+      dice.add(die);
     }
-    return dice;
   }
 
   /**
@@ -31,7 +33,7 @@ public class Dice {
    *
    * @return the sum of the rolled dice
    */
-  public int roll(){
+  public int roll() {
     int rollDice = 0;
     int roll;
     for (Die die : dice) {
@@ -50,14 +52,15 @@ public class Dice {
    * @return the value of the die at the spedified index
    * @throws IllegalArgumentException if the provided dieNumber is more or less than existing dice
    */
-  public int getDie(int dieNumber){
+  public int getDie(int dieNumber) {
     if (dieNumber <= 0 || dieNumber > dice.size()) {
-    throw new IllegalArgumentException("dieNumber cannot be less or more than existing dice");
-  }
+      throw new IllegalArgumentException("dieNumber cannot be less or more than existing dice");
+    }
     return dice.get(dieNumber - 1).getValue();
   }
 }
 
-/*I dette spillet skal det benyttes terninger (engelsk: Dice). Samlingen av alle terninger er representert
+/*I dette spillet skal det benyttes terninger (engelsk: Dice).
+Samlingen av alle terninger er representert
 av klassen Dice. En enkelt terning er representert av klassen Die. Terningene rulles samtidig, og
 øynene summeres.*/
