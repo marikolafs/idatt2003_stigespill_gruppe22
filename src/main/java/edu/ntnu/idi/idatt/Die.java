@@ -15,10 +15,6 @@ public class Die {
   int max = 6;
   int min = 1;
 
-  public Die() {
-    this.lastRolledValue = lastRolledValue;
-    this.number = number;
-  }
 
   /**
    * Method to get the last rolled value of the die.
