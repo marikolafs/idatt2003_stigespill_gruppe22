@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.Random;
+
 public class Die {
 
 }
