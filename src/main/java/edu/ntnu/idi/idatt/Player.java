@@ -7,7 +7,7 @@ package edu.ntnu.idi.idatt;
  * the end of the game (goal).
  */
 public class Player {
-  private String name;
+  final private String name;
   private Tile currentTile;
 
   /**
@@ -20,6 +20,22 @@ public class Player {
   public Player(String name, BoardGame game) {
     this.name = name;
     this.currentTile = game.getBoard().getTile(); // getting the tile position
+  }
+
+  /**
+   * Accessor method for currentTile
+   * @return the current tile
+   */
+  public Tile getCurrentTile () {
+    return currentTile;
+  }
+
+  /**
+   * Accessor method for name
+   * @return the players name
+   */
+  public  String getName() {
+    return name;
   }
 
 
