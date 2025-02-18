@@ -7,7 +7,7 @@ package edu.ntnu.idi.idatt;
  * the end of the game (goal).
  */
 public class Player {
-  final private String name;
+  final String name;
   private Tile currentTile;
 
   /**
@@ -23,25 +23,33 @@ public class Player {
   }
 
   /**
-   * Accessor method for currentTile
+   * Accessor method for currentTile.
+   *
    * @return the current tile
    */
-  public Tile getCurrentTile () {
+  public Tile getCurrentTile() {
     return currentTile;
   }
 
   /**
-   * Accessor method for name
+   * Accessor method for name.
+   *
    * @return the players name
    */
   public  String getName() {
     return name;
   }
 
+  /**
+   * Places the player on the given tile and sets it to the current tile.
+   *
+   * @param tile the tile which the player will be placed on
+   */
+  public void placeOnTile(Tile tile) {
+    this.currentTile = tile;
+  }
+
 
 
 
 }
-/*Representerer en spiller i spillet. En spiller har et navn, og «bor» til enhver tid på et felt. En spiller
-kan bli plassert på et felt og kan også bevege seg et antall steg på spillbrettet. Når spilleren når
-siste felt eller passerer siste felt, har spilleren nådd slutten av spillet (mål).*/
