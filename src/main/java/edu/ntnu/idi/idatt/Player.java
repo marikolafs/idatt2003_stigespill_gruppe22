@@ -1,6 +1,29 @@
 package edu.ntnu.idi.idatt;
 
+/**
+ * Represents a player in the boardgame. A player has a name and is always located on a tile.
+ * A player can be placed on a tile and move a number of steps on the board.
+ * When the player reaches or passes the last tile, the player has reached
+ * the end of the game (goal).
+ */
 public class Player {
+  private String name;
+  private Tile currentTile;
+
+  /**
+   * Constructs a new Player with the specified name and places the player on the
+   * starting tile of the game board.
+   *
+   * @param name the name of the player
+   * @param game the BoardGame instance from which the starting tile is retrieved
+   */
+  public Player(String name, BoardGame game) {
+    this.name = name;
+    this.currentTile = game.getBoard().getTile(); // getting the tile position
+  }
+
+
+
 
 }
 /*Representerer en spiller i spillet. En spiller har et navn, og «bor» til enhver tid på et felt. En spiller
