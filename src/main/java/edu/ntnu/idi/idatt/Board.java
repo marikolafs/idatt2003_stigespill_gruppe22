@@ -1,17 +1,19 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-  Map<Integer, tile> tiles = new HashMap<>();
+  Map<Integer, Tile> tiles = new HashMap<>();
+
 
   public void addTile(Tile tile) {
-
+    // add number of tiles based on number from createBoard in BoardGame
   }
+
   public Tile getTile(int tileId) {
-
+    return tiles.get(tileId);
   }
-
 }
 
 /*Representerer selve spillbrettet bestående av en samling felt (engelsk: Tile). Spillbrettet holder også

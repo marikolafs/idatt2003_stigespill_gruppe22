@@ -9,6 +9,7 @@ package edu.ntnu.idi.idatt;
 public class Player {
   final String name;
   private Tile currentTile;
+  BoardGame boardGame;
 
   /**
    * Constructs a new Player with the specified name and places the player on the
@@ -17,9 +18,9 @@ public class Player {
    * @param name the name of the player
    * @param game the BoardGame instance from which the starting tile is retrieved
    */
-  public Player(String name, BoardGame game) {
+  public Player(String name, Tile currentTile) {
     this.name = name;
-    this.currentTile = game.getBoard().getTile(); // getting the tile position
+    this.currentTile = boardGame.getBoard().getTile(); // getting the tile position
   }
 
   /**
@@ -48,8 +49,5 @@ public class Player {
   public void placeOnTile(Tile tile) {
     this.currentTile = tile;
   }
-
-
-
 
 }

@@ -20,6 +20,7 @@ public class Tile {
 
   public void setNextTile(Tile nextTile) {
     this.nextTile = nextTile;
+    // next tile = Tile + 1, within the existing tiles, tile 90 has no next tile
   }
 }
 /*Representerer ett felt på spillbrettet. I denne mappen har vi sagt at felt skal henge etter hverandre.
