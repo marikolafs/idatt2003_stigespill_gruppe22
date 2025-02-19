@@ -2,6 +2,25 @@ package edu.ntnu.idi.idatt;
 
 public class Tile {
 
+  private Tile nextTile;
+  private int tileId;
+  private TileAction landAction;
+
+  public Tile(int tileId) {
+    this.tileId = tileId;
+  }
+
+  public void landPlayer(Player player) {
+
+  }
+
+  public void leavePlayer(Player player) {
+
+  }
+
+  public void setNextTile(Tile nextTile) {
+    this.nextTile = nextTile;
+  }
 }
 /*Representerer ett felt på spillbrettet. I denne mappen har vi sagt at felt skal henge etter hverandre.
 Derfor har et felt alltid en referanse til «neste felt». Dersom det ikke finnes et «neste felt» er feltet det
