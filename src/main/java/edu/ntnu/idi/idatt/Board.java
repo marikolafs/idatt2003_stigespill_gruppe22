@@ -1,15 +1,17 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-  Map<Integer, tile> tiles = new HashMap<>();
+  Map<Integer, Tile> tiles = new HashMap<>();
 
   public void addTile(Tile tile) {
 
   }
-  public Tile getTile(int tileId) {
 
+  public Tile getTile(int tileId) {
+    
   }
 
 }
