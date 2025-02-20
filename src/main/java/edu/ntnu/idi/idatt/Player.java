@@ -21,7 +21,7 @@ public class Player {
    */
   public Player(String name, BoardGame game) {
     this.name = name;
-    this.currentTile = game.getBoard().getTile(1); // getting the tile position
+    this.currentTile = game.getBoard().getTile(0); // getting the tile position
   }
 
   /**
@@ -38,7 +38,7 @@ public class Player {
    *
    * @return the players name
    */
-  public  String getName() {
+  public String getName() {
     return name;
   }
 
@@ -46,8 +46,12 @@ public class Player {
    * Places the player on the given tile and sets it to the current tile.
    *
    * @param tile the tile which the player will be placed on
+   * @throws IllegalArgumentException if tile is null
    */
   public void placeOnTile(Tile tile) {
+    if (tile == null) {
+      throw new IllegalArgumentException("Tile cannot be null");
+    }
     this.currentTile = tile;
   }
 
