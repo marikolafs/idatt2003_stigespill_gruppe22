@@ -19,7 +19,7 @@ public class Player {
    */
   public Player(String name, BoardGame game) {
     this.name = name;
-    this.currentTile = game.getBoard().getTile(); // getting the tile position
+    this.currentTile = game.getBoard().getTile(1); // getting the tile position
   }
 
   /**
@@ -48,6 +48,22 @@ public class Player {
   public void placeOnTile(Tile tile) {
     this.currentTile = tile;
   }
+
+// TODO add exception for last tile
+  /**
+   * Moves the player a number of steps on the board. The player is moved to the next tile if it is
+   * not null.
+   *
+   * @param steps the steps the player will be moved
+   */
+  public void move(int steps) {
+    for (int i = 0; i < steps; i++) {
+      if (currentTile.getNextTile() != null) {
+        currentTile = currentTile.getNextTile();
+      }
+    }
+  }
+
 
 
 
