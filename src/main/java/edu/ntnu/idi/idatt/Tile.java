@@ -49,10 +49,11 @@ public class Tile {
     this.nextTile = nextTile;
   }
 
+  //TODO: Implement the landPlayer method
   public void landPlayer(Player player) {
 
   }
-
+  // TODO: Implement the leavePlayer method
   public void leavePlayer(Player player) {
 
   }
