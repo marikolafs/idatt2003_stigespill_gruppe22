@@ -10,21 +10,34 @@ public class Tile {
     this.tileId = tileId;
   }
 
+  /**
+   * Accessor method for tileId.
+   *
+   * @return tileId
+   */
+  public int getTileId() {
+    return tileId;
+  }
+
+  /**
+   * Accessor method for nextTile
+   *
+   * @return the nextTile
+   */
+  public Tile getNextTile() {
+    return nextTile;
+  }
+  //TODO add landPlayer method
   public void landPlayer(Player player) {
 
   }
-
+  // TODO add leavePlayer method
   public void leavePlayer(Player player) {
 
   }
 
   public void setNextTile(Tile nextTile) {
-    if(tileId == 90){
-      this.nextTile = null;
-    } else {
-      this.nextTile = nextTile;
-    }
-    // next tile = Tile + 1, within the existing tiles, tile 90 has no next tile
+    this.nextTile = nextTile;
   }
 }
 /*Representerer ett felt på spillbrettet. I denne mappen har vi sagt at felt skal henge etter hverandre.

@@ -5,6 +5,8 @@ package edu.ntnu.idi.idatt;
  * A player can be placed on a tile and move a number of steps on the board.
  * When the player reaches or passes the last tile, the player has reached
  * the end of the game (goal).
+ *
+ * @version 1.0
  */
 public class Player {
   final String name;
@@ -17,9 +19,9 @@ public class Player {
    * @param name the name of the player
    * @param game the BoardGame instance from which the starting tile is retrieved
    */
-  public Player(String name, Tile currentTile) {
+  public Player(String name, BoardGame game) {
     this.name = name;
-    this.currentTile = currentTile;
+    this.currentTile = game.getBoard().getTile(0); // getting the tile position
   }
 
   /**
@@ -36,7 +38,7 @@ public class Player {
    *
    * @return the players name
    */
-  public  String getName() {
+  public String getName() {
     return name;
   }
 
@@ -44,9 +46,32 @@ public class Player {
    * Places the player on the given tile and sets it to the current tile.
    *
    * @param tile the tile which the player will be placed on
+   * @throws IllegalArgumentException if tile is null
    */
   public void placeOnTile(Tile tile) {
+    if (tile == null) {
+      throw new IllegalArgumentException("Tile cannot be null");
+    }
     this.currentTile = tile;
   }
+
+// TODO add exception for last tile
+  /**
+   * Moves the player a number of steps on the board. The player is moved to the next tile if it is
+   * not null.
+   *
+   * @param steps the steps the player will be moved
+   */
+  public void move(int steps) {
+    for (int i = 0; i < steps; i++) {
+      if (currentTile.getNextTile() != null) {
+        currentTile = currentTile.getNextTile();
+      }
+    }
+  }
+
+
+
+
 
 }
