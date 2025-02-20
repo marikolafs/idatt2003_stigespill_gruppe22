@@ -27,6 +27,7 @@ public class Tile {
   public Tile getNextTile() {
     return nextTile;
   }
+
   //TODO add landPlayer method
   public void landPlayer(Player player) {
 
