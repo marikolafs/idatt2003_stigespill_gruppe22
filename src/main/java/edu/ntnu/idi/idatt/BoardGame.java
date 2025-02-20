@@ -10,21 +10,16 @@ import java.util.*;
  * at which point a winner is decided.
  */
 public class BoardGame {
+
   private Board board;
+  private Player currentPlayer;
+  private Dice dice;
 
   private List<Player> players = new ArrayList<>();
   Tile startingTile = board.getTile(0);
 
   public  BoardGame() {
     this.board = new Board();
-  }
-
-  public void addPlayer(String name) {
-    players.add(new Player(name, startingTile));
-  }
-
-  public void play() {
-
   }
 
   /**
@@ -34,6 +29,31 @@ public class BoardGame {
    */
   public Board getBoard() {
     return board;
+  }
+
+  // TODO add addPlayer method
+  public void addPlayer(String name) {
+    players.add(new Player(name, startingTile));
+  }
+
+  // TODO add createBoard method
+  public void createBoard() {
+
+  }
+
+  // TODO add createDicemethod
+  public void createDice() {
+
+  }
+
+  // TODO add play method
+  public void play() {
+
+  }
+
+  // TODO add getWinner method
+  public Player getWinner(){
+
   }
 
   public static void main(String[] args) {
