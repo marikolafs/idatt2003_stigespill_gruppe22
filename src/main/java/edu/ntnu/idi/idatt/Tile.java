@@ -10,10 +10,28 @@ public class Tile {
     this.tileId = tileId;
   }
 
+  /**
+   * Accessor method for tileId.
+   *
+   * @return tileId
+   */
+  public int getTileId() {
+    return tileId;
+  }
+
+  /**
+   * Accessor method for nextTile
+   *
+   * @return the nextTile
+   */
+  public Tile getNextTile() {
+    return nextTile;
+  }
+  //TODO add landPlayer method
   public void landPlayer(Player player) {
 
   }
-
+  // TODO add leavePlayer method
   public void leavePlayer(Player player) {
 
   }
