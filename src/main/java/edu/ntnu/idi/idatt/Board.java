@@ -46,6 +46,4 @@ public class Board {
       throw new IllegalArgumentException("Tile does not exist");
     }
   }
-
-
 }
