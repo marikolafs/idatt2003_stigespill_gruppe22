@@ -19,7 +19,11 @@ public class Tile {
   }
 
   public void setNextTile(Tile nextTile) {
-    this.nextTile = nextTile;
+    if(tileId == 90){
+      this.nextTile = null;
+    } else {
+      this.nextTile = nextTile;
+    }
     // next tile = Tile + 1, within the existing tiles, tile 90 has no next tile
   }
 }

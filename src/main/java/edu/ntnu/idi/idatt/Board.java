@@ -8,7 +8,9 @@ public class Board {
 
 
   public void addTile(Tile tile) {
-    // add number of tiles based on number from createBoard in BoardGame
+    for (int i = 0; i < Game.getNumberOfTiles(); i++) {
+      tiles.put(i, tile);
+    }
   }
 
   public Tile getTile(int tileId) {
