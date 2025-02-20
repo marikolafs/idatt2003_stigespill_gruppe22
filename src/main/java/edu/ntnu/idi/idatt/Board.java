@@ -5,10 +5,11 @@ import java.util.Map;
 
 public class Board {
   Map<Integer, Tile> tiles = new HashMap<>();
+  Game game;
 
 
   public void addTile(Tile tile) {
-    for (int i = 0; i < Game.getNumberOfTiles(); i++) {
+    for (int i = 0; i < game.getNumberOfTiles(); i++) {
       tiles.put(i, tile);
     }
   }
