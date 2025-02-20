@@ -5,6 +5,8 @@ package edu.ntnu.idi.idatt;
  * A player can be placed on a tile and move a number of steps on the board.
  * When the player reaches or passes the last tile, the player has reached
  * the end of the game (goal).
+ *
+ * @version 1.0
  */
 public class Player {
   final String name;
