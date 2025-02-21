@@ -14,8 +14,15 @@ public class Tile {
   private int tileId;
   private TileAction landAction;
 
-  public Tile(int tileId) {
+  /**
+   * Constructs a Tile with a specified tile ID and land action.
+   *
+   * @param tileId the unique identifier for the tile
+   * @param landAction the action to be executed when a player lands on this tile
+   */
+  public Tile(int tileId, TileAction landAction) {
     this.tileId = tileId;
+    this.landAction = landAction;
   }
 
   /**
