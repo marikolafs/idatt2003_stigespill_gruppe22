@@ -1,5 +1,8 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a tile on the game board. The tiles are linked to each other, for that reason a
  * tile always has a referance to the "next tile". If there is no "next tile" the tile is the
@@ -13,6 +16,7 @@ public class Tile {
   private Tile nextTile;
   private int tileId;
   private TileAction landAction;
+  private List<Player> playersOnTile;
 
   /**
    * Constructs a Tile with a specified tile ID and land action.
@@ -23,6 +27,7 @@ public class Tile {
   public Tile(int tileId, TileAction landAction) {
     this.tileId = tileId;
     this.landAction = landAction;
+    this.playersOnTile = new ArrayList<>();
   }
 
   /**
@@ -43,12 +48,30 @@ public class Tile {
     return nextTile;
   }
 
-  //TODO add landPlayer method
+  /**
+   * This method is called when a player lands on the tile. The player is added to the list of
+   * players on the tile and the land action is executed if it is not null.
+   *
+   * @param player the player that lands on the tile
+   * @throws IllegalArgumentException if player is null
+   */
   public void landPlayer(Player player) {
+    if(player == null) {
+      throw new IllegalArgumentException("Player cannot be null");
+    }
+
+    if (!playersOnTile.contains(player)) {
+      playersOnTile.add(player);
+    }
+
+    if (landAction != null) {
+        landAction.perform(player);
+    }
 
   }
   // TODO add leavePlayer method
   public void leavePlayer(Player player) {
+
 
   }
 
