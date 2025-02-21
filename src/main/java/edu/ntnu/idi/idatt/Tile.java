@@ -38,14 +38,23 @@ public class Tile {
   public int getTileId() {
     return tileId;
   }
-
   /**
-   * Accessor method for nextTile
+   * Accessor method for nextTile.
    *
    * @return the nextTile
    */
+
   public Tile getNextTile() {
     return nextTile;
+  }
+
+  /**
+   * Mutator method for nextTile.
+   *
+   * @param nextTile the next tile
+   */
+  public void setNextTile(Tile nextTile) {
+    this.nextTile = nextTile;
   }
 
   /**
@@ -56,7 +65,7 @@ public class Tile {
    * @throws IllegalArgumentException if player is null
    */
   public void landPlayer(Player player) {
-    if(player == null) {
+    if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
     }
 
@@ -65,17 +74,23 @@ public class Tile {
     }
 
     if (landAction != null) {
-        landAction.perform(player);
+      landAction.perform(player);
     }
 
   }
-  // TODO add leavePlayer method
+
+  /**
+   * Remove the player from the tile when its supposed to leave the tile.
+   *
+   * @param player the player to leave the tile
+   * @throws IllegalArgumentException if player is null
+   */
   public void leavePlayer(Player player) {
-
-
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null");
+    }
+    playersOnTile.remove(player);
   }
 
-  public void setNextTile(Tile nextTile) {
-    this.nextTile = nextTile;
-  }
+
 }
