@@ -1,5 +1,13 @@
 package edu.ntnu.idi.idatt;
 
+/**
+ * Represents a tile on the game board. The tiles are linked to each other, for that reason a
+ * tile always has a referance to the "next tile". If there is no "next tile" the tile is the
+ * last tile in the game (goal).
+ * A tile can be referenced to an action, that will be executed when the player lands on that tile.
+ *
+ * @version 1.0
+ */
 public class Tile {
 
   private Tile nextTile;
@@ -41,8 +49,3 @@ public class Tile {
     this.nextTile = nextTile;
   }
 }
-/*Representerer ett felt på spillbrettet. I denne mappen har vi sagt at felt skal henge etter hverandre.
-Derfor har et felt alltid en referanse til «neste felt». Dersom det ikke finnes et «neste felt» er feltet det
-siste feltet i spillet (altså mål).
-Et felt kan ha tilknyttet en «aksjon/handling» (engelsk: Action) som blir utført på den spilleren
-som lander på feltet.*/
