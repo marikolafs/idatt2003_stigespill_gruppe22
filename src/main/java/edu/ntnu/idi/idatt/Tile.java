@@ -48,6 +48,24 @@ public class Tile {
     return nextTile;
   }
 
+    /**
+     * Accessor method for landAction.
+     *
+     * @return the landAction
+     */
+  public TileAction getLandAction() {
+    return landAction;
+  }
+
+  /**
+   * Accessor method for playersOnTile.
+   *
+   * @return the players on the tile
+   */
+  public List<Player> getPlayersOnTile() {
+    return playersOnTile;
+  }
+
   /**
    * Mutator method for nextTile.
    *
