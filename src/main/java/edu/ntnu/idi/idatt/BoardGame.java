@@ -14,12 +14,11 @@ public class BoardGame {
   private Board board;
   private Player currentPlayer;
   private Dice dice;
-
-  private List<Player> players = new ArrayList<>();
-  Tile startingTile = board.getTile(0);
+  private List<Player> players;
 
   public  BoardGame() {
     this.board = new Board();
+    this.players = new ArrayList<>();
   }
 
   /**
@@ -33,7 +32,7 @@ public class BoardGame {
 
   // TODO add addPlayer method
   public void addPlayer(String name) {
-    players.add(new Player(name, startingTile));
+
   }
 
   // TODO add createBoard method
@@ -53,7 +52,7 @@ public class BoardGame {
 
   // TODO add getWinner method
   public Player getWinner(){
-
+    return null;
   }
 
   public static void main(String[] args) {
