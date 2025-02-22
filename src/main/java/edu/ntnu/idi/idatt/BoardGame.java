@@ -1,7 +1,9 @@
 package edu.ntnu.idi.idatt;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+
+
 
 /**
  * The BoardGame class is responsible for setting up the game board and dice, registering players,
@@ -16,7 +18,9 @@ public class BoardGame {
   private Dice dice;
   private List<Player> players;
 
-
+  /**
+   *
+   */
   public  BoardGame() {
     this.board = new Board();
     this.players = new ArrayList<>();
@@ -40,18 +44,43 @@ public class BoardGame {
     return currentPlayer;
   }
 
-  // TODO add addPlayer method
-  public void addPlayer(String name) {
+  /**
+   * Adds a player to the game.
+   * The player is added to the list of players if it is not already registered.
+   *
+   * @param player the player to be added
+   * @throws IllegalArgumentException if player is null
+   */
+  public void addPlayer(Player player) {
+    if (player == null) {
+      throw new IllegalArgumentException("Player cannot be null");
+    }
+
+    if (!players.contains(player)) {
+      players.add(player);
+    }
 
   }
 
-  // TODO add createBoard method
-  public void createBoard() {
-
+    /**
+     * Creates a new board with the specified number of tiles.
+     *
+     * @param tiles the number of tiles to be added to the board
+     * @throws IllegalArgumentException if the number of tiles is less than or equal to 0
+     */
+  public void createBoard(int tiles) {
+    if (tiles <= 0) {
+      throw new IllegalArgumentException("Number of tiles must be greater than 0");
+    }
+    for (int i = 1; i < tiles; i++) {
+      Tile tile = new Tile(i);
+      board.addTile(tile);
+    }
   }
 
   // TODO add createDicemethod
-  public void createDice() {
+  public void createDice(int numberOfDice) {
+
 
   }
 
