@@ -78,10 +78,17 @@ public class BoardGame {
     }
   }
 
-  // TODO add createDicemethod
+  /**
+   * Creates new dice with the specified number of die objects.
+   *
+   * @param numberOfDice
+   * @throws IllegalArgumentException if the number of dice is less than or equal to 0
+   */
   public void createDice(int numberOfDice) {
-
-
+    if (numberOfDice <= 0) {
+      throw new IllegalArgumentException("Number of dice must be greater than 0");
+    }
+    this.dice = new Dice(numberOfDice);
   }
 
   // TODO add play method
