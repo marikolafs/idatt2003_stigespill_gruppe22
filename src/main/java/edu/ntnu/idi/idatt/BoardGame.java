@@ -14,12 +14,12 @@ public class BoardGame {
   private Board board;
   private Player currentPlayer;
   private Dice dice;
+  private List<Player> players;
 
-  private List<Player> players = new ArrayList<>();
-  Tile startingTile = board.getTile(0);
 
   public  BoardGame() {
     this.board = new Board();
+    this.players = new ArrayList<>();
   }
 
   /**
@@ -31,9 +31,18 @@ public class BoardGame {
     return board;
   }
 
+  /**
+   * Accessor method for currentPlayer
+   *
+   * @return currentPlayer
+   */
+  public Player getCurrentPlayer () {
+    return currentPlayer;
+  }
+
   // TODO add addPlayer method
   public void addPlayer(String name) {
-    players.add(new Player(name, startingTile));
+
   }
 
   // TODO add createBoard method
