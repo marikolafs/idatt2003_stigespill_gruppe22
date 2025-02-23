@@ -19,7 +19,10 @@ public class BoardGame {
   private List<Player> players;
 
   /**
-   *
+   * The BoardGame class is responsible for setting up the game board and dice, registering players,
+   * and managing the gameplay. It iterates over the players, allowing each player to roll the dice
+   * and move on the board. The game concludes when the first player reaches the last tile (goal),
+   * at which point a winner is decided.
    */
   public  BoardGame() {
     this.board = new Board();
@@ -36,11 +39,11 @@ public class BoardGame {
   }
 
   /**
-   * Accessor method for currentPlayer
+   * Accessor method for currentPlayer.
    *
    * @return currentPlayer
    */
-  public Player getCurrentPlayer () {
+  public Player getCurrentPlayer() {
     return currentPlayer;
   }
 
@@ -62,12 +65,12 @@ public class BoardGame {
 
   }
 
-    /**
-     * Creates a new board with the specified number of tiles.
-     *
-     * @param tiles the number of tiles to be added to the board
-     * @throws IllegalArgumentException if the number of tiles is less than or equal to 0
-     */
+  /**
+   * Creates a new board with the specified number of tiles.
+   *
+   * @param tiles the number of tiles to be added to the board
+   * @throws IllegalArgumentException if the number of tiles is less than or equal to 0
+   */
   public void createBoard(int tiles) {
     if (tiles <= 0) {
       throw new IllegalArgumentException("Number of tiles must be greater than 0");
@@ -81,7 +84,7 @@ public class BoardGame {
   /**
    * Creates new dice with the specified number of die objects.
    *
-   * @param numberOfDice
+   * @param numberOfDice the number of die objects to be created
    * @throws IllegalArgumentException if the number of dice is less than or equal to 0
    */
   public void createDice(int numberOfDice) {
@@ -91,14 +94,36 @@ public class BoardGame {
     this.dice = new Dice(numberOfDice);
   }
 
-  // TODO add play method
+  // TODO add a check to find out if a player has reached goal
+    /**
+     * The play method is responsible for managing the game play. It iterates over the players,
+     * allowing each player to roll the dice and move on the board. The game concludes when the
+     * first player reaches the last tile (goal), at which point a winner is decided.
+     */
   public void play() {
+    boolean gameWon = false;
+    while (!gameWon) {
+      for (Player player : players) { // iterates over the players
+        currentPlayer = player;
+        Tile currentTile = player.getCurrentTile(); // gets the current tile of the player
+
+        int steps = dice.roll(); // rolls the dice
+        player.move(steps); // moves the player
+
+        currentTile.leavePlayer(player); // leaves the old tile
+
+        Tile newTile = player.getCurrentTile(); // gets the new tile of the player
+        newTile.landPlayer(player); // lands the player on the new tile/ updates the players tileId
+        currentPlayer.placeOnTile(newTile); // places the player on the new tile
+
+      }
+    }
 
   }
 
   // TODO add getWinner method
   public Player getWinner(){
-
+    return null;
   }
 
   public static void main(String[] args) {
