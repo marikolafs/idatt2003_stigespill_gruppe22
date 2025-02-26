@@ -12,11 +12,25 @@ import java.util.Map;
  */
 public class Board {
   Map<Integer, Tile> tiles = new HashMap<>();
+  private int startingTile;
+  private int goalTile;
   /**
    * Has the purpose of adding a new tile and linking it to a previous tile if it exists.
    *
    * @param tile the tile to be added
    */
+
+  public Board (int startingTile, int goalTile) {
+    this.startingTile = startingTile;
+    this.goalTile = goalTile;
+  }
+
+  public int getStartingTile() {
+    return startingTile;
+  }
+  public int getGoalTile() {
+    return goalTile;
+  }
 
   public void addTile(Tile tile) {
     if (tiles.containsKey(tile.getTileId())) {

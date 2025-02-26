@@ -25,7 +25,7 @@ public class BoardGame {
    * at which point a winner is decided.
    */
   public  BoardGame() {
-    this.board = new Board();
+    this.board = new Board(board.getStartingTile(), board.getGoalTile());
     this.players = new ArrayList<>();
   }
 
@@ -115,15 +115,21 @@ public class BoardGame {
         Tile newTile = player.getCurrentTile(); // gets the new tile of the player
         newTile.landPlayer(player); // lands the player on the new tile/ updates the players tileId
         currentPlayer.placeOnTile(newTile); // places the player on the new tile
-
+      }
+      if (currentPlayer.getCurrentTile().getTileId() >= board.getGoalTile()) {
+        gameWon = true;
       }
     }
 
   }
 
   // TODO add getWinner method
-  public Player getWinner(){
-    return null;
+  public Player getWinner() {
+    Player winner = null;
+    if (currentPlayer.getCurrentTile().getTileId() >= board.getGoalTile()) {
+      winner = currentPlayer;
+    }
+    return winner;
   }
 
   public static void main(String[] args) {
