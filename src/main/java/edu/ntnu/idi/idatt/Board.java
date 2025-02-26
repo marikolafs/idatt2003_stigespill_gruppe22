@@ -12,25 +12,60 @@ import java.util.Map;
  */
 public class Board {
   Map<Integer, Tile> tiles = new HashMap<>();
-  private int startingTile;
-  private int goalTile;
+  private Tile startingTile;
+  private Tile goalTile;
+
+  /**
+   * Constructs a new Board with the specified starting and goal tile.
+   *
+   * @param startingTile the starting tile
+   * @param goalTile the goal tile
+   */
+  public Board(Tile startingTile, Tile goalTile) {
+    this.startingTile = startingTile;
+    this.goalTile = goalTile;
+  }
+  /**
+   * Accessor method for startingTile.
+   *
+   * @return the starting tile
+   */
+
+  public Tile getStartingTile() {
+    return startingTile;
+  }
+
+  /**
+   * Accessor method for goalTile.
+   *
+   * @return the goal tile
+   */
+  public Tile getGoalTile() {
+    return goalTile;
+  }
+
+  /**
+   * Mutator method for startingTile.
+   *
+   * @return the starting tile
+   */
+  public Tile setStartingTile() {
+    return startingTile;
+  }
+
+  /**
+   * Mutator method for goalTile.
+   *
+   * @return the goal tile
+   */
+  public Tile setGoalTile() {
+    return goalTile;
+  }
   /**
    * Has the purpose of adding a new tile and linking it to a previous tile if it exists.
    *
    * @param tile the tile to be added
    */
-
-  public Board (int startingTile, int goalTile) {
-    this.startingTile = startingTile;
-    this.goalTile = goalTile;
-  }
-
-  public int getStartingTile() {
-    return startingTile;
-  }
-  public int getGoalTile() {
-    return goalTile;
-  }
 
   public void addTile(Tile tile) {
     if (tiles.containsKey(tile.getTileId())) {
