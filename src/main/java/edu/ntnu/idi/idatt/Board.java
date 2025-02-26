@@ -15,16 +15,7 @@ public class Board {
   private Tile startingTile;
   private Tile goalTile;
 
-  /**
-   * Constructs a new Board with the specified starting and goal tile.
-   *
-   * @param startingTile the starting tile
-   * @param goalTile the goal tile
-   */
-  public Board(Tile startingTile, Tile goalTile) {
-    this.startingTile = startingTile;
-    this.goalTile = goalTile;
-  }
+
   /**
    * Accessor method for startingTile.
    *
@@ -49,7 +40,7 @@ public class Board {
    *
    * @return the starting tile
    */
-  public Tile setStartingTile() {
+  public Tile setStartingTile(Tile startingTile) {
     return startingTile;
   }
 
@@ -58,7 +49,7 @@ public class Board {
    *
    * @return the goal tile
    */
-  public Tile setGoalTile() {
+  public Tile setGoalTile(Tile goalTile) {
     return goalTile;
   }
   /**
