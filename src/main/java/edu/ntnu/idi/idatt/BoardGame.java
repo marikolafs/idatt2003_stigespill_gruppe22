@@ -75,10 +75,17 @@ public class BoardGame {
     if (tiles <= 0) {
       throw new IllegalArgumentException("Number of tiles must be greater than 0");
     }
-    for (int i = 1; i < tiles; i++) {
+    Tile startingTile = new Tile(1);
+    board.setStartingTile(startingTile);
+    board.addTile(startingTile);
+
+    for (int i = 2; i < tiles - 1; i++) {
       Tile tile = new Tile(i);
       board.addTile(tile);
     }
+    Tile goalTile = new Tile(tiles);
+    board.setGoalTile(goalTile);
+    board.addTile(goalTile);
   }
 
   /**
@@ -129,8 +136,12 @@ public class BoardGame {
   // TODO add getWinner method
   public Player getWinner() {
     Player winner = null;
-    if (currentPlayer.getCurrentTile().getTileId() >= board.getGoalTile()) {
-      winner = currentPlayer;
+    for (Player player : players) {
+      currentPlayer = player;
+      if (currentPlayer.getCurrentTile().getTileId() >= board.getGoalTile().getTileId()) {
+        winner = currentPlayer;
+        break;
+      }
     }
     return winner;
   }
