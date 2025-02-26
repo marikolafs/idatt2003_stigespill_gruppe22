@@ -15,7 +15,7 @@ public class PlayerTest {
   @BeforeEach
   void setUp() {
     game = new BoardGame();
-    game.getBoard().addTile(new Tile(0));
+    game.getBoard().addTile(new Tile(0,null));
     player = new Player("chris", game);
   }
 
@@ -33,7 +33,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Should return the player on the given tile and update its current position")
     void placeOnTile_UpdateCurrentPosition_WhenValidInput () {
-      Tile tile1 = new Tile(1);
+      Tile tile1 = new Tile(1,null);
       player.placeOnTile(tile1);
 
       assertEquals(1, player.getCurrentTile().getTileId());
@@ -42,9 +42,9 @@ public class PlayerTest {
     @Test
     @DisplayName("Should move the player a certain amount of steps and update the current tile")
     void move_UpdateCurrentPositionBySteps_WhenGivenValidInput () {
-      Tile tile1 = new Tile(1);
-      Tile tile2 = new Tile(2);
-      Tile tile3 = new Tile(3);
+      Tile tile1 = new Tile(1,null);
+      Tile tile2 = new Tile(2,null);
+      Tile tile3 = new Tile(3,null);
       Board board = new Board();
       game.getBoard().addTile(tile1);
       game.getBoard().addTile(tile2);
