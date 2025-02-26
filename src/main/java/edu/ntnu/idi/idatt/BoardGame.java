@@ -48,6 +48,15 @@ public class BoardGame {
   }
 
   /**
+   * Accessor method for players.
+   *
+   * @return players
+   */
+  public List<Player> getPlayers () {
+    return players;
+  }
+
+  /**
    * Adds a player to the game.
    * The player is added to the list of players if it is not already registered.
    *

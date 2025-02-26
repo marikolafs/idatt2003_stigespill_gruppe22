@@ -21,7 +21,7 @@ public class Player {
    */
   public Player(String name, BoardGame game) {
     this.name = name;
-    this.currentTile = game.getBoard().getTile(0); // getting the tile position
+    this.currentTile = currentTile;
   }
 
   /**
