@@ -25,7 +25,7 @@ public class BoardGame {
    * at which point a winner is decided.
    */
   public  BoardGame() {
-    this.board = new Board(board.getStartingTile(), board.getGoalTile());
+    this.board = new Board();
     this.players = new ArrayList<>();
   }
 
@@ -103,22 +103,25 @@ public class BoardGame {
   public void play() {
     boolean gameWon = false;
     while (!gameWon) {
-      for (Player player : players) { // iterates over the players
+      for (Player player : players) {
         currentPlayer = player;
-        Tile currentTile = player.getCurrentTile(); // gets the current tile of the player
+        Tile currentTile = player.getCurrentTile();
 
-        int steps = dice.roll(); // rolls the dice
-        player.move(steps); // moves the player
+        int steps = dice.roll();
+        player.move(steps);
 
-        currentTile.leavePlayer(player); // leaves the old tile
+        currentTile.leavePlayer(player);
 
-        Tile newTile = player.getCurrentTile(); // gets the new tile of the player
-        newTile.landPlayer(player); // lands the player on the new tile/ updates the players tileId
-        currentPlayer.placeOnTile(newTile); // places the player on the new tile
+        Tile newTile = player.getCurrentTile();
+        newTile.landPlayer(player);
+        currentPlayer.placeOnTile(newTile);
+
+        if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
+          gameWon = true;
+          break;
+        }
       }
-      if (currentPlayer.getCurrentTile().getTileId() >= board.getGoalTile()) {
-        gameWon = true;
-      }
+
     }
 
   }
