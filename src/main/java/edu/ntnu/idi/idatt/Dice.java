@@ -8,7 +8,7 @@ import java.util.List;
  *  The Dice class is responsible for creating and storing die objects, rolling the dice,
  *  summing their values, and retrieving the value of a specific die.
  *
- * @version 1.0
+ * @version 1.1
  */
 public class Dice {
   private List<Die> dice;

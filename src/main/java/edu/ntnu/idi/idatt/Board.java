@@ -8,7 +8,7 @@ import java.util.Map;
  * The board has the purpose of adding and storing tiles.
  * Each tile has an unique id which the board can use to keep track of the tiles in the game
  *
- * @version 1.0
+ * @version 1.2
  */
 public class Board {
   Map<Integer, Tile> tiles = new HashMap<>();
