@@ -1,4 +1,4 @@
-
+/**
 package edu.ntnu.idi.idatt;
 
 import java.util.ArrayList;
@@ -35,3 +35,4 @@ public class LadderAction implements TileAction {
     }
   }
 }
+*/

@@ -1,6 +1,5 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.Engine;
 
-import edu.ntnu.idi.idatt.Die;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.Model;
+
+import edu.ntnu.idi.idatt.Engine.BoardGame;
 
 /**
  * Represents a player in the boardgame. A player has a name and is always located on a tile.

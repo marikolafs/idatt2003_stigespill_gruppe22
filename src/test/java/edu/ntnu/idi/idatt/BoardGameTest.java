@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import edu.ntnu.idi.idatt.Engine.BoardGame;
+import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.Model.Player;
+import edu.ntnu.idi.idatt.Model.Tile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,7 +39,7 @@ public class BoardGameTest {
 
       game.createBoard(5);
 
-      assertEquals(5,game.getBoard().tiles.size());
+      assertEquals(5,game.getBoard().getTiles().size());
     }
 
     @Test

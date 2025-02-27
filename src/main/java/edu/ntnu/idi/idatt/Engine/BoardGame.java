@@ -1,5 +1,8 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.Engine;
 
+import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.Model.Player;
+import edu.ntnu.idi.idatt.Model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 

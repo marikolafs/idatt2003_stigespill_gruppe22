@@ -3,6 +3,8 @@ package edu.ntnu.idi.idatt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.Model.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,7 +30,7 @@ public class BoardTest {
     @DisplayName("Should return tiles in the list")
     void addTiles_ReturnTilesInList() {
       Board board = new Board();
-      assertEquals(3, board.tiles.size());
+      assertEquals(3, board.getTiles().size());
     }
 
     @Test

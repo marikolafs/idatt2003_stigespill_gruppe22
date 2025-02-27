@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.Model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +34,15 @@ public class Board {
   public Tile getGoalTile() {
     return goalTile;
   }
+
+  /**
+   * Accessor method for tiles.
+   *
+   * @return the tiles
+   */
+    public Map<Integer, Tile> getTiles() {
+        return tiles;
+    }
 
   /**
    * Mutator method for startingTile.
