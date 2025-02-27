@@ -96,15 +96,15 @@ public class BoardGame {
     if (tiles <= 0) {
       throw new IllegalArgumentException("Number of tiles must be greater than 0");
     }
-    Tile startingTile = new Tile(1);
+    Tile startingTile = new Tile(1,null);
     board.setStartingTile(startingTile);
     board.addTile(startingTile);
 
     for (int i = 2; i < tiles; i++) {
-      Tile tile = new Tile(i);
+      Tile tile = new Tile(i,null);
       board.addTile(tile);
     }
-    Tile goalTile = new Tile(tiles);
+    Tile goalTile = new Tile(tiles,null);
     board.setGoalTile(goalTile);
     board.addTile(goalTile);
 

@@ -15,16 +15,17 @@ public class BoardGameTest {
     @Test
     @DisplayName("Should add and return players in the list")
     void addPlayer_ReturnPlayersInList_ValidInput() {
-
+      Tile tile = new Tile(1, null);
       BoardGame game = new BoardGame();
-      Player player1 = new Player("Chris",game);
-      Player player2 = new Player("Maria",game);
+      game.getBoard().setStartingTile(tile);
+
+      Player player1 = new Player("Chris", game);
+      Player player2 = new Player("Maria", game);
 
       game.addPlayer(player2);
       game.addPlayer(player1);
 
       assertEquals(2, game.getPlayers().size());
-
     }
 
     @Test
