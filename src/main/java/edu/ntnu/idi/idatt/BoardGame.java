@@ -10,6 +10,8 @@ import java.util.List;
  * and managing the gameplay. It iterates over the players, allowing each player to roll the dice
  * and move on the board. The game concludes when the first player reaches the last tile (goal),
  * at which point a winner is decided.
+ *
+ * @version 1.2
  */
 public class BoardGame {
 
@@ -19,10 +21,7 @@ public class BoardGame {
   private List<Player> players;
 
   /**
-   * The BoardGame class is responsible for setting up the game board and dice, registering players,
-   * and managing the gameplay. It iterates over the players, allowing each player to roll the dice
-   * and move on the board. The game concludes when the first player reaches the last tile (goal),
-   * at which point a winner is decided.
+   * The constructor initializes the board and players list.
    */
   public  BoardGame() {
     this.board = new Board();
@@ -79,6 +78,9 @@ public class BoardGame {
 
     if (!players.contains(player)) {
       players.add(player);
+      Tile startingTile = board.getStartingTile();
+      player.placeOnTile(startingTile);
+      startingTile.landPlayer(player);
     }
 
   }
@@ -120,7 +122,6 @@ public class BoardGame {
     this.dice = new Dice(numberOfDice);
   }
 
-  // TODO add a check to find out if a player has reached goal
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
    * allowing each player to roll the dice and move on the board. The game concludes when the
@@ -152,7 +153,6 @@ public class BoardGame {
 
   }
 
-  // TODO add getWinner method
 
   /**
    * The getWinner method is responsible for determining the winner of the game.
