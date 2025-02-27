@@ -44,6 +44,7 @@ public class BoardGame {
    */
   public Player getCurrentPlayer() {
     return currentPlayer;
+
   }
 
   /**
@@ -154,6 +155,7 @@ public class BoardGame {
   }
 
 
+
   /**
    * The getWinner method is responsible for determining the winner of the game.
    * It iterates over the players and checks if the player has reached the goal tile.
@@ -170,6 +172,7 @@ public class BoardGame {
       }
     }
     return winner;
+
   }
 
   public static void main(String[] args) {
