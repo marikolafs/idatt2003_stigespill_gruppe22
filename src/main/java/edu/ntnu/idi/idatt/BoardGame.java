@@ -52,8 +52,17 @@ public class BoardGame {
    *
    * @return players
    */
-  public List<Player> getPlayers () {
+  public List<Player> getPlayers() {
     return players;
+  }
+
+  /**
+   * Accessor method for dice.
+   *
+   * @return dice
+   */
+  public Dice getDice() {
+    return dice;
   }
 
   /**
@@ -112,11 +121,11 @@ public class BoardGame {
   }
 
   // TODO add a check to find out if a player has reached goal
-    /**
-     * The play method is responsible for managing the game play. It iterates over the players,
-     * allowing each player to roll the dice and move on the board. The game concludes when the
-     * first player reaches the last tile (goal), at which point a winner is decided.
-     */
+  /**
+   * The play method is responsible for managing the game play. It iterates over the players,
+   * allowing each player to roll the dice and move on the board. The game concludes when the
+   * first player reaches the last tile (goal), at which point a winner is decided.
+   */
   public void play() {
     boolean gameWon = false;
     while (!gameWon) {
@@ -144,6 +153,13 @@ public class BoardGame {
   }
 
   // TODO add getWinner method
+
+  /**
+   * The getWinner method is responsible for determining the winner of the game.
+   * It iterates over the players and checks if the player has reached the goal tile.
+   *
+   * @return the player who has reached the goal tile first
+   */
   public Player getWinner() {
     Player winner = null;
     for (Player player : players) {
