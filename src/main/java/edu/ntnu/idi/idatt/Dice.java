@@ -8,7 +8,7 @@ import java.util.List;
  *  The Dice class is responsible for creating and storing die objects, rolling the dice,
  *  summing their values, and retrieving the value of a specific die.
  *
- * @version 1.0
+ * @version 1.1
  */
 public class Dice {
   private List<Die> dice;
@@ -29,6 +29,15 @@ public class Dice {
   }
 
   /**
+   * Accessor method for dice.
+   *
+   * @return dice
+   */
+    public List<Die> getDiceList() {
+        return dice;
+    }
+
+  /**
    * Rolls the dice in the list individually and sums the values.
    *
    * @return the sum of the rolled dice
@@ -38,10 +47,8 @@ public class Dice {
     int roll;
     for (Die die : dice) {
       roll = die.roll();
-      System.out.println("rolled " + roll);
       rollDice += roll;
     }
-    System.out.println("sum of dice " + rollDice);
     return rollDice;
   }
 

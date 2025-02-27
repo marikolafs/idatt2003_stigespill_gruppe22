@@ -8,10 +8,50 @@ import java.util.Map;
  * The board has the purpose of adding and storing tiles.
  * Each tile has an unique id which the board can use to keep track of the tiles in the game
  *
- * @version 1.0
+ * @version 1.2
  */
 public class Board {
   Map<Integer, Tile> tiles = new HashMap<>();
+  private Tile startingTile;
+  private Tile goalTile;
+
+
+  /**
+   * Accessor method for startingTile.
+   *
+   * @return the starting tile
+   */
+
+  public Tile getStartingTile() {
+    return startingTile;
+  }
+
+  /**
+   * Accessor method for goalTile.
+   *
+   * @return the goal tile
+   */
+  public Tile getGoalTile() {
+    return goalTile;
+  }
+
+  /**
+   * Mutator method for startingTile.
+   *
+   * @return the starting tile
+   */
+  public void setStartingTile(Tile startingTile) {
+    this.startingTile = startingTile;
+  }
+
+  /**
+   * Mutator method for goalTile.
+   *
+   * @return the goal tile
+   */
+  public void setGoalTile(Tile goalTile) {
+    this.goalTile = goalTile;
+  }
   /**
    * Has the purpose of adding a new tile and linking it to a previous tile if it exists.
    *
