@@ -25,5 +25,37 @@ public class BoardGameTest {
 
     }
 
+    @Test
+    @DisplayName("Should return tiles on board")
+    void createBoard_ReturnTiles() {
+      BoardGame game = new BoardGame();
+
+      game.createBoard(5);
+
+      assertEquals(5,game.getBoard().tiles.size());
+    }
+
+    @Test
+    @DisplayName("Should return starting tile and goal tile")
+    void createBoard_ReturnStartingAndGoalTile () {
+      BoardGame game = new BoardGame();
+
+      game.createBoard(5);
+
+      assertEquals(1, game.getBoard().getStartingTile().getTileId());
+      assertEquals(5, game.getBoard().getGoalTile().getTileId());
+    }
+
+    @Test
+    @DisplayName("Should return the number of dice")
+    void createDice_ReturnNumberOfDice() {
+      BoardGame game = new BoardGame();
+
+      game.createDice(2);
+
+      assertEquals(2,game.getDice().getDiceList().size());
+    }
+
+
   }
 }
