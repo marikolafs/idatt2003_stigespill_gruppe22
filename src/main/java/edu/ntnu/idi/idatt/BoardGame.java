@@ -88,13 +88,14 @@ public class BoardGame {
     board.setStartingTile(startingTile);
     board.addTile(startingTile);
 
-    for (int i = 2; i < tiles - 1; i++) {
+    for (int i = 2; i < tiles; i++) {
       Tile tile = new Tile(i);
       board.addTile(tile);
     }
     Tile goalTile = new Tile(tiles);
     board.setGoalTile(goalTile);
     board.addTile(goalTile);
+
   }
 
   /**
