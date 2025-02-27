@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +58,58 @@ public class BoardGameTest {
       assertEquals(2,game.getDice().getDiceList().size());
     }
 
+    @Test
+    @DisplayName("Should play the game and determine the winner")
+    void playGame_DetermineWinner() {
+      BoardGame game = new BoardGame();
+      game.createBoard(10);
+      game.createDice(2);
+
+      Player player1 = new Player("Chris", game);
+      Player player2 = new Player("Maria", game);
+
+      game.addPlayer(player1);
+      game.addPlayer(player2);
+
+      game.play();
+
+      Player winner = game.getWinner();
+
+      assertEquals(game.getBoard().getGoalTile().getTileId(), winner.getCurrentTile().getTileId(), "Winner should be at the goal tile");
+    }
 
   }
+  @Nested
+  @DisplayName("Negative test")
+    class NegativeTests {
+
+    @Test
+    @DisplayName("Should throw IllegalArgumentException when adding null player")
+    void addPlayer_ThrowException_NullPlayer() {
+      BoardGame game = new BoardGame();
+
+      assertThrows(IllegalArgumentException.class, () -> game.addPlayer(null));
+    }
+
+    @Test
+    @DisplayName("Should throw IllegalArgumentException when creating board with less than 1 tile")
+    void createBoard_ThrowException_LessThanOneTile() {
+      BoardGame game = new BoardGame();
+
+      assertThrows(IllegalArgumentException.class, () -> game.createBoard(0));
+      assertThrows(IllegalArgumentException.class, () -> game.createBoard(-1));
+    }
+
+    @Test
+    @DisplayName("Should throw IllegalArgumentException when creating dice with less than 1 die")
+    void createDice_ThrowException_LessThanOneDie() {
+      BoardGame game = new BoardGame();
+
+      assertThrows(IllegalArgumentException.class, () -> game.createDice(0));
+      assertThrows(IllegalArgumentException.class, () -> game.createDice(-1));
+    }
+
+  }
+
+
 }
