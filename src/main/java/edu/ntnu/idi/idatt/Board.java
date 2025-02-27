@@ -40,8 +40,8 @@ public class Board {
    *
    * @return the starting tile
    */
-  public Tile setStartingTile(Tile startingTile) {
-    return startingTile;
+  public void setStartingTile(Tile startingTile) {
+    this.startingTile = startingTile;
   }
 
   /**
@@ -49,8 +49,8 @@ public class Board {
    *
    * @return the goal tile
    */
-  public Tile setGoalTile(Tile goalTile) {
-    return goalTile;
+  public void setGoalTile(Tile goalTile) {
+    this.goalTile = goalTile;
   }
   /**
    * Has the purpose of adding a new tile and linking it to a previous tile if it exists.
