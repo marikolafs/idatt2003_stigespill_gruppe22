@@ -19,8 +19,11 @@ public class PlayerTest {
   @BeforeEach
   void setUp() {
     game = new BoardGame();
-    game.getBoard().addTile(new Tile(0,null));
+    Tile startingTile = new Tile(1, null);
+    game.getBoard().setStartingTile(startingTile);
+    game.getBoard().addTile(startingTile);
     player = new Player("chris", game);
+    player.placeOnTile(startingTile);
   }
 
   @Nested
@@ -29,9 +32,8 @@ public class PlayerTest {
     @Test
     @DisplayName("Should return the players name and current tile position")
     void player_Constructor_ValidInput () {
-
       assertEquals("chris", player.getName());
-      assertEquals(0, player.getCurrentTile().getTileId());
+      assertEquals(1, player.getCurrentTile().getTileId());
     }
 
     @Test
