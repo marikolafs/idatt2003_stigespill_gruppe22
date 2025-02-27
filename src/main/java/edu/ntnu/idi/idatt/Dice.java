@@ -29,6 +29,15 @@ public class Dice {
   }
 
   /**
+   * Accessor method for dice.
+   *
+   * @return dice
+   */
+    public List<Die> getDiceList() {
+        return dice;
+    }
+
+  /**
    * Rolls the dice in the list individually and sums the values.
    *
    * @return the sum of the rolled dice
