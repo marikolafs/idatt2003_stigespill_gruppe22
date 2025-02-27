@@ -47,10 +47,8 @@ public class Dice {
     int roll;
     for (Die die : dice) {
       roll = die.roll();
-      System.out.println("rolled " + roll);
       rollDice += roll;
     }
-    System.out.println("sum of dice " + rollDice);
     return rollDice;
   }
 
