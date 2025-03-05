@@ -22,7 +22,7 @@ public class PlayerTest {
     Tile startingTile = new Tile(1, null);
     game.getBoard().setStartingTile(startingTile);
     game.getBoard().addTile(startingTile);
-    player = new Player("chris", game);
+    player = new Player("chris", game, "TopHat");
     player.placeOnTile(startingTile);
   }
 

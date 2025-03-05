@@ -47,7 +47,7 @@ public class TileTest {
     @DisplayName("Should return the players on the tile")
     void landPlayer_ValidInput() {
       Tile tile = game.getBoard().getTile(1);
-      Player player1 = new Player("Player 1", game);
+      Player player1 = new Player("Player 1", game, "Tophat");
 
       tile.landPlayer(player1);
 
@@ -59,7 +59,7 @@ public class TileTest {
     @DisplayName("Should remove the player from the tile")
     void removePlayer_ValidInput() {
       Tile tile = game.getBoard().getTile(1);
-      Player player1 = new Player("Player 1", game);
+      Player player1 = new Player("Player 1", game, "Tophat");
       tile.landPlayer(player1);
 
       tile.leavePlayer(player1);
