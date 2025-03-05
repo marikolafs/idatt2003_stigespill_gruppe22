@@ -34,6 +34,7 @@ public class PlayerTest {
     void player_Constructor_ValidInput () {
       assertEquals("chris", player.getName());
       assertEquals(1, player.getCurrentTile().getTileId());
+      assertEquals("TopHat", player.getPiece());
     }
 
     @Test
