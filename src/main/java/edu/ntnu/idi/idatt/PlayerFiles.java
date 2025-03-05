@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.Engine.BoardGame;
 import edu.ntnu.idi.idatt.Model.Player;
+import edu.ntnu.idi.idatt.Model.Board;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -18,6 +19,7 @@ public class PlayerFiles {
 
   private List<Player> players;
   static BoardGame game = new BoardGame();
+  static Board board = new Board();
 
   /**
    * Constructor initializing the player list.
@@ -49,7 +51,7 @@ public class PlayerFiles {
     }
 
   /**
-   * Method that parses a file and returns players.
+   * Method that parses a file and adds players to list.
    *
    * @param file the file the list of players is to be read from.
    */
@@ -59,7 +61,8 @@ public class PlayerFiles {
       while ((line = bufferedReader.readLine()) != null) {
         String playerName  = line.split(",")[0];
         String playerPiece = line.split(",")[1];
-        game.addPlayer(new Player(playerName, game, playerPiece));
+        Player player = new Player(playerName, game, playerPiece);
+        game.addPlayer(player);
       }
     } catch (IOException e) {
       e.printStackTrace();
