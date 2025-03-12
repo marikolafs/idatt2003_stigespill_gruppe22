@@ -11,6 +11,7 @@ import java.util.Map;
  * @version 1.2
  */
 public class Board {
+
   Map<Integer, Tile> tiles = new HashMap<>();
   private Tile startingTile;
   private Tile goalTile;
@@ -27,30 +28,21 @@ public class Board {
   }
 
   /**
-   * Accessor method for goalTile.
-   *
-   * @return the goal tile
-   */
-  public Tile getGoalTile() {
-    return goalTile;
-  }
-
-  /**
-   * Accessor method for tiles.
-   *
-   * @return the tiles
-   */
-    public Map<Integer, Tile> getTiles() {
-        return tiles;
-    }
-
-  /**
    * Mutator method for startingTile.
    *
    * @return the starting tile
    */
   public void setStartingTile(Tile startingTile) {
     this.startingTile = startingTile;
+  }
+
+  /**
+   * Accessor method for goalTile.
+   *
+   * @return the goal tile
+   */
+  public Tile getGoalTile() {
+    return goalTile;
   }
 
   /**
@@ -61,6 +53,16 @@ public class Board {
   public void setGoalTile(Tile goalTile) {
     this.goalTile = goalTile;
   }
+
+  /**
+   * Accessor method for tiles.
+   *
+   * @return the tiles
+   */
+  public Map<Integer, Tile> getTiles() {
+    return tiles;
+  }
+
   /**
    * Has the purpose of adding a new tile and linking it to a previous tile if it exists.
    *

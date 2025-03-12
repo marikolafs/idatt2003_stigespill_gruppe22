@@ -23,8 +23,8 @@ public class BoardGameTest {
       BoardGame game = new BoardGame();
       game.getBoard().setStartingTile(tile);
 
-      Player player1 = new Player("Chris", game);
-      Player player2 = new Player("Maria", game);
+      Player player1 = new Player("Chris", game, "Tophat");
+      Player player2 = new Player("Maria", game, "Dog");
 
       game.addPlayer(player2);
       game.addPlayer(player1);
@@ -70,8 +70,8 @@ public class BoardGameTest {
       game.createBoard(10);
       game.createDice(2);
 
-      Player player1 = new Player("Chris", game);
-      Player player2 = new Player("Maria", game);
+      Player player1 = new Player("Chris", game, "Tophat");
+      Player player2 = new Player("Maria", game, "Dog");
 
       game.addPlayer(player1);
       game.addPlayer(player2);

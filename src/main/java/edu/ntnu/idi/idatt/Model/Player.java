@@ -13,6 +13,7 @@ import edu.ntnu.idi.idatt.Engine.BoardGame;
 public class Player {
   final String name;
   private Tile currentTile;
+  private String piece;
 
   /**
    * Constructs a new Player with the specified name and places the player on the
@@ -21,9 +22,10 @@ public class Player {
    * @param name the name of the player
    * @param game the BoardGame instance from which the starting tile is retrieved
    */
-  public Player(String name, BoardGame game) {
+  public Player(String name, BoardGame game, String piece) {
     this.name = name;
     this.currentTile = currentTile;
+    this.piece = piece;
   }
 
   /**
@@ -42,6 +44,15 @@ public class Player {
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * Accessor method for player piece.
+   *
+   * @return the player piece
+   */
+  public String getPiece() {
+    return piece;
   }
 
   /**

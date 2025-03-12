@@ -22,7 +22,7 @@ public class PlayerTest {
     Tile startingTile = new Tile(1, null);
     game.getBoard().setStartingTile(startingTile);
     game.getBoard().addTile(startingTile);
-    player = new Player("chris", game);
+    player = new Player("chris", game, "TopHat");
     player.placeOnTile(startingTile);
   }
 
@@ -34,6 +34,7 @@ public class PlayerTest {
     void player_Constructor_ValidInput () {
       assertEquals("chris", player.getName());
       assertEquals(1, player.getCurrentTile().getTileId());
+      assertEquals("TopHat", player.getPiece());
     }
 
     @Test

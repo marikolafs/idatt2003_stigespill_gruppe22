@@ -17,11 +17,19 @@ import java.util.List;
  * @version 1.2
  */
 public class BoardGame {
+  private static BoardGame instance;
 
-  private Board board;
+  public static BoardGame getInstance() {
+    if (instance == null) {
+      instance = new BoardGame();
+    }
+    return instance;
+  }
+
+  private static Board board;
   private Player currentPlayer;
   private Dice dice;
-  private List<Player> players;
+  private static List<Player> players;
 
   /**
    * The constructor initializes the board and players list.
@@ -75,7 +83,7 @@ public class BoardGame {
    * @param player the player to be added
    * @throws IllegalArgumentException if player is null
    */
-  public void addPlayer(Player player) {
+  public static void addPlayer(Player player) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
     }
@@ -86,7 +94,6 @@ public class BoardGame {
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
     }
-
   }
 
   /**
