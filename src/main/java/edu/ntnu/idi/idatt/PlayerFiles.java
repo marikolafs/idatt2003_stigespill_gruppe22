@@ -2,11 +2,8 @@ package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.Engine.BoardGame;
 import edu.ntnu.idi.idatt.Model.Player;
-import edu.ntnu.idi.idatt.Model.Board;
-import edu.ntnu.idi.idatt.Model.Tile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,14 +17,12 @@ import java.util.List;
 public class PlayerFiles {
 
   private List<Player> players;
-  static BoardGame game = new BoardGame();
-  static Board board = new Board();
 
   /**
    * Constructor initializing the player list.
    */
   public PlayerFiles() {
-    players = new ArrayList<>();
+    players = BoardGame.getInstance().getPlayers();
   }
 
   /**
@@ -58,6 +53,7 @@ public class PlayerFiles {
    * @param file the file the list of players is to be read from.
    */
   public static void addPlayersThroughFile(File file) {
+    BoardGame game = BoardGame.getInstance();
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = bufferedReader.readLine()) != null) {
@@ -66,8 +62,6 @@ public class PlayerFiles {
         Player player = new Player(playerName, game, playerPiece);
         game.addPlayer(player);
       }
-    } catch (FileNotFoundException ex) {
-      throw new RuntimeException(ex);
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
