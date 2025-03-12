@@ -3,8 +3,10 @@ package edu.ntnu.idi.idatt;
 import edu.ntnu.idi.idatt.Engine.BoardGame;
 import edu.ntnu.idi.idatt.Model.Player;
 import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.Model.Tile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -42,30 +44,32 @@ public class PlayerFiles {
         writer.write(player.getName() + "," + player.getPiece());
       }
     } catch (IOException e) {
-  } finally {
+    } finally {
       try {
         writer.close();
       } catch (IOException e) {
       }
     }
-    }
+  }
 
   /**
    * Method that parses a file and adds players to list.
    *
    * @param file the file the list of players is to be read from.
    */
-  public static void addPlayersThroughFile(File file){
-    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))){
+  public static void addPlayersThroughFile(File file) {
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = bufferedReader.readLine()) != null) {
-        String playerName  = line.split(",")[0];
+        String playerName = line.split(",")[0];
         String playerPiece = line.split(",")[1];
         Player player = new Player(playerName, game, playerPiece);
         game.addPlayer(player);
       }
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (FileNotFoundException ex) {
+      throw new RuntimeException(ex);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
     }
   }
 }
