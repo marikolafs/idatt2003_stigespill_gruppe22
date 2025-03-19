@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.Engine.BoardGame;
+import edu.ntnu.idi.idatt.engine.BoardGame;
 
 public class Main {
 

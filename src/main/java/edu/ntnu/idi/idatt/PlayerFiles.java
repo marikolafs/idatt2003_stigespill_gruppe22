@@ -1,14 +1,13 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.Engine.BoardGame;
-import edu.ntnu.idi.idatt.Model.Player;
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Player;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

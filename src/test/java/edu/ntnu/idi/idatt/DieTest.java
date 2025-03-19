@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.Engine.Die;
+import edu.ntnu.idi.idatt.engine.Die;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
