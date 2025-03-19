@@ -33,10 +33,10 @@ public class PlayerFiles {
   public static void writePlayersToFile(List<Player> players) {
     BufferedWriter writer = null;
     try {
-      FileWriter fileWriter = new FileWriter("players.csv");
+      FileWriter fileWriter = new FileWriter("src/main/resources/players.csv");
       writer = new BufferedWriter(fileWriter);
       for (Player player : players) {
-        writer.write(player.getName() + "," + player.getPiece());
+        writer.write(player.getName() + "," + player.getPiece() + "\n");
       }
     } catch (IOException e) {
     } finally {
