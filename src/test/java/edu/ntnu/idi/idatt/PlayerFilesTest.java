@@ -36,5 +36,27 @@ public class PlayerFilesTest {
       PlayerFiles.addPlayersThroughFile(file);
       assertEquals(4, players.size());
     }
+
+    @Test
+    @DisplayName("Should write players from list to the given file")
+    void writePlayersFromListToFile() {
+      game = BoardGame.getInstance();
+      board = new Board();
+      game.createBoard(5);
+      List<Player> players =  BoardGame.getInstance().getPlayers();
+      Player player1 = new Player("chris", game, "TopHat");
+      Player player2 = new Player("maria", game, "Cat");
+      game.addPlayer(player1);
+      game.addPlayer(player2);
+
+      PlayerFiles.writePlayersToFile(players);
+
+      players.remove(player1);
+      players.remove(player2);
+
+      File playersFile = new File("src/main/resources/players.csv");
+      PlayerFiles.addPlayersThroughFile(playersFile);
+      assertEquals(2, players.size());
+    }
   }
 }
