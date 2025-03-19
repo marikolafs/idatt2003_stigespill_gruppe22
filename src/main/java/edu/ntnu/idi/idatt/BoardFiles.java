@@ -18,20 +18,20 @@ public class BoardFiles {
   JsonObject object = new JsonObject();
 
   /**
-   * Method that converts the tiles in the active board to
-   * Json object and writes them to a Json file.
+   * Method that converts the tiles in the active board to Json object and writes them to a Json
+   * file.
    *
    * @throws IOException if filewriter can´t continue.
    */
   private void boardFileWriter() throws IOException {
     Board gameBoard = BoardGame.getInstance().getBoard();
-    try{
-      object.add("board", jsonArray);
-      JsonWriter writer = new JsonWriter(new FileWriter("src/main/resources/board.json"));
+    object.add("board", jsonArray);
+    JsonWriter writer = new JsonWriter(new FileWriter("src/main/resources/board.json"));
+    try {
       writer.beginObject();
       writer.name("board");
       writer.beginArray();
-      for(Tile tile : gameBoard.getTiles().values()){
+      for (Tile tile : gameBoard.getTiles().values()) {
         writer.beginObject();
         writer.name("id").value(tile.getTileId());
         writer.name("tileAction").value(String.valueOf(tile.getLandAction()));
@@ -39,9 +39,11 @@ public class BoardFiles {
       }
       writer.endArray();
       writer.endObject();
-      writer.close();
-    } catch(IOException e) {
-      e.printStackTrace();
+    } finally {
+      try {
+        writer.close();
+      } catch (IOException e) {
+      }
     }
   }
 }
