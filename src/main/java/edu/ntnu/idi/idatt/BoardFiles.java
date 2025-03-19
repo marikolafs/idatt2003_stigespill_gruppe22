@@ -21,7 +21,7 @@ public class BoardFiles {
    * Method that converts the tiles in the active board to
    * Json object and writes them to a Json file.
    *
-   * @throws IOException
+   * @throws IOException if filewriter can´t continue.
    */
   private void boardFileWriter() throws IOException {
     Board gameBoard = BoardGame.getInstance().getBoard();
