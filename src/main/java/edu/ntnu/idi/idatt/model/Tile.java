@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.tileActions.TileAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,15 @@ public class Tile {
      */
   public TileAction getLandAction() {
     return landAction;
+  }
+
+  /**
+   * Mutator method for landAction
+   *
+   * @param landAction
+   */
+  public void setLandAction(TileAction landAction) {
+    this.landAction = landAction;
   }
 
   /**
