@@ -1,6 +1,5 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.engine;
 
-import edu.ntnu.idi.idatt.engine.Dice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
