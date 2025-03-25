@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.engine;
+package edu.ntnu.idi.idatt.io;
 
 import edu.ntnu.idi.idatt.model.Board;
 import java.io.IOException;
