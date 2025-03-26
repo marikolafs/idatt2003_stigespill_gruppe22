@@ -13,9 +13,7 @@ import java.util.Map;
  */
 public class Board {
 
-  private Map<Integer, Tile> tiles;
-  private String name;
-  private String description;
+  private final Map<Integer, Tile> tiles;
   private Tile startingTile;
   private Tile goalTile;
 
@@ -31,24 +29,6 @@ public class Board {
     this.startingTile = null;
     this.goalTile = null;
 
-  }
-
-  /**
-   * Accessor method for name.
-   *
-   * @return the name of the board
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Accessor method for description.
-   *
-   * @return the description of the board.
-   */
-  public String getDescription() {
-    return description;
   }
 
   /**

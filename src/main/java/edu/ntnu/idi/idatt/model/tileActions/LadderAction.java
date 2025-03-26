@@ -42,7 +42,7 @@ public class LadderAction implements TileAction {
 
   @Override
   public void perform(Player player) {
-    BoardGame game= BoardGame.getInstance();
+    BoardGame game= BoardGame.getInstance("default name", "default description");
     Tile destinationTile = game.getBoard().getTile(destinationTileId);
 
     if (destinationTile == null) {
