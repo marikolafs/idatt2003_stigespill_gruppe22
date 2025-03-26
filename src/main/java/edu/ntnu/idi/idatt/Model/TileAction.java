@@ -2,7 +2,9 @@ package edu.ntnu.idi.idatt.Model;
 
 public interface TileAction {
 
-  public void perform(Player player);
+  public static void perform(Player player) {
+
+  }
 
 }
 /*Dette er et interface som spesifiserer et standard grensesnitt for ulike typer aksjoner (engelsk: Action) som skal kunne utføres på en spiller som lander på et felt. Konkrete hendelser må defineres, og
