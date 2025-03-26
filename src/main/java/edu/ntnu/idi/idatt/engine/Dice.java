@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.Engine;
+package edu.ntnu.idi.idatt.engine;
 
 import java.util.ArrayList;
 import java.util.List;

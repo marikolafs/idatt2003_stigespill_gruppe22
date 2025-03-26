@@ -1,8 +1,8 @@
-package edu.ntnu.idi.idatt.Engine;
+package edu.ntnu.idi.idatt.engine;
 
-import edu.ntnu.idi.idatt.Model.Board;
-import edu.ntnu.idi.idatt.Model.Player;
-import edu.ntnu.idi.idatt.Model.Tile;
+import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +14,16 @@ import java.util.List;
  * and move on the board. The game concludes when the first player reaches the last tile (goal),
  * at which point a winner is decided.
  *
- * @version 1.2
+ * @version 1.3
  */
 public class BoardGame {
   private static BoardGame instance;
+  private String name;
+  private String description;
 
-  public static BoardGame getInstance() {
+  public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
-      instance = new BoardGame();
+      instance = new BoardGame("default name", "default description");
     }
     return instance;
   }
@@ -34,9 +36,47 @@ public class BoardGame {
   /**
    * The constructor initializes the board and players list.
    */
-  public  BoardGame() {
+  public  BoardGame(String name, String description) {
+    this.name = name;
+    this.description = description;
     this.board = new Board();
     this.players = new ArrayList<>();
+  }
+
+  /**
+   * Mutator method for name.
+   *
+   * @param name the name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Mutator method for description.
+   *
+   * @param description the description
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
+   * Accessor method for name.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Accessor method for description.
+   *
+   * @return the description
+   */
+  public String getDescription() {
+    return description;
   }
 
   /**

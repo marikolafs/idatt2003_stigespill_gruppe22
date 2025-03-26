@@ -1,0 +1,130 @@
+package edu.ntnu.idi.idatt.io;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import edu.ntnu.idi.idatt.LadderAction;
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Tile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Implementation of BoardFileReader that uses Gson to read board data from JSON files.
+ * This class handles parsing of board configurations from JSON format and constructs
+ * a playable Board with tiles, tile connections, and tile actions.
+ */
+public class BoardFileReaderGson implements BoardFileReader {
+  private Gson gson;
+  private static final Logger logger = LoggerFactory.getLogger(BoardFileReaderGson.class);
+
+  /**
+   * Constructs a new BoardFileReaderGson instance.
+   * Initializes the Gson parser to be used for JSON processing.
+   */
+  public BoardFileReaderGson() {
+    this.gson = new Gson();
+  }
+
+  /**
+   * Reads a board configuration from a JSON file at the specified path.
+   * Parses the JSON structure to create a Board object with properly configured
+   * tiles, connections, and actions.
+   *
+   * @param path the path to the JSON file containing board configuration
+   * @return a Board object constructed from the JSON file data
+   * @throws IOException if an error occurs while reading or parsing the file
+   */
+  @Override
+  public Board readBoard(Path path) throws IOException {
+    try (FileReader reader = new FileReader(path.toFile())) {
+      // Parse the Json file
+      JsonObject boardJson = JsonParser.parseReader(reader).getAsJsonObject();
+
+      // Extract board properties
+      String name = boardJson.has("name") ?
+          boardJson.get("name").getAsString() : "default name";
+
+      String description = boardJson.has("description") ?
+          boardJson.get("description").getAsString() : "default description";
+
+      logger.info("Creating a new BoardGame: {} {}", name, description);
+
+      // Create a new BoardGame instance with the given name and description
+      BoardGame game = BoardGame.getInstance(name, description);
+      game.setName(name);
+      game.setDescription(description);
+
+      Board board = game.getBoard();
+
+      //Create a map to store tiles by id for linking
+      Map<Integer, Tile> tilesMap = new HashMap<>();
+
+      // Read and create all tiles
+      JsonArray tilesJsonArray = boardJson.getAsJsonArray("tiles");
+      for(JsonElement tileElement : tilesJsonArray) {
+        JsonObject tileJson = tileElement.getAsJsonObject();
+        int tileId = tileJson.get("id").getAsInt();
+
+        // Create the individual tile
+        Tile tile = new Tile(tileId, null);
+        tilesMap.put(tileId, tile);
+        board.addTile(tile);
+
+        // Set starting tile
+        if(tileId == 1) {
+          board.setStartingTile(tile);
+        }
+
+        // Set goal tile as the tile with the highest id
+        if(board.getGoalTile() == null || tileId > board.getGoalTile().getTileId()) {
+          board.setGoalTile(tile);
+        }
+      }
+
+      // Add actions and custom next tile links from JSON
+      for(JsonElement tileElement : tilesJsonArray) {
+        JsonObject tileJson = tileElement.getAsJsonObject();
+        int tileId = tileJson.get("id").getAsInt();
+        Tile currentTile = tilesMap.get(tileId);
+
+        // Link to the next tile if the tile has a nextTile
+        if(tileJson.has("nextTileId")) {
+          int nextTileId = tileJson.get("nextTileId").getAsInt();
+          Tile nextTile = tilesMap.get(nextTileId);
+          currentTile.setNextTile(nextTile);
+        }
+
+        // Add action if the tile has one
+        if (tileJson.has("action")) {
+          JsonObject actionJson = tileJson.getAsJsonObject("action");
+          String actionType = actionJson.get("type").getAsString();
+
+          if ("LadderAction".equals(actionType)) {
+            int destinationTileId = actionJson.get("destinationTileId").getAsInt();
+            String actionDescription = actionJson.get("description").getAsString();
+
+            LadderAction ladderAction = new LadderAction(destinationTileId, actionDescription);
+            currentTile.setLandAction(ladderAction);
+          }
+        }
+      }
+
+      return board;
+    }
+    catch (Exception e) {
+      handleFileError(new IOException("Failed to parse board file: " + e.getMessage(), e));
+      throw new IOException("Failed to read board file", e);
+    }
+  }
+
+}

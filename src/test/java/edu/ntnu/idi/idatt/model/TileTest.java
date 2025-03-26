@@ -1,11 +1,9 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import edu.ntnu.idi.idatt.Engine.BoardGame;
-import edu.ntnu.idi.idatt.Model.Player;
-import edu.ntnu.idi.idatt.Model.Tile;
+import edu.ntnu.idi.idatt.engine.BoardGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,7 +14,7 @@ public class TileTest {
 
   @BeforeEach
   void setUp() {
-    game = new BoardGame();
+    game = new BoardGame("Test Game", "Test Description");
     game.getBoard().addTile(new Tile(0, null));
     game.getBoard().addTile(new Tile(1, null));
   }
