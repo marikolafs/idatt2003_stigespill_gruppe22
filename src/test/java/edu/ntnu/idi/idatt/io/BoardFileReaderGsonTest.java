@@ -1,21 +1,23 @@
 package edu.ntnu.idi.idatt.io;
 
-import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class BoardFileReaderGsonTest {
+
   private BoardFileReaderGson boardFileReaderGson;
   private Path testBoardPath;
   private Board board;
@@ -37,7 +39,7 @@ class BoardFileReaderGsonTest {
     @DisplayName("Should assure that 90 tiles are read and created")
     void readBoard_ReadAllTiles() {
 
-      assertEquals(90,board.getTiles().size());
+      assertEquals(90, board.getTiles().size());
     }
 
     @Test
@@ -45,20 +47,21 @@ class BoardFileReaderGsonTest {
     void readBoard_ShouldGetTheNameAndDescription() {
 
       assertEquals("Stigespill90", game.getName(), "Board name should match");
-      assertEquals("Et klassisk stigespill med 90 felt og flere stiger.", game.getDescription(), "Board description should match");
+      assertEquals("Et klassisk stigespill med 90 felt og flere stiger.", game.getDescription(),
+          "Board description should match");
     }
 
     @Test
     @DisplayName("Should get the starting and goal tile id ")
     void readBoard_ShouldGetStartingAndGoalTile() {
-      assertEquals(1,game.getBoard().getStartingTile().getTileId());
-      assertEquals(90,game.getBoard().getGoalTile().getTileId());
+      assertEquals(1, game.getBoard().getStartingTile().getTileId());
+      assertEquals(90, game.getBoard().getGoalTile().getTileId());
     }
 
     @Test()
     @DisplayName("Should assert the next tile")
     void readBoard_ShouldGetTheNextTile() {
-      assertEquals(2,game.getBoard().getTile(1).getNextTile().getTileId());
+      assertEquals(2, game.getBoard().getTile(1).getNextTile().getTileId());
     }
 
     @Test
@@ -67,13 +70,12 @@ class BoardFileReaderGsonTest {
       Tile tileWithAction = game.getBoard().getTile(4);
       LadderAction action = (LadderAction) tileWithAction.getLandAction();
 
-      assertTrue(tileWithAction.getLandAction() instanceof LadderAction, "Action should be of type LadderAction");
+      assertTrue(tileWithAction.getLandAction() instanceof LadderAction,
+          "Action should be of type LadderAction");
       assertEquals(14, action.getDestinationTileId(), "Action destination tile id should match");
-      assertEquals("Ladder from 4 to 14", action.getDescription(), "Action description should match");
+      assertEquals("Ladder from 4 to 14", action.getDescription(),
+          "Action description should match");
     }
-
-
-
   }
 
 
@@ -98,7 +100,8 @@ class BoardFileReaderGsonTest {
       Path nonExistentPath = Paths.get("non_existent_file.json");
 
       assertThrows(IOException.class, () -> {
-        boardFileReaderGson.readBoard(nonExistentPath);}, "Should throw IOException for non-existent file");
+        boardFileReaderGson.readBoard(nonExistentPath);
+      }, "Should throw IOException for non-existent file");
     }
 
 

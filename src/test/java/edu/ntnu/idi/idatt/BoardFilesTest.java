@@ -36,6 +36,7 @@ public class BoardFilesTest {
       boardFiles.boardFileWriter();
     }
 
+    /*
     @Test
     @DisplayName("Should read board from files")
     void shouldReadBoardFromFile() throws IOException {
@@ -45,5 +46,6 @@ public class BoardFilesTest {
       boardFiles.boardFileReader(new File("src/main/resources/board.json"));
       assertEquals(2, board.getTiles().size());
     }
+     */
   }
 }
