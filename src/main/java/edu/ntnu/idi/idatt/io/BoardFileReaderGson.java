@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.ntnu.idi.idatt.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;

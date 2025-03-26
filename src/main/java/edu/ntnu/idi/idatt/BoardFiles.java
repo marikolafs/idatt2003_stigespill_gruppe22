@@ -6,11 +6,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
-import edu.ntnu.idi.idatt.Engine.BoardGame;
-import edu.ntnu.idi.idatt.Model.Board;
-import edu.ntnu.idi.idatt.Model.Player;
-import edu.ntnu.idi.idatt.Model.Tile;
-import edu.ntnu.idi.idatt.Model.TileAction;
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -30,7 +30,7 @@ public class BoardFiles {
    * @throws IOException if filewriter can´t continue.
    */
   void boardFileWriter() throws IOException {
-    Board gameBoard = BoardGame.getInstance().getBoard();
+    Board gameBoard = BoardGame.getInstance("default name", "default description").getBoard();
     object.add("board", jsonArray);
     JsonWriter writer = new JsonWriter(new FileWriter("src/main/resources/board.json"));
     try {
@@ -61,7 +61,7 @@ public class BoardFiles {
    */
   void boardFileReader(File file) throws IOException {
     String json = null;
-    Board board = BoardGame.getInstance().getBoard();
+    Board board = BoardGame.getInstance("default name", "default description").getBoard();
 
     try {
       InputStream is = new FileInputStream(file);
@@ -90,7 +90,8 @@ public class BoardFiles {
    * @return the TileAction corresponding to the String.
    */
   private TileAction getTileAction(String tileAction) {
-    Player player = BoardGame.getInstance().getCurrentPlayer();
+    Player player = BoardGame
+        .getInstance("default name", "default description").getCurrentPlayer();
     switch (tileAction) {
       case "null":
         return null;

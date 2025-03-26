@@ -102,7 +102,7 @@ public class Tile {
     }
 
     if (landAction != null) {
-      TileAction.perform(player);
+      landAction.perform(player);
     }
 
   }

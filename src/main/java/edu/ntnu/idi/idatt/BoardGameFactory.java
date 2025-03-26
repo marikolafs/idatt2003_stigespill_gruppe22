@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.Engine.BoardGame;
-import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Board;
 
 public class BoardGameFactory {
 
@@ -14,7 +14,7 @@ public class BoardGameFactory {
   }
 
   private static BoardGame createGame(String gameName, int tiles) throws Exception {
-    BoardGame game = BoardGame.getInstance();
+    BoardGame game = BoardGame.getInstance("default name", "default description");
     game.createBoard(tiles);
     game.createDice(2);
     System.out.println("Created game: " + gameName + " with " + tiles + " tiles.");

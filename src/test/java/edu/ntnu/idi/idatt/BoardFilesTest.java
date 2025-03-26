@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt;
 
-import edu.ntnu.idi.idatt.Model.Board;
+import edu.ntnu.idi.idatt.model.Board;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import edu.ntnu.idi.idatt.Model.Tile;
-import edu.ntnu.idi.idatt.Engine.BoardGame;
-import edu.ntnu.idi.idatt.Model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.PlayerFiles;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -26,7 +26,7 @@ public class BoardFilesTest {
     @Test
     @DisplayName("Should write tiles to file")
     void shouldWriteTilesToFile() throws IOException {
-      BoardGame game = BoardGame.getInstance();
+      BoardGame game = BoardGame.getInstance("default name", "default description");
       Board board = game.getBoard();
       Tile tile1 = new Tile(1, null);
       Tile tile2 = new Tile(2, null);
@@ -39,7 +39,7 @@ public class BoardFilesTest {
     @Test
     @DisplayName("Should read board from files")
     void shouldReadBoardFromFile() throws IOException {
-      BoardGame game = BoardGame.getInstance();
+      BoardGame game = BoardGame.getInstance("default name","default description");
       Board board = game.getBoard();
       BoardFiles boardFiles = new BoardFiles();
       boardFiles.boardFileReader(new File("src/main/resources/board.json"));

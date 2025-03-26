@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt;
 
 
+import edu.ntnu.idi.idatt.model.Board;
 import java.io.File;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,10 +33,10 @@ public class PlayerFilesTest {
     @Test
     @DisplayName("Should write players from list to the given file")
     void writePlayersFromListToFile() {
-      game = BoardGame.getInstance();
-      board = new Board();
+      BoardGame game = BoardGame.getInstance("default name", "default description");
+      Board board = new Board();
       game.createBoard(5);
-      List<Player> players =  BoardGame.getInstance().getPlayers();
+      List<Player> players =  BoardGame.getInstance("default name", "default description").getPlayers();
       Player player1 = new Player("chris", game, "TopHat");
       Player player2 = new Player("maria", game, "Cat");
       game.addPlayer(player1);
