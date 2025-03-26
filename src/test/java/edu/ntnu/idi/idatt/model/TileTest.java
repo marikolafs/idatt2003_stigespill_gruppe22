@@ -14,7 +14,7 @@ public class TileTest {
 
   @BeforeEach
   void setUp() {
-    game = new BoardGame();
+    game = new BoardGame("Test Game", "Test Description");
     game.getBoard().addTile(new Tile(0, null));
     game.getBoard().addTile(new Tile(1, null));
   }
