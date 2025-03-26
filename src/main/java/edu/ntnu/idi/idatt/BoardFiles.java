@@ -53,7 +53,12 @@ public class BoardFiles {
     }
   }
 
-
+  /**
+   * Reads a board configuration from the specified file.
+   *
+   * @param file the file containing the board configuration.
+   * @throws IOException if an error occurs while reading the file.
+   */
   void boardFileReader(File file) throws IOException {
     String json = null;
     Board board = BoardGame.getInstance().getBoard();
@@ -78,6 +83,12 @@ public class BoardFiles {
     }
   }
 
+  /**
+   * Reads a string and returns the corresponding TileAction.
+   *
+   * @param tileAction String representation of the desired tileAction.
+   * @return the TileAction corresponding to the String.
+   */
   private TileAction getTileAction(String tileAction) {
     Player player = BoardGame.getInstance().getCurrentPlayer();
     switch (tileAction) {
