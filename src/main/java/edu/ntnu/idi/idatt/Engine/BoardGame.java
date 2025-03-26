@@ -100,12 +100,14 @@ public class BoardGame {
    * Creates a new board with the specified number of tiles.
    *
    * @param tiles the number of tiles to be added to the board
+   * @return
    * @throws IllegalArgumentException if the number of tiles is less than or equal to 0
    */
-  public void createBoard(int tiles) {
+  public Board createBoard(int tiles) {
     if (tiles <= 0) {
       throw new IllegalArgumentException("Number of tiles must be greater than 0");
     }
+    board = new Board(); // Resets the board
     Tile startingTile = new Tile(1,null);
     board.setStartingTile(startingTile);
     board.addTile(startingTile);
@@ -118,6 +120,7 @@ public class BoardGame {
     board.setGoalTile(goalTile);
     board.addTile(goalTile);
 
+    return null;
   }
 
   /**
@@ -159,9 +162,7 @@ public class BoardGame {
           break;
         }
       }
-
     }
-
   }
 
 

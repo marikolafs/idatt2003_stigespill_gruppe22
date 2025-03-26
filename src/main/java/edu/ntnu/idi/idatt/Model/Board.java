@@ -84,6 +84,10 @@ public class Board {
     }
   }
 
+  public void addLadder(int start, int end) {
+
+  }
+
   /**
    * The method has the purpose of retrieving a tile based on the tileId.
    *
