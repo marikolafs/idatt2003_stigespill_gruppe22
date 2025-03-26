@@ -3,11 +3,8 @@ package edu.ntnu.idi.idatt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import edu.ntnu.idi.idatt.Engine.BoardGame;
 import edu.ntnu.idi.idatt.Model.Board;
@@ -16,15 +13,9 @@ import edu.ntnu.idi.idatt.Model.Tile;
 import edu.ntnu.idi.idatt.Model.TileAction;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BoardFiles {
 
@@ -65,6 +56,7 @@ public class BoardFiles {
 
   void boardFileReader(File file) throws IOException {
     String json = null;
+    Board board = BoardGame.getInstance().getBoard();
 
     try {
       InputStream is = new FileInputStream(file);
@@ -79,21 +71,22 @@ public class BoardFiles {
         JsonObject jsonBoard = jsonArray.get(i).getAsJsonObject();
         int id = jsonBoard.get("id").getAsInt();
         String tileAction = jsonBoard.get("tileAction").getAsString();
-        System.out.println(id + " " + tileAction);
+        board.addTile(new Tile(id, getTileAction(tileAction)));
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  private void getTileAction(String tileAction) {
+  private TileAction getTileAction(String tileAction) {
     Player player = BoardGame.getInstance().getCurrentPlayer();
     switch (tileAction) {
       case "null":
-        break;
-      case "tileaction":
-        TileAction.perform(player);
-        break;
+        return null;
+      case "ladderAction":
+        TileAction ladderAction = null;
+        return ladderAction;
     }
+    return null;
   }
 }
