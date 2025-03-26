@@ -44,6 +44,24 @@ public class BoardGame {
   }
 
   /**
+   * Mutator method for name.
+   *
+   * @param name the name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Mutator method for description.
+   *
+   * @param description the description
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
    * Accessor method for name.
    *
    * @return the name

@@ -15,7 +15,7 @@ public class PlayerTest {
 
   @BeforeEach
   void setUp() {
-    game = new BoardGame();
+    game = new BoardGame("Test Game", "Test Description");
     Tile startingTile = new Tile(1, null);
     game.getBoard().setStartingTile(startingTile);
     game.getBoard().addTile(startingTile);

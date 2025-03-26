@@ -20,7 +20,7 @@ public class LadderActionTest {
   @BeforeEach
   void setup() {
     // Reset any state from previous tests
-    game = BoardGame.getInstance();
+    game = BoardGame.getInstance("Test Game", "Test Description");
     game.createBoard(90);
 
 
