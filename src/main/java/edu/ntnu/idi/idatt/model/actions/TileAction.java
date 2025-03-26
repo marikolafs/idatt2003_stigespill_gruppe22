@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.model.tileActions;
+package edu.ntnu.idi.idatt.model.actions;
 
 
 import edu.ntnu.idi.idatt.model.Player;
@@ -14,7 +14,7 @@ import edu.ntnu.idi.idatt.model.Player;
  */
 public interface TileAction {
 
-  public void perform(Player player);
+  void perform(Player player);
 
 }
 

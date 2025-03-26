@@ -1,12 +1,9 @@
 
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.model.actions;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
-import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
-import edu.ntnu.idi.idatt.model.tileActions.TileAction;
-import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +33,20 @@ public class LadderAction implements TileAction {
 
   }
 
+  /**
+   * Accessor method for destination tile id.
+   *
+   * @return the destination tile id
+   */
+  public int getDestinationTileId() {
+    return destinationTileId;
+  }
+
+  /**
+   * Accessor method for description.
+   *
+   * @return the description
+   */
   public String getDescription() {
     return description;
   }
