@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.ntnu.idi.idatt.LadderAction;
-import edu.ntnu.idi.idatt.model.tileActions.TileAction;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
@@ -58,10 +57,13 @@ public class BoardFileReaderGson implements BoardFileReader {
       String description = boardJson.has("description") ?
           boardJson.get("description").getAsString() : "default description";
 
-      logger.info("Creating a new BoardGame: {}", name);
+      logger.info("Creating a new BoardGame: {} {}", name, description);
 
       // Create a new BoardGame instance with the given name and description
       BoardGame game = BoardGame.getInstance(name, description);
+      game.setName(name);
+      game.setDescription(description);
+
       Board board = game.getBoard();
 
       //Create a map to store tiles by id for linking
