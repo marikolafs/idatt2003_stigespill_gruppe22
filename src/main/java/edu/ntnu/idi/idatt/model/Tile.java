@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
-import edu.ntnu.idi.idatt.model.tileActions.TileAction;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.util.ArrayList;
 import java.util.List;
 

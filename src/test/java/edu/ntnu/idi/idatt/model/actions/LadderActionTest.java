@@ -1,6 +1,6 @@
-package edu.ntnu.idi.idatt.model.tileActions;
+package edu.ntnu.idi.idatt.model.actions;
 
-import edu.ntnu.idi.idatt.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LadderActionTest {
+class LadderActionTest {
 
   private BoardGame game;
   private LadderAction ladderAction;
