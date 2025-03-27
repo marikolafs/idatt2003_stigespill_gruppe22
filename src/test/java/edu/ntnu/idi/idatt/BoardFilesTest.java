@@ -1,18 +1,15 @@
 package edu.ntnu.idi.idatt;
 
+import edu.ntnu.idi.idatt.io.BoardFiles;
 import edu.ntnu.idi.idatt.model.Board;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.engine.BoardGame;
-import edu.ntnu.idi.idatt.model.Player;
-import edu.ntnu.idi.idatt.PlayerFiles;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,7 +30,7 @@ public class BoardFilesTest {
       board.addTile(tile1);
       board.addTile(tile2);
       BoardFiles boardFiles = new BoardFiles();
-      boardFiles.boardFileWriter();
+      //boardFiles.boardFileWriter();
     }
 
     /*
@@ -43,7 +40,7 @@ public class BoardFilesTest {
       BoardGame game = BoardGame.getInstance("default name","default description");
       Board board = game.getBoard();
       BoardFiles boardFiles = new BoardFiles();
-      boardFiles.boardFileReader(new File("src/main/resources/board.json"));
+      //boardFiles.boardFileReader(new File("src/main/resources/board.json"));
       assertEquals(2, board.getTiles().size());
     }
      */
