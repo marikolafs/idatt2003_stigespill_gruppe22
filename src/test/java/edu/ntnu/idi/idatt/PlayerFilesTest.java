@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,16 @@ public class PlayerFilesTest {
   @Nested
   @DisplayName("Positive test")
   class PositiveTest {
+    private BoardGame game;
+
+    @BeforeEach
+    void setUp() {
+
+      game = BoardGame.getInstance("Test Game", "Test Description");
+      game.getPlayers().clear();
+      game.createBoard(5);
+    }
+
     @Test
     @DisplayName("Should read players from the given file and add them to the list")
     void readPlayersFromFileAndAddToList() {

@@ -8,10 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class BoardTest {
+class BoardTest {
+  private Board board;
   @BeforeEach
       void setUp() {
-    Board board = new Board();
+    board = new Board();
     Tile tile1 = new Tile(1,null);
     Tile tile2 = new Tile(2,null);
     Tile tile3 = new Tile(3,null);
@@ -27,7 +28,6 @@ public class BoardTest {
     @Test
     @DisplayName("Should return tiles in the list")
     void addTiles_ReturnTilesInList() {
-      Board board = new Board();
       assertEquals(3, board.getTiles().size());
     }
 
