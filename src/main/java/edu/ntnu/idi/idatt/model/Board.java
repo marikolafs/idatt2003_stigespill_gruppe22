@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,7 +96,8 @@ public class Board {
     }
   }
 
-  public void addLadder(int start, int end) {
+  public void addLadder(Tile ladderStart, int destinationTileId) {
+    LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");
 
   }
 
