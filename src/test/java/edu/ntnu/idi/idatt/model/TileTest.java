@@ -15,8 +15,8 @@ public class TileTest {
   @BeforeEach
   void setUp() {
     game = new BoardGame("Test Game", "Test Description");
-    game.getBoard().addTile(new Tile(0, null));
-    game.getBoard().addTile(new Tile(1, null));
+    game.getBoard().addTile(new Tile(0, null,  1, 1));
+    game.getBoard().addTile(new Tile(1, null,   1, 1));
   }
 
   @Nested
@@ -25,17 +25,25 @@ public class TileTest {
     @Test
     @DisplayName("Should return the tile id and land action")
     void tile_Constructor_ValidInput() {
-      Tile tile = new Tile(0, null);
+      Tile tile = new Tile(0, null,  1, 1);
 
       assertEquals(0, tile.getTileId());
       assertEquals(null, tile.getLandAction());
     }
 
     @Test
+    @DisplayName("Should return x and y coordinates")
+    void tile_Constructor_ValidInput_Coordinates() {
+      Tile tile = new Tile(0, null,  1, 1);
+      assertEquals(1, tile.getX());
+      assertEquals(1, tile.getY());
+    }
+
+    @Test
     @DisplayName("Should return the next tile")
     void setNextTile_ValidInput() {
-      Tile tile1 = new Tile(0, null);
-      Tile tile2 = new Tile(1, null);
+      Tile tile1 = new Tile(0, null,   1, 1);
+      Tile tile2 = new Tile(1, null, 1, 2);
       tile1.setNextTile(tile2);
 
       assertEquals(tile2, tile1.getNextTile());
