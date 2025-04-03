@@ -76,7 +76,7 @@ public class BoardFileReaderGson implements BoardFileReader {
         int tileId = tileJson.get("id").getAsInt();
 
         // Create the individual tile
-        Tile tile = new Tile(tileId, null);
+        Tile tile = new Tile(tileId, null, 1, 1);
         tilesMap.put(tileId, tile);
         board.addTile(tile);
 

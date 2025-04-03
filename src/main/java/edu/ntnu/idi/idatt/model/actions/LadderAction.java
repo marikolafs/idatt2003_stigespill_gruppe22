@@ -51,6 +51,7 @@ public class LadderAction implements TileAction {
     return description;
   }
 
+
   @Override
   public void perform(Player player) {
     BoardGame game= BoardGame.getInstance("default name", "default description");
@@ -66,6 +67,5 @@ public class LadderAction implements TileAction {
     player.getCurrentTile().leavePlayer(player);
     player.placeOnTile(destinationTile);
     destinationTile.landPlayer(player);
-
   }
 }

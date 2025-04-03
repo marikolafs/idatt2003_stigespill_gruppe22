@@ -21,7 +21,7 @@ class LadderActionTest {
   void setup() {
     // Reset any state from previous tests
     game = BoardGame.getInstance("Test Game", "Test Description");
-    game.createBoard(90);
+    game.createBoard(9, 10);
 
 
     startTile = game.getBoard().getTile(20);
