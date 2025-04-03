@@ -17,7 +17,7 @@ public class BoardGameTest {
     @Test
     @DisplayName("Should add and return players in the list")
     void addPlayer_ReturnPlayersInList_ValidInput() {
-      Tile tile = new Tile(1, null);
+      Tile tile = new Tile(1, null, 1, 1);
       BoardGame game = new BoardGame("Test Game", "Test Description");
       game.getBoard().setStartingTile(tile);
 
@@ -31,11 +31,20 @@ public class BoardGameTest {
     }
 
     @Test
+    @DisplayName("Should return number of rows and columns")
+    void createBoard_ReturnRowsAndColumns() {
+      BoardGame game = new BoardGame("Test Game", "Test Description");
+      game.createBoard(9, 10);
+      assertEquals(9, game.getBoard().getRows());
+      assertEquals(10, game.getBoard().getColumns());
+    }
+
+    @Test
     @DisplayName("Should return tiles on board")
     void createBoard_ReturnTiles() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
 
-      game.createBoard(5);
+      game.createBoard(1, 5);
 
       assertEquals(5, game.getBoard().getTiles().size());
     }
@@ -45,7 +54,7 @@ public class BoardGameTest {
     void createBoard_ReturnStartingAndGoalTile() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
 
-      game.createBoard(5);
+      game.createBoard(1, 5);
 
       assertEquals(1, game.getBoard().getStartingTile().getTileId());
       assertEquals(5, game.getBoard().getGoalTile().getTileId());
@@ -65,7 +74,7 @@ public class BoardGameTest {
     @DisplayName("Should play the game and determine the winner")
     void playGame_DetermineWinner() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
-      game.createBoard(10);
+      game.createBoard(2, 5);
       game.createDice(2);
 
       Player player1 = new Player("Chris", game, "Tophat");
@@ -125,8 +134,8 @@ public class BoardGameTest {
     void createBoard_ThrowException_LessThanOneTile() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
 
-      assertThrows(IllegalArgumentException.class, () -> game.createBoard(0));
-      assertThrows(IllegalArgumentException.class, () -> game.createBoard(-1));
+      assertThrows(IllegalArgumentException.class, () -> game.createBoard(0, 0));
+      assertThrows(IllegalArgumentException.class, () -> game.createBoard(-1, -1));
     }
 
     @Test

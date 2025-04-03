@@ -28,8 +28,8 @@ public class BoardFilesTest {
     void shouldWriteTilesToFile() throws IOException {
       BoardGame game = BoardGame.getInstance("default name", "default description");
       Board board = game.getBoard();
-      Tile tile1 = new Tile(1, null);
-      Tile tile2 = new Tile(2, null);
+      Tile tile1 = new Tile(1, null, 1, 1);
+      Tile tile2 = new Tile(2, null, 1, 2);
       board.addTile(tile1);
       board.addTile(tile2);
       BoardFiles boardFiles = new BoardFiles();

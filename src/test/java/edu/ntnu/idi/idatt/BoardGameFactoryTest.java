@@ -18,7 +18,7 @@ public class BoardGameFactoryTest {
     @DisplayName("Should create a board with 90 tiles")
     void shouldCreateBoardWith90Tiles() throws Exception {
       BoardGame game = BoardGame.getInstance("default name", "default description");
-      BoardGameFactory.createLadderGame(90);
+      BoardGameFactory.createLadderGame(9, 10);
       assertEquals(90, game.getBoard().getTiles().size());
     }
 
@@ -26,7 +26,7 @@ public class BoardGameFactoryTest {
     @DisplayName("Should create a board with 45 tiles")
     void shouldCreateBoardWith45Tiles() throws Exception {
       BoardGame game = BoardGame.getInstance("default name", "default description");
-      BoardGameFactory.createLadderGame(45);
+      BoardGameFactory.createLadderGame(9, 5);
       assertEquals(45, game.getBoard().getTiles().size());
     }
   }

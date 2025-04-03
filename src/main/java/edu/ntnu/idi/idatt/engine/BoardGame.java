@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * The BoardGame class is responsible for setting up the game board and dice, registering players,
  * and managing the gameplay. It iterates over the players, allowing each player to roll the dice
- * and move on the board. The game concludes when the first player reaches the last tile (goal),
- * at which point a winner is decided.
+ * and move on the board. The game concludes when the first player reaches the last tile (goal), at
+ * which point a winner is decided.
  *
  * @version 1.3
  */
 public class BoardGame {
+
   private static BoardGame instance;
   private String name;
   private String description;
@@ -36,7 +36,7 @@ public class BoardGame {
   /**
    * The constructor initializes the board and players list.
    */
-  public  BoardGame(String name, String description) {
+  public BoardGame(String name, String description) {
     this.name = name;
     this.description = description;
     this.board = new Board();
@@ -117,8 +117,8 @@ public class BoardGame {
   }
 
   /**
-   * Adds a player to the game.
-   * The player is added to the list of players if it is not already registered.
+   * Adds a player to the game. The player is added to the list of players if it is not already
+   * registered.
    *
    * @param player the player to be added
    * @throws IllegalArgumentException if player is null
@@ -137,28 +137,33 @@ public class BoardGame {
   }
 
   /**
-   * Creates a new board with the specified number of tiles.
+   * Creates a new board with the specified number of rows and columns.
    *
-   * @param tiles the number of tiles to be added to the board
-   * @return
-   * @throws IllegalArgumentException if the number of tiles is less than or equal to 0
+   * @param rows and columns the number of rows and columns the board should contain.
+   * @return null
+   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
-  public Board createBoard(int tiles) {
-    if (tiles <= 0) {
-      throw new IllegalArgumentException("Number of tiles must be greater than 0");
+  public Board createBoard(int rows, int columns) {
+
+    if (rows <= 0 || columns <= 0) {
+      throw new IllegalArgumentException("Number of rows and columns must be greater than 0");
     }
     board = new Board(); // Resets the board
-    Tile startingTile = new Tile(1,null);
-    board.setStartingTile(startingTile);
-    board.addTile(startingTile);
+    board.setRows(rows);
+    board.setColumns(columns);
 
-    for (int i = 2; i < tiles; i++) {
-      Tile tile = new Tile(i,null);
-      board.addTile(tile);
+    int tileId = 1;
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < columns; c++) {
+        Tile tile = new Tile(tileId, null, r, c);
+        board.addTile(tile);
+        tileId++;
+      }
     }
-    Tile goalTile = new Tile(tiles,null);
+    Tile startingTile = board.getTile(1);
+    board.setStartingTile(startingTile);
+    Tile goalTile = board.getTile(rows * columns);
     board.setGoalTile(goalTile);
-    board.addTile(goalTile);
 
     return null;
   }
@@ -178,8 +183,8 @@ public class BoardGame {
 
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the
-   * first player reaches the last tile (goal), at which point a winner is decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the first
+   * player reaches the last tile (goal), at which point a winner is decided.
    */
   public void play() {
     boolean gameWon = false;
@@ -206,10 +211,9 @@ public class BoardGame {
   }
 
 
-
   /**
-   * The getWinner method is responsible for determining the winner of the game.
-   * It iterates over the players and checks if the player has reached the goal tile.
+   * The getWinner method is responsible for determining the winner of the game. It iterates over
+   * the players and checks if the player has reached the goal tile.
    *
    * @return the player who has reached the goal tile first
    */

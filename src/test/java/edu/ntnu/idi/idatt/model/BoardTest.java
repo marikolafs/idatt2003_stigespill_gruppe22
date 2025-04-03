@@ -13,9 +13,9 @@ class BoardTest {
   @BeforeEach
       void setUp() {
     board = new Board();
-    Tile tile1 = new Tile(1,null);
-    Tile tile2 = new Tile(2,null);
-    Tile tile3 = new Tile(3,null);
+    Tile tile1 = new Tile(1,null, 1, 1);
+    Tile tile2 = new Tile(2,null, 1, 2);
+    Tile tile3 = new Tile(3,null, 1, 3);
 
     board.addTile(tile1);
     board.addTile(tile2);
@@ -35,9 +35,9 @@ class BoardTest {
     @DisplayName("Should return the next tile")
     void addTiles_ReturnPreviousTile () {
       Board board = new Board();
-      Tile tile1 = new Tile(1,null);
-      Tile tile2 = new Tile(2,null);
-      Tile tile3 = new Tile(3,null);
+      Tile tile1 = new Tile(1,null, 1, 1);
+      Tile tile2 = new Tile(2,null, 1, 2);
+      Tile tile3 = new Tile(3,null, 1, 3);
 
       board.addTile(tile1);
       board.addTile(tile2);
@@ -54,9 +54,9 @@ class BoardTest {
     @DisplayName("Should return tile based on tileId")
     void getTile_ShouldReturnTileId() {
       Board board = new Board();
-      Tile tile1 = new Tile(1,null);
-      Tile tile2 = new Tile(2,null);
-      Tile tile3 = new Tile(3,null);
+      Tile tile1 = new Tile(1,null, 1, 1);
+      Tile tile2 = new Tile(2,null, 1, 2);
+      Tile tile3 = new Tile(3,null, 1, 3);
 
       board.addTile(tile1);
       board.addTile(tile2);
@@ -73,9 +73,9 @@ class BoardTest {
     @DisplayName("Should throw IllegalArgumentException if tile does not exist")
     void getTile_ThrowException_WhenTileDoesNotExist () {
       Board board = new Board();
-      Tile tile1 = new Tile(1,null);
-      Tile tile2 = new Tile(2,null);
-      Tile tile3 = new Tile(3,null);
+      Tile tile1 = new Tile(1,null, 1, 1);
+      Tile tile2 = new Tile(2,null, 1, 2);
+      Tile tile3 = new Tile(3,null, 1, 3);
 
       board.addTile(tile1);
       board.addTile(tile2);

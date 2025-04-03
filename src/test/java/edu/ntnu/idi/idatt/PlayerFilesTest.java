@@ -26,14 +26,14 @@ public class PlayerFilesTest {
 
       game = BoardGame.getInstance("Test Game", "Test Description");
       game.getPlayers().clear();
-      game.createBoard(5);
+      game.createBoard(1, 5);
     }
 
     @Test
     @DisplayName("Should read players from the given file and add them to the list")
     void readPlayersFromFileAndAddToList() {
       BoardGame game = BoardGame.getInstance("Test Game", "Test Description");
-      game.createBoard(5);
+      game.createBoard(1, 5);
 
       List<Player> players =  BoardGame.getInstance("Test Game", "Test Description").getPlayers();
       File file = new File("src/main/resources/ExamplePlayers.csv");
@@ -46,7 +46,7 @@ public class PlayerFilesTest {
     void writePlayersFromListToFile() {
       BoardGame game = BoardGame.getInstance("default name", "default description");
       Board board = new Board();
-      game.createBoard(5);
+      game.createBoard(1, 5);
       List<Player> players =  BoardGame.getInstance("default name", "default description").getPlayers();
       Player player1 = new Player("chris", game, "TopHat");
       Player player2 = new Player("maria", game, "Cat");

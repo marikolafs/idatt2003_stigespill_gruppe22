@@ -16,6 +16,9 @@ public class Board {
   private final Map<Integer, Tile> tiles;
   private Tile startingTile;
   private Tile goalTile;
+  private int rows;
+  private int columns;
+
 
   /**
    * Constructs a new Board.
@@ -28,7 +31,8 @@ public class Board {
     this.tiles = new HashMap<>();
     this.startingTile = null;
     this.goalTile = null;
-
+    this.rows = rows;
+    this.columns = columns;
   }
 
   /**
@@ -66,6 +70,42 @@ public class Board {
   }
 
   /**
+   * Accessor method for rows
+   *
+   * @return the number of rows on the board
+   */
+  public int getRows() {
+    return rows;
+  }
+
+  /**
+   * Mutator method for rows
+   *
+   * @param rows the new amount of rows
+   */
+  public void setRows(int rows) {
+    this.rows = rows;
+  }
+
+  /**
+   * Accessor method for columns
+   *
+   * @return the number of columns on the board
+   */
+  public int getColumns() {
+    return columns;
+  }
+
+  /**
+   * Mutator method for columns
+   *
+   * @param columns the new amount of columns
+   */
+  public void setColumns(int columns) {
+    this.columns = columns;
+  }
+
+  /**
    * Accessor method for tiles.
    *
    * @return the tiles
@@ -79,8 +119,8 @@ public class Board {
    *
    * @param tile the tile to be added
    */
-
   public void addTile(Tile tile) {
+
     if (tiles.containsKey(tile.getTileId())) {
       return;
     }
