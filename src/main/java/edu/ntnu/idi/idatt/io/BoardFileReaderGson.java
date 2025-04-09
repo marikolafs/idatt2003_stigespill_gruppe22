@@ -65,6 +65,8 @@ public class BoardFileReaderGson implements BoardFileReader {
       game.setDescription(description);
 
       Board board = game.getBoard();
+      board.setRows(boardJson.get("rows").getAsInt());
+      board.setColumns(boardJson.get("columns").getAsInt());
 
       //Create a map to store tiles by id for linking
       Map<Integer, Tile> tilesMap = new HashMap<>();
@@ -96,6 +98,10 @@ public class BoardFileReaderGson implements BoardFileReader {
         JsonObject tileJson = tileElement.getAsJsonObject();
         int tileId = tileJson.get("id").getAsInt();
         Tile currentTile = tilesMap.get(tileId);
+        int x = tileJson.get("x").getAsInt();
+        currentTile.setX(x);
+        int y = tileJson.get("y").getAsInt();
+        currentTile.setY(y);
 
         // Link to the next tile if the tile has a nextTile
         if(tileJson.has("nextTileId")) {
@@ -126,5 +132,4 @@ public class BoardFileReaderGson implements BoardFileReader {
       throw new IOException("Failed to read board file", e);
     }
   }
-
 }

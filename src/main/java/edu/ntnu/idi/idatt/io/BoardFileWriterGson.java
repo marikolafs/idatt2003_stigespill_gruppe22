@@ -36,11 +36,17 @@ public class BoardFileWriterGson implements BoardFileWriter {
       writer.beginObject();
       writer.name("name").value(BoardGame.getName());
       writer.name("description").value(BoardGame.getDescription());
+
+      writer.name("rows").value(gameBoard.getRows());
+      writer.name("columns").value(gameBoard.getColumns());
+
       writer.name("tiles");
       writer.beginArray();
       for (Tile tile : gameBoard.getTiles().values()) {
         writer.beginObject();
         writer.name("id").value(tile.getTileId());
+        writer.name("x").value(tile.getX());
+        writer.name("y").value(tile.getY());
         if (tile.getNextTile() != null) {
           writer.name("nextTileId").value(tile.getNextTile().getTileId());
         }
@@ -59,7 +65,9 @@ public class BoardFileWriterGson implements BoardFileWriter {
     } finally {
       try {
         writer.close();
-      } catch (IOException e) {
+      } catch (Exception e) {
+        handleFileError(new IOException("Failed to handle file: " + e.getMessage(), e));
+        throw new IOException("Failed to write board file", e);
       }
     }
   }
