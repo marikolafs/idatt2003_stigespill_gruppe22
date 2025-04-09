@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.io;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
@@ -14,11 +13,11 @@ import java.io.IOException;
 
 public class BoardFileWriterGson implements BoardFileWriter {
 
-  private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  private Gson gson;
 
   /**
-   * Constructs a new BoardFileWriterGson instance.
-   * Initializes the Gson parser to be used for JSON processing.
+   * Constructs a new BoardFileWriterGson instance. Initializes the Gson parser to be used for JSON
+   * processing.
    */
   public BoardFileWriterGson() {
     this.gson = new Gson();
@@ -27,9 +26,16 @@ public class BoardFileWriterGson implements BoardFileWriter {
   JsonArray jsonArray = new JsonArray();
   JsonObject object = new JsonObject();
 
+  /**
+   * Writes a board configuration to a JSON file.
+   *
+   * @param board the board that will be saved in a JSON file
+   * @throws IOException if an error occurs while writing to the file
+   */
   @Override
   public void writeBoard(Board board) throws IOException {
-    Board gameBoard = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription()).getBoard();
+    Board gameBoard = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription())
+        .getBoard();
     object.add("board", jsonArray);
     JsonWriter writer = new JsonWriter(new FileWriter("src/main/resources/board.json"));
     try {
@@ -47,9 +53,13 @@ public class BoardFileWriterGson implements BoardFileWriter {
         writer.name("id").value(tile.getTileId());
         writer.name("x").value(tile.getX());
         writer.name("y").value(tile.getY());
+
+        // Write next tile if it exists
         if (tile.getNextTile() != null) {
           writer.name("nextTileId").value(tile.getNextTile().getTileId());
         }
+
+        // Write tile action if it exists
         if (tile.getLandAction() != null) {
           writer.beginObject();
           writer.name("action");
