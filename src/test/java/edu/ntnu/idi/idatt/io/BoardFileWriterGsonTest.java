@@ -27,8 +27,10 @@ class BoardFileWriterGsonTest {
     boardFileWriterGson = new BoardFileWriterGson();
     BoardGame game = BoardGame.getInstance("default name", "default description");
     Board board = game.getBoard();
-    Tile tile1 = new Tile(1, null);
-    Tile tile2 = new Tile(2, null);
+    board.setRows(2);
+    board.setColumns(1);
+    Tile tile1 = new Tile(1, null, 1, 1);
+    Tile tile2 = new Tile(2, null, 1, 2);
     board.addTile(tile1);
     board.addTile(tile2);
     boardFileWriterGson.writeBoard(board);
