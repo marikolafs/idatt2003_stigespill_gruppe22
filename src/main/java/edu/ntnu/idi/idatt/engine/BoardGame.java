@@ -19,7 +19,7 @@ public class BoardGame {
 
   private static BoardGame instance;
   private static String name;
-  private String description;
+  private static String description;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -75,7 +75,7 @@ public class BoardGame {
    *
    * @return the description
    */
-  public String getDescription() {
+  public static String getDescription() {
     return description;
   }
 
