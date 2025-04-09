@@ -1,21 +1,20 @@
 package edu.ntnu.idi.idatt.io;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BoardFileWriterGson implements BoardFileWriter {
 
-  private Gson gson;
-  private static final Logger logger = LoggerFactory.getLogger(BoardFileWriterGson.class);
+  private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
   /**
    * Constructs a new BoardFileWriterGson instance.
@@ -30,22 +29,29 @@ public class BoardFileWriterGson implements BoardFileWriter {
 
   @Override
   public void writeBoard(Board board) throws IOException {
-    Board gameBoard = BoardGame.getInstance("default name", "default description").getBoard();
+    Board gameBoard = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription()).getBoard();
     object.add("board", jsonArray);
     JsonWriter writer = new JsonWriter(new FileWriter("src/main/resources/board.json"));
     try {
       writer.beginObject();
-      writer.name(BoardGame.getName());
+      writer.name("name").value(BoardGame.getName());
+      writer.name("description").value(BoardGame.getDescription());
+      writer.name("tiles");
       writer.beginArray();
       for (Tile tile : gameBoard.getTiles().values()) {
         writer.beginObject();
         writer.name("id").value(tile.getTileId());
-        /*
-        if (tile.getLandAction() != null) {
-          writer.name("action").value(String.valueOf(tile.getLandAction()));
+        if (tile.getNextTile() != null) {
+          writer.name("nextTileId").value(tile.getNextTile().getTileId());
         }
-         */
-        writer.name("tileAction").value(String.valueOf(tile.getLandAction()));
+        if (tile.getLandAction() != null) {
+          writer.beginObject();
+          writer.name("action");
+          writer.name("type").value(String.valueOf(tile.getLandAction()));
+          writer.name("destinationTileId").value(LadderAction.getDestinationTileId());
+          writer.name("description").value(LadderAction.getDescription());
+          writer.endObject();
+        }
         writer.endObject();
       }
       writer.endArray();
