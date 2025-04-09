@@ -18,8 +18,8 @@ import java.util.List;
 public class BoardGame {
 
   private static BoardGame instance;
-  private String name;
-  private String description;
+  private static String name;
+  private static String description;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -66,7 +66,7 @@ public class BoardGame {
    *
    * @return the name
    */
-  public String getName() {
+  public static String getName() {
     return name;
   }
 
@@ -75,7 +75,7 @@ public class BoardGame {
    *
    * @return the description
    */
-  public String getDescription() {
+  public static String getDescription() {
     return description;
   }
 

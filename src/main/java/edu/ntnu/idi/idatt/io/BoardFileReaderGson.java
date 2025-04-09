@@ -5,40 +5,39 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of BoardFileReader that uses Gson to read board data from JSON files.
- * This class handles parsing of board configurations from JSON format and constructs
- * a playable Board with tiles, tile connections, and tile actions.
+ * Implementation of BoardFileReader that uses Gson to read board data from JSON files. This class
+ * handles parsing of board configurations from JSON format and constructs a playable Board with
+ * tiles, tile connections, and tile actions.
  */
 public class BoardFileReaderGson implements BoardFileReader {
+
   private Gson gson;
   private static final Logger logger = LoggerFactory.getLogger(BoardFileReaderGson.class);
 
   /**
-   * Constructs a new BoardFileReaderGson instance.
-   * Initializes the Gson parser to be used for JSON processing.
+   * Constructs a new BoardFileReaderGson instance. Initializes the Gson parser to be used for JSON
+   * processing.
    */
   public BoardFileReaderGson() {
     this.gson = new Gson();
   }
 
   /**
-   * Reads a board configuration from a JSON file at the specified path.
-   * Parses the JSON structure to create a Board object with properly configured
-   * tiles, connections, and actions.
+   * Reads a board configuration from a JSON file at the specified path. Parses the JSON structure
+   * to create a Board object with properly configured tiles, connections, and actions.
    *
    * @param path the path to the JSON file containing board configuration
    * @return a Board object constructed from the JSON file data
@@ -65,13 +64,15 @@ public class BoardFileReaderGson implements BoardFileReader {
       game.setDescription(description);
 
       Board board = game.getBoard();
+      board.setRows(boardJson.get("rows").getAsInt());
+      board.setColumns(boardJson.get("columns").getAsInt());
 
       //Create a map to store tiles by id for linking
       Map<Integer, Tile> tilesMap = new HashMap<>();
 
       // Read and create all tiles
       JsonArray tilesJsonArray = boardJson.getAsJsonArray("tiles");
-      for(JsonElement tileElement : tilesJsonArray) {
+      for (JsonElement tileElement : tilesJsonArray) {
         JsonObject tileJson = tileElement.getAsJsonObject();
         int tileId = tileJson.get("id").getAsInt();
 
@@ -81,24 +82,28 @@ public class BoardFileReaderGson implements BoardFileReader {
         board.addTile(tile);
 
         // Set starting tile
-        if(tileId == 1) {
+        if (tileId == 1) {
           board.setStartingTile(tile);
         }
 
         // Set goal tile as the tile with the highest id
-        if(board.getGoalTile() == null || tileId > board.getGoalTile().getTileId()) {
+        if (board.getGoalTile() == null || tileId > board.getGoalTile().getTileId()) {
           board.setGoalTile(tile);
         }
       }
 
       // Add actions and custom next tile links from JSON
-      for(JsonElement tileElement : tilesJsonArray) {
+      for (JsonElement tileElement : tilesJsonArray) {
         JsonObject tileJson = tileElement.getAsJsonObject();
         int tileId = tileJson.get("id").getAsInt();
         Tile currentTile = tilesMap.get(tileId);
+        int x = tileJson.get("x").getAsInt();
+        currentTile.setX(x);
+        int y = tileJson.get("y").getAsInt();
+        currentTile.setY(y);
 
         // Link to the next tile if the tile has a nextTile
-        if(tileJson.has("nextTileId")) {
+        if (tileJson.has("nextTileId")) {
           int nextTileId = tileJson.get("nextTileId").getAsInt();
           Tile nextTile = tilesMap.get(nextTileId);
           currentTile.setNextTile(nextTile);
@@ -120,11 +125,9 @@ public class BoardFileReaderGson implements BoardFileReader {
       }
 
       return board;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       handleFileError(new IOException("Failed to parse board file: " + e.getMessage(), e));
       throw new IOException("Failed to read board file", e);
     }
   }
-
 }
