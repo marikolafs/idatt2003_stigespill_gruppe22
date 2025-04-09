@@ -1,11 +1,11 @@
 package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
-import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.TileAction;
 
 public class BoardGameFactory {
+
   private static TileAction ladderAction;
 
   public static BoardGame createLadderGame(int columns, int rows) throws Exception {
@@ -16,7 +16,8 @@ public class BoardGameFactory {
     return game;
   }
 
-  private static BoardGame createGame(String gameName, int numberOfDice, int columns, int rows) throws Exception {
+  private static BoardGame createGame(String gameName, int numberOfDice, int columns, int rows)
+      throws Exception {
     BoardGame game = BoardGame.getInstance("default name", "default description");
     game.createBoard(columns, rows);
     game.createDice(numberOfDice);
