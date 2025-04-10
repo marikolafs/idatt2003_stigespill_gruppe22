@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -136,10 +137,27 @@ public class Board {
     }
   }
 
+  /**
+   * Adds a ladder to the board.
+   *
+   * @param ladderStart the tileId of the starting tile for the ladder
+   * @param destinationTileId the tileId of the ending tile for the ladder
+   */
   public void addLadder(int ladderStart, int destinationTileId) {
     LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");
     Tile ladderTile = getTile(ladderStart);
     ladderTile.setLandAction(ladderAction);
+  }
+
+  /**
+   * Adds a return tile to the board.
+   *
+   * @param returnTileId the tileId where the return action will be placed.
+   */
+  public void addReturn(int returnTileId) {
+    ReturnAction returnAction = new ReturnAction("Return action");
+    Tile returnTile = getTile(returnTileId);
+    returnTile.setLandAction(returnAction);
   }
 
   /**
