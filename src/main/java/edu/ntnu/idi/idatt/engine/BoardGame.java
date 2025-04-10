@@ -1,10 +1,13 @@
 package edu.ntnu.idi.idatt.engine;
 
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
 import java.util.ArrayList;
 import java.util.List;
+import edu.ntnu.idi.idatt.observer.Observable;
 
 
 /**
@@ -13,9 +16,9 @@ import java.util.List;
  * and move on the board. The game concludes when the first player reaches the last tile (goal), at
  * which point a winner is decided.
  *
- * @version 1.3
+ * @version 2.0
  */
-public class BoardGame {
+public class BoardGame extends Observable {
 
   private static BoardGame instance;
   private String name;
@@ -32,6 +35,7 @@ public class BoardGame {
   private Player currentPlayer;
   private Dice dice;
   private static List<Player> players;
+  private List<BoardGameObserver> observers;
 
   /**
    * The constructor initializes the board and players list.
@@ -41,6 +45,7 @@ public class BoardGame {
     this.description = description;
     this.board = new Board();
     this.players = new ArrayList<>();
+    this.observers = new ArrayList<>();
   }
 
   /**
@@ -123,7 +128,7 @@ public class BoardGame {
    * @param player the player to be added
    * @throws IllegalArgumentException if player is null
    */
-  public static void addPlayer(Player player) {
+  public void addPlayer(Player player) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
     }
@@ -133,6 +138,8 @@ public class BoardGame {
       Tile startingTile = board.getStartingTile();
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
+      notifyObservers(new GameEvent
+          ("player_joined", player.getName() + " joined the game", player));
     }
   }
 
@@ -165,6 +172,8 @@ public class BoardGame {
     Tile goalTile = board.getTile(rows * columns);
     board.setGoalTile(goalTile);
 
+    notifyObservers(new GameEvent
+        ("board_created", "The game board has been created.", null));
     return null;
   }
 
@@ -179,6 +188,8 @@ public class BoardGame {
       throw new IllegalArgumentException("Number of dice must be greater than 0");
     }
     this.dice = new Dice(numberOfDice);
+    notifyObservers(new GameEvent
+        ("dice_created", "The game dice have been created.", null));
   }
 
   /**
@@ -190,6 +201,9 @@ public class BoardGame {
     boolean gameWon = false;
     while (!gameWon) {
       for (Player player : players) {
+        notifyObservers(new GameEvent
+            ("game_started", "The game has started!", null));
+
         currentPlayer = player;
         Tile currentTile = player.getCurrentTile();
 
@@ -202,8 +216,22 @@ public class BoardGame {
         newTile.landPlayer(player);
         currentPlayer.placeOnTile(newTile);
 
+
+        notifyObservers(new GameEvent("player_moved", player.getName()
+            + " moved to tile " + newTile.getTileId(), player));
+
+        if (newTile.getLandAction() != null) {
+          newTile.getLandAction().perform(player);
+          notifyObservers(new GameEvent
+              ("tile_action", player.getName() + " triggered an action on tile "
+                  + newTile.getTileId(), player));
+        }
+
         if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
           gameWon = true;
+
+          notifyObservers(new GameEvent
+              ("winner_declared", player.getName() + " wins the game!", player));
           break;
         }
       }
@@ -227,10 +255,5 @@ public class BoardGame {
       }
     }
     return winner;
-
-  }
-
-  public static void main(String[] args) {
-    System.out.println("hello world!");
   }
 }
