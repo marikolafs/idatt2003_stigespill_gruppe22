@@ -1,9 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
-import edu.ntnu.idi.idatt.observer.GameEvent;
-import edu.ntnu.idi.idatt.observer.Observable;
-import edu.ntnu.idi.idatt.observer.events.Event;
 
 /**
  * Represents a player in the boardgame. A player has a name and is always located on a tile.
@@ -13,7 +10,7 @@ import edu.ntnu.idi.idatt.observer.events.Event;
  *
  * @version 1.0
  */
-public class Player extends Observable {
+public class Player {
   final String name;
   private Tile currentTile;
   private String piece;
@@ -27,6 +24,7 @@ public class Player extends Observable {
    */
   public Player(String name, BoardGame game, String piece) {
     this.name = name;
+    this.currentTile = currentTile;
     this.piece = piece;
   }
 
@@ -57,7 +55,6 @@ public class Player extends Observable {
     return piece;
   }
 
-
   /**
    * Places the player on the given tile and sets it to the current tile.
    *
@@ -71,7 +68,7 @@ public class Player extends Observable {
     this.currentTile = tile;
   }
 
-
+// TODO add exception for last tile
   /**
    * Moves the player a number of steps on the board. The player is moved to the next tile if it is
    * not null.
@@ -84,16 +81,5 @@ public class Player extends Observable {
         currentTile = currentTile.getNextTile();
       }
     }
-    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
-        "Player " + name + " moved to tile " + currentTile.getTileId(), this));
-  }
-
-  public void setPiece(String piece) {
-    if (piece == null || piece.isEmpty()) {
-      throw new IllegalArgumentException("Piece cannot be null or empty");
-    }
-    this.piece = piece;
-    notifyObservers(new GameEvent(Event.PLAYER_PIECE_CHANGED,
-        "Player " + name + " changed piece to " + piece, this));
   }
 }
