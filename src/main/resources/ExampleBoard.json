@@ -1,22 +1,32 @@
 {
   "name": "Stigespill90",
   "description": "Et klassisk stigespill med 90 felt og flere stiger.",
+  "rows": 10,
+  "columns": 9,
   "tiles": [
     {
       "id": 1,
-      "nextTileId": 2
+      "nextTileId": 2,
+      "x": 1,
+      "y": 1
     },
     {
       "id": 2,
-      "nextTileId": 3
+      "nextTileId": 3,
+      "x": 1,
+      "y": 2
     },
     {
       "id": 3,
-      "nextTileId": 4
+      "nextTileId": 4,
+      "x": 1,
+      "y": 3
     },
     {
       "id": 4,
       "nextTileId": 5,
+      "x": 1,
+      "y": 4,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 14,
@@ -25,23 +35,33 @@
     },
     {
       "id": 5,
-      "nextTileId": 6
+      "nextTileId": 6,
+      "x": 1,
+      "y": 5
     },
     {
       "id": 6,
-      "nextTileId": 7
+      "nextTileId": 7,
+      "x": 1,
+      "y": 6
     },
     {
       "id": 7,
-      "nextTileId": 8
+      "nextTileId": 8,
+      "x": 1,
+      "y": 7
     },
     {
       "id": 8,
-      "nextTileId": 9
+      "nextTileId": 9,
+      "x": 1,
+      "y": 8
     },
     {
       "id": 9,
       "nextTileId": 10,
+      "x": 1,
+      "y": 9,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 31,
@@ -50,47 +70,69 @@
     },
     {
       "id": 10,
-      "nextTileId": 11
+      "nextTileId": 11,
+      "x": 1,
+      "y": 10
     },
     {
       "id": 11,
-      "nextTileId": 12
+      "nextTileId": 12,
+      "x": 2,
+      "y": 1
     },
     {
       "id": 12,
-      "nextTileId": 13
+      "nextTileId": 13,
+      "x": 2,
+      "y": 2
     },
     {
       "id": 13,
-      "nextTileId": 14
+      "nextTileId": 14,
+      "x": 2,
+      "y": 3
     },
     {
       "id": 14,
-      "nextTileId": 15
+      "nextTileId": 15,
+      "x": 2,
+      "y": 4
     },
     {
       "id": 15,
-      "nextTileId": 16
+      "nextTileId": 16,
+      "x": 2,
+      "y": 5
     },
     {
       "id": 16,
-      "nextTileId": 17
+      "nextTileId": 17,
+      "x": 2,
+      "y": 6
     },
     {
       "id": 17,
-      "nextTileId": 18
+      "nextTileId": 18,
+      "x": 2,
+      "y": 7
     },
     {
       "id": 18,
-      "nextTileId": 19
+      "nextTileId": 19,
+      "x": 2,
+      "y": 8
     },
     {
       "id": 19,
-      "nextTileId": 20
+      "nextTileId": 20,
+      "x": 2,
+      "y": 9
     },
     {
       "id": 20,
       "nextTileId": 21,
+      "x": 2,
+      "y": 10,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 42,
@@ -99,31 +141,45 @@
     },
     {
       "id": 21,
-      "nextTileId": 22
+      "nextTileId": 22,
+      "x": 3,
+      "y": 1
     },
     {
       "id": 22,
-      "nextTileId": 23
+      "nextTileId": 23,
+      "x": 3,
+      "y": 2
     },
     {
       "id": 23,
-      "nextTileId": 24
+      "nextTileId": 24,
+      "x": 3,
+      "y": 3
     },
     {
       "id": 24,
-      "nextTileId": 25
+      "nextTileId": 25,
+      "x": 3,
+      "y": 4
     },
     {
       "id": 25,
-      "nextTileId": 26
+      "nextTileId": 26,
+      "x": 3,
+      "y": 5
     },
     {
       "id": 26,
-      "nextTileId": 27
+      "nextTileId": 27,
+      "x": 3,
+      "y": 6
     },
     {
       "id": 27,
       "nextTileId": 28,
+      "x": 3,
+      "y": 7,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 84,
@@ -132,99 +188,147 @@
     },
     {
       "id": 28,
-      "nextTileId": 29
+      "nextTileId": 29,
+      "x": 3,
+      "y": 8
     },
     {
       "id": 29,
-      "nextTileId": 30
+      "nextTileId": 30,
+      "x": 3,
+      "y": 9
     },
     {
       "id": 30,
-      "nextTileId": 31
+      "nextTileId": 31,
+      "x": 3,
+      "y": 10
     },
     {
       "id": 31,
-      "nextTileId": 32
+      "nextTileId": 32,
+      "x": 4,
+      "y": 1
     },
     {
       "id": 32,
-      "nextTileId": 33
+      "nextTileId": 33,
+      "x": 4,
+      "y": 2
     },
     {
       "id": 33,
-      "nextTileId": 34
+      "nextTileId": 34,
+      "x": 4,
+      "y": 3
     },
     {
       "id": 34,
-      "nextTileId": 35
+      "nextTileId": 35,
+      "x": 4,
+      "y": 4
     },
     {
       "id": 35,
-      "nextTileId": 36
+      "nextTileId": 36,
+      "x": 4,
+      "y": 5
     },
     {
       "id": 36,
-      "nextTileId": 37
+      "nextTileId": 37,
+      "x": 4,
+      "y": 6
     },
     {
       "id": 37,
-      "nextTileId": 38
+      "nextTileId": 38,
+      "x": 4,
+      "y": 7
     },
     {
       "id": 38,
-      "nextTileId": 39
+      "nextTileId": 39,
+      "x": 4,
+      "y": 8
     },
     {
       "id": 39,
-      "nextTileId": 40
+      "nextTileId": 40,
+      "x": 4,
+      "y": 9
     },
     {
       "id": 40,
-      "nextTileId": 41
+      "nextTileId": 41,
+      "x": 4,
+      "y": 10
     },
     {
       "id": 41,
-      "nextTileId": 42
+      "nextTileId": 42,
+      "x": 5,
+      "y": 1
     },
     {
       "id": 42,
-      "nextTileId": 43
+      "nextTileId": 43,
+      "x": 5,
+      "y": 2
     },
     {
       "id": 43,
-      "nextTileId": 44
+      "nextTileId": 44,
+      "x": 5,
+      "y": 3
     },
     {
       "id": 44,
-      "nextTileId": 45
+      "nextTileId": 45,
+      "x": 5,
+      "y": 4
     },
     {
       "id": 45,
-      "nextTileId": 46
+      "nextTileId": 46,
+      "x": 5,
+      "y": 5
     },
     {
       "id": 46,
-      "nextTileId": 47
+      "nextTileId": 47,
+      "x": 5,
+      "y": 6
     },
     {
       "id": 47,
-      "nextTileId": 48
+      "nextTileId": 48,
+      "x": 5,
+      "y": 7
     },
     {
       "id": 48,
-      "nextTileId": 49
+      "nextTileId": 49,
+      "x": 5,
+      "y": 8
     },
     {
       "id": 49,
-      "nextTileId": 50
+      "nextTileId": 50,
+      "x": 5,
+      "y": 9
     },
     {
       "id": 50,
-      "nextTileId": 51
+      "nextTileId": 51,
+      "x": 5,
+      "y": 10
     },
     {
       "id": 51,
       "nextTileId": 52,
+      "x": 6,
+      "y": 1,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 67,
@@ -233,91 +337,135 @@
     },
     {
       "id": 52,
-      "nextTileId": 53
+      "nextTileId": 53,
+      "x": 6,
+      "y": 2
     },
     {
       "id": 53,
-      "nextTileId": 54
+      "nextTileId": 54,
+      "x": 6,
+      "y": 3
     },
     {
       "id": 54,
-      "nextTileId": 55
+      "nextTileId": 55,
+      "x": 6,
+      "y": 4
     },
     {
       "id": 55,
-      "nextTileId": 56
+      "nextTileId": 56,
+      "x": 6,
+      "y": 5
     },
     {
       "id": 56,
-      "nextTileId": 57
+      "nextTileId": 57,
+      "x": 6,
+      "y": 6
     },
     {
       "id": 57,
-      "nextTileId": 58
+      "nextTileId": 58,
+      "x": 6,
+      "y": 7
     },
     {
       "id": 58,
-      "nextTileId": 59
+      "nextTileId": 59,
+      "x": 6,
+      "y": 8
     },
     {
       "id": 59,
-      "nextTileId": 60
+      "nextTileId": 60,
+      "x": 6,
+      "y": 9
     },
     {
       "id": 60,
-      "nextTileId": 61
+      "nextTileId": 61,
+      "x": 6,
+      "y": 10
     },
     {
       "id": 61,
-      "nextTileId": 62
+      "nextTileId": 62,
+      "x": 7,
+      "y": 1
     },
     {
       "id": 62,
-      "nextTileId": 63
+      "nextTileId": 63,
+      "x": 7,
+      "y": 2
     },
     {
       "id": 63,
-      "nextTileId": 64
+      "nextTileId": 64,
+      "x": 7,
+      "y": 3
     },
     {
       "id": 64,
-      "nextTileId": 65
+      "nextTileId": 65,
+      "x": 7,
+      "y": 4
     },
     {
       "id": 65,
-      "nextTileId": 66
+      "nextTileId": 66,
+      "x": 7,
+      "y": 5
     },
     {
       "id": 66,
-      "nextTileId": 67
+      "nextTileId": 67,
+      "x": 7,
+      "y": 6
     },
     {
       "id": 67,
-      "nextTileId": 68
+      "nextTileId": 68,
+      "x": 7,
+      "y": 7
     },
     {
       "id": 68,
-      "nextTileId": 69
+      "nextTileId": 69,
+      "x": 7,
+      "y": 8
     },
     {
       "id": 69,
-      "nextTileId": 70
+      "nextTileId": 70,
+      "x": 7,
+      "y": 9
     },
     {
       "id": 70,
-      "nextTileId": 71
+      "nextTileId": 71,
+      "x": 7,
+      "y": 10
     },
     {
       "id": 71,
-      "nextTileId": 72
+      "nextTileId": 72,
+      "x": 8,
+      "y": 1
     },
     {
       "id": 72,
-      "nextTileId": 73
+      "nextTileId": 73,
+      "x": 8,
+      "y": 2
     },
     {
       "id": 73,
       "nextTileId": 74,
+      "x": 8,
+      "y": 3,
       "action": {
         "type": "LadderAction",
         "destinationTileId": 86,
@@ -326,70 +474,104 @@
     },
     {
       "id": 74,
-      "nextTileId": 75
+      "nextTileId": 75,
+      "x": 8,
+      "y": 4
     },
     {
       "id": 75,
-      "nextTileId": 76
+      "nextTileId": 76,
+      "x": 8,
+      "y": 5
     },
     {
       "id": 76,
-      "nextTileId": 77
+      "nextTileId": 77,
+      "x": 8,
+      "y": 6
     },
     {
       "id": 77,
-      "nextTileId": 78
+      "nextTileId": 78,
+      "x": 8,
+      "y": 7
     },
     {
       "id": 78,
-      "nextTileId": 79
+      "nextTileId": 79,
+      "x": 8,
+      "y": 8
     },
     {
       "id": 79,
-      "nextTileId": 80
+      "nextTileId": 80,
+      "x": 8,
+      "y": 9
     },
     {
       "id": 80,
-      "nextTileId": 81
+      "nextTileId": 81,
+      "x": 8,
+      "y": 10
     },
     {
       "id": 81,
-      "nextTileId": 82
+      "nextTileId": 82,
+      "x": 9,
+      "y": 1
     },
     {
       "id": 82,
-      "nextTileId": 83
+      "nextTileId": 83,
+      "x": 9,
+      "y": 2
     },
     {
       "id": 83,
-      "nextTileId": 84
+      "nextTileId": 84,
+      "x": 9,
+      "y": 3
     },
     {
       "id": 84,
-      "nextTileId": 85
+      "nextTileId": 85,
+      "x": 9,
+      "y": 4
     },
     {
       "id": 85,
-      "nextTileId": 86
+      "nextTileId": 86,
+      "x": 9,
+      "y": 5
     },
     {
       "id": 86,
-      "nextTileId": 87
+      "nextTileId": 87,
+      "x": 9,
+      "y": 6
     },
     {
       "id": 87,
-      "nextTileId": 88
+      "nextTileId": 88,
+      "x": 9,
+      "y": 7
     },
     {
       "id": 88,
-      "nextTileId": 89
+      "nextTileId": 89,
+      "x": 9,
+      "y": 8
     },
     {
       "id": 89,
-      "nextTileId": 90
+      "nextTileId": 90,
+      "x": 9,
+      "y": 9
     },
     {
-      "id": 90
+      "id": 90,
+      "x": 9,
+      "y": 10
     }
   ]
 }
