@@ -136,9 +136,10 @@ public class Board {
     }
   }
 
-  public void addLadder(Tile ladderStart, int destinationTileId) {
+  public void addLadder(int ladderStart, int destinationTileId) {
     LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");
-
+    Tile ladderTile = getTile(ladderStart);
+    ladderTile.setLandAction(ladderAction);
   }
 
   /**
