@@ -6,14 +6,37 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class BoardGameTest {
+  private BoardGameObserver observer = new BoardGameObserver() {
+    @Override
+    public void stateChanged(GameEvent event) {
+      // Observer implementation for testing
+    }
+  };
   @Nested
   @DisplayName("Positive test")
   class PositiveTests {
+    @Test
+    @DisplayName("Should notify observers when a player lands on the tile")
+    void notifyObservers_WhenPlayerLandsOnTile() {
+      Tile tile = new Tile(1, null, 1, 1);
+      Player player = new Player("Chris", null, "Tophat");
+      GameEvent event = new GameEvent("player_landed", "Player Chris landed on tile 1", player);
+
+      tile.addObserver(observer);
+      tile.landPlayer(player);
+
+      assertEquals(1, tile.getObservers().size());
+      assertEquals(player, tile.getPlayersOnTile().get(0));
+      assertEquals("player_landed", event.getEventType());
+    }
+
     @Test
     @DisplayName("Should add and return players in the list")
     void addPlayer_ReturnPlayersInList_ValidInput() {
