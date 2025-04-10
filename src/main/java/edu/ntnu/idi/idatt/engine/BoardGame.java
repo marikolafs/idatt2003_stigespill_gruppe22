@@ -19,9 +19,9 @@ import java.util.List;
  * and move on the board. The game concludes when the first player reaches the last tile (goal), at
  * which point a winner is decided.
  *
- * @version 2.0
+ * @version 1.3
  */
-public class BoardGame extends Observable {
+public class BoardGame {
 
   private static BoardGame instance;
   private static String name;
@@ -44,8 +44,8 @@ public class BoardGame extends Observable {
   }
 
   private static Board board;
-  private static Player currentPlayer;
-  private static Dice dice;
+  private Player currentPlayer;
+  private Dice dice;
   private static List<Player> players;
   private final List<BoardGameObserver> observers;
 
@@ -53,11 +53,10 @@ public class BoardGame extends Observable {
    * The constructor initializes the board and players list.
    */
   public BoardGame(String name, String description) {
-    BoardGame.name = name;
-    BoardGame.description = description;
-    board = new Board();
-    players = new ArrayList<>();
-    this.observers = new ArrayList<>();
+    this.name = name;
+    this.description = description;
+    this.board = new Board();
+    this.players = new ArrayList<>();
   }
 
   /**
@@ -66,7 +65,7 @@ public class BoardGame extends Observable {
    * @param name the name
    */
   public void setName(String name) {
-    BoardGame.name = name;
+    this.name = name;
   }
 
   /**
@@ -109,7 +108,7 @@ public class BoardGame extends Observable {
    *
    * @return the board object
    */
-  public static Board getBoard() {
+  public Board getBoard() {
     return board;
   }
 
@@ -148,7 +147,7 @@ public class BoardGame extends Observable {
    * @param player the player to be added
    * @throws IllegalArgumentException if player is null
    */
-  public void addPlayer(Player player) {
+  public static void addPlayer(Player player) {
     if (player == null) {
       throw new IllegalArgumentException("Player cannot be null");
     }
@@ -164,7 +163,8 @@ public class BoardGame extends Observable {
   }
 
   /**
-   * Creates a new board with the specified number of rows and columns.
+   * Creates a new board with the specified number of rows and columns, and adds tiles in a
+   * serpentine pattern.
    *
    * @param rows and columns the number of rows and columns the board should contain.
    * @return null
@@ -196,7 +196,6 @@ public class BoardGame extends Observable {
         }
       }
     }
-
     Tile startingTile = board.getTile(1);
     board.setStartingTile(startingTile);
     Tile goalTile = board.getTile(rows * columns);
@@ -310,7 +309,7 @@ public class BoardGame extends Observable {
    *
    * @return the player who has reached the goal tile first
    */
-  public static Player getWinner() {
+  public Player getWinner() {
     Player winner = null;
     for (Player player : players) {
       currentPlayer = player;
