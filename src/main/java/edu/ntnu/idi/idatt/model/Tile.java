@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.model.actions.TileAction;
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.Observable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
  *
  * @version 1.0
  */
-public class Tile {
+public class Tile extends Observable {
 
   private Tile nextTile;
   private int tileId;
@@ -66,9 +68,9 @@ public class Tile {
   }
 
   /**
-   * Mutator method for landAction
+   * Mutator method for landAction.
    *
-   * @param landAction
+   * @param landAction the landaction to be set
    */
   public void setLandAction(TileAction landAction) {
     this.landAction = landAction;
@@ -94,7 +96,7 @@ public class Tile {
   }
 
   /**
-   * Accessor method for x
+   * Accessor method for x.
    *
    * @return the tiles x coordinate
    */
@@ -104,7 +106,7 @@ public class Tile {
   }
 
   /**
-   * Accessor method for y
+   * Accessor method for y.
    *
    * @return the tiles y coordinate
    */
@@ -113,7 +115,7 @@ public class Tile {
   }
 
   /**
-   * mutator method for x
+   * mutator method for x.
    *
    * @param x the new x coordinate
    */
@@ -122,7 +124,7 @@ public class Tile {
   }
 
   /**
-   * mutator method for y
+   * mutator method for y.
    *
    * @param y the new y coordinate
    */
@@ -146,8 +148,15 @@ public class Tile {
       playersOnTile.add(player);
     }
 
+    notifyObservers(new GameEvent("player_moved",
+        player.getName() + " landed on tile " + tileId, player));
+
+
     if (landAction != null) {
       landAction.perform(player);
+
+      notifyObservers(new GameEvent("tile_action",
+          player.getName() + " triggered an action on tile " + tileId, player));
     }
 
   }
@@ -163,5 +172,8 @@ public class Tile {
       throw new IllegalArgumentException("Player cannot be null");
     }
     playersOnTile.remove(player);
+
+    notifyObservers(new GameEvent("player_left",
+        player.getName() + " left tile " + tileId, player));
   }
 }

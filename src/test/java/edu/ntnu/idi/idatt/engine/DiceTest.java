@@ -5,17 +5,42 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.Observable;
 
 class DiceTest {
   private Dice dice;
+  private BoardGameObserver observer;
 
   @BeforeEach
   void setUp() {
+    observer = new BoardGameObserver() {
+      @Override
+      public void stateChanged(GameEvent event) {
+
+      }
+    };
     dice = new Dice(2);
   }
   @Nested
   @DisplayName("Positive tests for Dice")
   class PositiveTest {
+
+     @Test
+    @DisplayName("Should notify observers when dice are rolled and return the rolled value")
+    void testNotifyObservers() {
+        GameEvent event = new GameEvent("dice_rolled", "Dice rolled: 7", null);
+        dice.addObserver(observer);
+        dice.roll();
+
+        assertEquals(1,dice.getObservers().size() , "There should be one observer");
+        assertEquals("dice_rolled",event.getEventType(), "The event type should be 'dice_rolled'");
+        assertEquals( "Dice rolled: 7",event.getEventDetails(), "The event message should be 'Dice rolled: 7'");
+    }
+
+
+
     @Test
     @DisplayName("Should roll dice and return sum of rolled values")
     void testRoll() {

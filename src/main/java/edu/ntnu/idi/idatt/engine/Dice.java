@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.engine;
 
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.Observable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +11,8 @@ import java.util.List;
  *
  * @version 1.1
  */
-public class Dice {
-  private List<Die> dice;
+public class Dice extends Observable {
+  private final List<Die> dice;
 
   /**
    * The constructor constructs a new die objects based on numberOfDice and adds them to the list.
@@ -48,6 +50,7 @@ public class Dice {
       roll = die.roll();
       rollDice += roll;
     }
+    notifyObservers(new GameEvent("dice_rolled", "Dice rolled: " + rollDice, null));
     return rollDice;
   }
 
