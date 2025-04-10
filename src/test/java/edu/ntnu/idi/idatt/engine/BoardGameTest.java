@@ -24,8 +24,8 @@ public class BoardGameTest {
       Player player1 = new Player("Chris", game, "Tophat");
       Player player2 = new Player("Maria", game, "Dog");
 
-      BoardGame.addPlayer(player2);
-      BoardGame.addPlayer(player1);
+      game.addPlayer(player2);
+      game.addPlayer(player1);
 
       assertEquals(2, game.getPlayers().size());
     }
@@ -80,8 +80,8 @@ public class BoardGameTest {
       Player player1 = new Player("Chris", game, "Tophat");
       Player player2 = new Player("Maria", game, "Dog");
 
-      BoardGame.addPlayer(player1);
-      BoardGame.addPlayer(player2);
+      game.addPlayer(player1);
+      game.addPlayer(player2);
 
       game.play();
 
@@ -126,7 +126,7 @@ public class BoardGameTest {
     void addPlayer_ThrowException_NullPlayer() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
 
-      assertThrows(IllegalArgumentException.class, () -> BoardGame.addPlayer(null));
+      assertThrows(IllegalArgumentException.class, () -> game.addPlayer(null));
     }
 
     @Test
