@@ -1,19 +1,19 @@
 package edu.ntnu.idi.idatt.engine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class BoardGameTest {
+
   @Nested
   @DisplayName("Positive test")
   class PositiveTests {
+
     @Test
     @DisplayName("Should add and return players in the list")
     void addPlayer_ReturnPlayersInList_ValidInput() {
@@ -87,7 +87,8 @@ public class BoardGameTest {
 
       Player winner = game.getWinner();
 
-      assertEquals(game.getBoard().getGoalTile().getTileId(), winner.getCurrentTile().getTileId(), "Winner should be at the goal tile");
+      assertEquals(game.getBoard().getGoalTile().getTileId(), winner.getCurrentTile().getTileId(),
+          "Winner should be at the goal tile");
     }
 
     @Test
@@ -113,7 +114,8 @@ public class BoardGameTest {
       // Verify it's the same instance (singleton pattern)
       assertEquals(game1, game2, "Should return the same instance");
       // First created instance values should be maintained
-      assertEquals("default name", game1.getName(), "Should keep the default name from first instantiation");
+      assertEquals("default name", game1.getName(),
+          "Should keep the default name from first instantiation");
     }
   }
 
