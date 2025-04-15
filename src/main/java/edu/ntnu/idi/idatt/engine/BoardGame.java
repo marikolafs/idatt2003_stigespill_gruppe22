@@ -32,8 +32,8 @@ public class BoardGame extends Observable {
   }
 
   private static Board board;
-  private Player currentPlayer;
-  private Dice dice;
+  private static Player currentPlayer;
+  private static Dice dice;
   private static List<Player> players;
   private List<BoardGameObserver> observers;
 
@@ -160,13 +160,59 @@ public class BoardGame extends Observable {
     board.setColumns(columns);
 
     int tileId = 1;
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < columns; c++) {
-        Tile tile = new Tile(tileId, null, r, c);
-        board.addTile(tile);
-        tileId++;
+
+    /*
+    for (int c = columns - 1; c >=0; c--) {
+      boolean leftToRight = (columns - 1 - c) % 2 == 0;
+
+      if (leftToRight) {
+        for (int r = 0; r < rows; r++) {
+          Tile tile = new Tile(tileId++, null, c, r);
+          board.addTile(tile);
+        }
+      } else {
+        for (int r = rows - 1; r >= 0; r--) {
+          Tile tile = new Tile(tileId++, null, c, r);
+          board.addTile(tile);
+        }
       }
     }
+     */
+
+    /*
+    for (int r = rows - 1; r >= 0; r--) {
+      boolean leftToRight = (rows - 1 - r) % 2 == 0;
+
+      if (leftToRight) {
+        for (int c = 0; c < columns; c++) {
+          Tile tile = new Tile(tileId++, null, r, c);
+          board.addTile(tile);
+        }
+      } else {
+        for (int c = columns - 1; c >= 0; c--) {
+          Tile tile = new Tile(tileId++, null, r, c);
+          board.addTile(tile);
+        }
+      }
+    }
+     */
+
+    for (int r = rows - 1; r >= 0; r--) {
+      boolean leftToRight = (rows - 1 - r) % 2 == 0;
+
+      if (leftToRight) {
+        for (int c = 0; c < columns; c++) {
+          Tile tile = new Tile(tileId++, null, c, r);
+          board.addTile(tile);
+        }
+      } else {
+        for (int c = columns - 1; c >= 0; c--) {
+          Tile tile = new Tile(tileId++, null, c, r);
+          board.addTile(tile);
+        }
+      }
+    }
+
     Tile startingTile = board.getTile(1);
     board.setStartingTile(startingTile);
     Tile goalTile = board.getTile(rows * columns);
@@ -197,7 +243,7 @@ public class BoardGame extends Observable {
    * allowing each player to roll the dice and move on the board. The game concludes when the first
    * player reaches the last tile (goal), at which point a winner is decided.
    */
-  public void play() {
+  public static void play() {
     boolean gameWon = false;
     while (!gameWon) {
       for (Player player : players) {
@@ -205,9 +251,11 @@ public class BoardGame extends Observable {
             ("game_started", "The game has started!", null));
 
         currentPlayer = player;
+        System.out.println("Player " + player.getName() + " is on tile " + player.getCurrentTile().getTileId());
         Tile currentTile = player.getCurrentTile();
 
         int steps = dice.roll();
+        System.out.println("Steps: " + steps);
         player.move(steps);
 
         currentTile.leavePlayer(player);
@@ -228,6 +276,7 @@ public class BoardGame extends Observable {
         }
 
         if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
+          System.out.println("Player " + player.getName() + " has won");
           gameWon = true;
 
           notifyObservers(new GameEvent
@@ -245,7 +294,7 @@ public class BoardGame extends Observable {
    *
    * @return the player who has reached the goal tile first
    */
-  public Player getWinner() {
+  public static Player getWinner() {
     Player winner = null;
     for (Player player : players) {
       currentPlayer = player;

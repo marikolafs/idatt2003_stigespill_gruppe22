@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public abstract class Observable {
-    private final List<BoardGameObserver> observers;
+    private static List<BoardGameObserver> observers;
 
     protected Observable() {
         this.observers = new ArrayList<>();
@@ -43,7 +43,7 @@ public abstract class Observable {
      *
      * @param event the event to be passed to the observers
      */
-    public void notifyObservers(GameEvent event) {
+    public static void notifyObservers(GameEvent event) {
         for (BoardGameObserver observer : observers) {
         observer.stateChanged(event);
         }

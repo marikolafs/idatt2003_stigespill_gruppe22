@@ -21,7 +21,7 @@ public class PlayerFiles {
    * Constructor initializing the player list.
    */
   public PlayerFiles() {
-    players = BoardGame.getInstance("default name", "default description").getPlayers();
+    players = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription()).getPlayers();
   }
 
   /**
