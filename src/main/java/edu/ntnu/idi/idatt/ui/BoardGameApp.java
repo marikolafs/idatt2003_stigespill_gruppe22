@@ -38,6 +38,12 @@ public class BoardGameApp extends Application {
   public void start(Stage stage) throws Exception {
     BoardGameFactory boardGameFactory = new BoardGameFactory();
     boardGameFactory.createLadderGame90();
+
+    game.addPlayer(new Player("player1", game, "piece1"));
+    game.addPlayer(new Player("player2", game, "piece2"));
+
+    game.getPlayers().getFirst().move(2);
+
     LadderGameView ladderGameView = new LadderGameView(stage);
     stage.setFullScreen(true);
     stage.show();
