@@ -150,7 +150,7 @@ public class BoardGame extends Observable {
    * @return null
    * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
-  public Board createBoard(int rows, int columns) {
+  public Board createBoard(int columns, int rows) {
 
     if (rows <= 0 || columns <= 0) {
       throw new IllegalArgumentException("Number of rows and columns must be greater than 0");
@@ -160,42 +160,6 @@ public class BoardGame extends Observable {
     board.setColumns(columns);
 
     int tileId = 1;
-
-    /*
-    for (int c = columns - 1; c >=0; c--) {
-      boolean leftToRight = (columns - 1 - c) % 2 == 0;
-
-      if (leftToRight) {
-        for (int r = 0; r < rows; r++) {
-          Tile tile = new Tile(tileId++, null, c, r);
-          board.addTile(tile);
-        }
-      } else {
-        for (int r = rows - 1; r >= 0; r--) {
-          Tile tile = new Tile(tileId++, null, c, r);
-          board.addTile(tile);
-        }
-      }
-    }
-     */
-
-    /*
-    for (int r = rows - 1; r >= 0; r--) {
-      boolean leftToRight = (rows - 1 - r) % 2 == 0;
-
-      if (leftToRight) {
-        for (int c = 0; c < columns; c++) {
-          Tile tile = new Tile(tileId++, null, r, c);
-          board.addTile(tile);
-        }
-      } else {
-        for (int c = columns - 1; c >= 0; c--) {
-          Tile tile = new Tile(tileId++, null, r, c);
-          board.addTile(tile);
-        }
-      }
-    }
-     */
 
     for (int r = rows - 1; r >= 0; r--) {
       boolean leftToRight = (rows - 1 - r) % 2 == 0;
