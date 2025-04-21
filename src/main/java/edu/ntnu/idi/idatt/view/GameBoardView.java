@@ -1,63 +1,87 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
+/**
+ * The GameBoardView class is responsible for rendering the game board and the players on it.
+ * It creates a grid pane to represent the board and adds tiles and player pieces.
+ */
 public class GameBoardView extends StackPane {
-  private static final double TILE_SIZE= 50;
-  private final Canvas canvas;
+  private static final double TILE_SIZE = 50;
+  private final GridPane gridPane;
+  private final Board board;
+  private final List<Player> players;
 
+  public GameBoardView(int rows, int cols, Board board, List<Player> players) throws FileNotFoundException {
+    this.board = board;
+    this.players = players;
+    this.gridPane = new GridPane();
+    this.gridPane.setAlignment(Pos.CENTER);
 
-  /**
-   * Creates a canvas with the specified number of rows and columns.The canvas size is determined
-   * by multiplying the number of rows and columns by the tile size.
-   * @param rows the rows of the game board
-   * @param cols the columns of the game board
-   */
-  public GameBoardView(int rows, int cols) {
-    this.canvas = new Canvas(cols * TILE_SIZE, rows * TILE_SIZE);
-    this.getChildren().add(canvas);
+    addTilesToGrid();
+    addPlayersToGrid();
 
+    this.getChildren().add(gridPane);
   }
 
-    /**
-     * Draws the game board on the canvas with the specified tile ids.
-     *
-     * @param board the game board to be drawn
-     */
-  public void drawBoard(Board board) {
-    GraphicsContext gc = canvas.getGraphicsContext2D();
-    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+  /**
+   * Adds tiles to the grid pane.
+   * Each tile is represented by a rectangle with a label showing its ID.
+   */
+  private void addTilesToGrid() {
     Map<Integer, Tile> tiles = board.getTiles();
-    int rows = board.getRows();
-    int cols = board.getColumns();
 
     for (Tile tile : tiles.values()) {
-      int tileId = tile.getTileId();
-      int r = tile.getY();
-      int c = tile.getX();
+      StackPane tilePane = new StackPane();
+      Label label = new Label("Tile: " + tile.getTileId());
+      Rectangle rectangle = new Rectangle(TILE_SIZE, TILE_SIZE);
 
-      // converts the tile coordinates to canvas coordinates
-      double x = ((double) c / (double) cols) * canvas.getWidth();
-      double y = canvas.getHeight() - (((double) r / (double) rows) * canvas.getHeight());
+      // Set tile color
+      if (tile.getTileId() % 2 == 0) {
+        rectangle.setFill(Color.BEIGE);
+      } else {
+        rectangle.setFill(Color.OLIVE);
+      }
 
-      // draws the tile
-      gc.setFill(tileId % 2 == 0 ? Color.BEIGE : Color.OLIVE);
-      gc.fillRect(x, y - TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      tilePane.getChildren().addAll(rectangle, label);
+      gridPane.add(tilePane, tile.getX(), tile.getY());
+    }
+  }
 
-      // draws the border of the tile
-      gc.setStroke(Color.BLACK);
-      gc.strokeRect(x, y - TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  /**
+   * Adds players to the grid pane.
+   * @throws FileNotFoundException if the image file cannot be found.
+   */
+  private void addPlayersToGrid() throws FileNotFoundException {
+    for (Player player : players) {
+      StackPane playerPane = new StackPane();
 
-      // adds tileId text to the tile
-      gc.setFill(Color.BLACK);
-      gc.fillText(String.valueOf(tileId), x + TILE_SIZE / 4, y - TILE_SIZE / 2);
+      // Load player image
+      FileInputStream inputstream = new FileInputStream("src/main/resources/images/pieces/kitty.png");
+      Image image = new Image(inputstream);
+      ImageView imageView = new ImageView(image);
+      imageView.setFitHeight(40);
+      imageView.setFitWidth(40);
+
+      Label label = new Label(player.getPiece());
+      label.setStyle("-fx-font-size: 5;");
+
+      playerPane.getChildren().addAll(imageView, label);
+      gridPane.add(playerPane, player.getCurrentTile().getX(), player.getCurrentTile().getY());
     }
   }
 }
