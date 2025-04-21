@@ -26,7 +26,7 @@ public class GameBoardView extends StackPane {
   private final Board board;
   private final List<Player> players;
 
-  public GameBoardView(int rows, int cols, Board board, List<Player> players) throws FileNotFoundException {
+  public GameBoardView(Board board, List<Player> players) throws FileNotFoundException {
     this.board = board;
     this.players = players;
     this.gridPane = new GridPane();

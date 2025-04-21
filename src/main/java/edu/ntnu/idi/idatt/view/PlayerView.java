@@ -24,7 +24,7 @@ public class PlayerView extends HBox {
    * Adds a button to roll the dice, an image of the current players piece and
    * a text field for the player name, tile name, and dice roll value.
    *
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException if an image file cannot be found.
    */
   public PlayerView() throws FileNotFoundException {
     this.setSpacing(50);
