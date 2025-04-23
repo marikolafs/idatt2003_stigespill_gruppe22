@@ -61,8 +61,7 @@ public class PlayerView extends HBox {
    * @param diceRollValue the dice roll value
    */
   public void setDiceRollValue(int diceRollValue) {
-    Text diceText = new Text(String.valueOf(diceRollValue));
-    this.diceRollValue = diceText;
+    this.diceRollValue.setText("Dice roll " + diceRollValue);
   }
 
   /**
@@ -70,8 +69,7 @@ public class PlayerView extends HBox {
    * @param playerName the player name
    */
   public void setPlayerName(String playerName) {
-    Text playerText = new Text(playerName);
-    this.playerName = playerText;
+    this.playerName.setText(playerName);
   }
 
   /**
@@ -79,7 +77,6 @@ public class PlayerView extends HBox {
    * @param tileName the tile id
    */
   public void setTileName(int tileName) {
-    Text tileText = new Text(String.valueOf(tileName));
-    this.tileName = tileText;
+    this.tileName.setText(String.valueOf(tileName));
   }
 }

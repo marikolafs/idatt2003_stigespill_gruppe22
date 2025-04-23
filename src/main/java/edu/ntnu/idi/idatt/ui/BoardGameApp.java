@@ -2,11 +2,14 @@ package edu.ntnu.idi.idatt.ui;
 
 import edu.ntnu.idi.idatt.BoardGameFactory;
 import edu.ntnu.idi.idatt.PlayerFiles;
+import edu.ntnu.idi.idatt.controller.PlayerController;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.view.LadderGameView;
+import edu.ntnu.idi.idatt.view.PlayerView;
+import edu.ntnu.idi.idatt.view.View;
 import java.io.File;
 import java.util.List;
 import javafx.application.Application;
@@ -44,8 +47,13 @@ public class BoardGameApp extends Application {
 
     game.getPlayers().getFirst().move(2);
 
-    LadderGameView ladderGameView = new LadderGameView(stage);
-    stage.setFullScreen(true);
+    View view = new View(stage);
+    PlayerView playerView = view.getPlayerView();
+    PlayerController playerController = new PlayerController(game.getDice(), playerView);
+
+//    LadderGameView ladderGameView = new LadderGameView(stage);
+
+//    stage.setFullScreen(true);
     stage.show();
   }
 
