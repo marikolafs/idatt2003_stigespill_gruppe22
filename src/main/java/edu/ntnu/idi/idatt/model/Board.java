@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.util.HashMap;
@@ -158,6 +159,12 @@ public class Board {
     ReturnAction returnAction = new ReturnAction("Return action");
     Tile returnTile = getTile(returnTileId);
     returnTile.setLandAction(returnAction);
+  }
+
+  public void addHold(int holdTileId) {
+    HoldAction holdAction = new HoldAction("Hold action");
+    Tile holdTile = getTile(holdTileId);
+    holdTile.setLandAction(holdAction);
   }
 
   /**
