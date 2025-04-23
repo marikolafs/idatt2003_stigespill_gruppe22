@@ -200,6 +200,11 @@ public class BoardGame {
     boolean gameWon = false;
     while (!gameWon) {
       for (Player player : players) {
+        if (player.shouldHold()) {
+          System.out.println(player.getName() + " holds ");
+          player.setHoldAction(false);
+          continue;
+        }
         currentPlayer = player;
         Tile currentTile = player.getCurrentTile();
 
