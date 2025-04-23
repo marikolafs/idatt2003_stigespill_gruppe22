@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt;
 
 
+import edu.ntnu.idi.idatt.io.PlayerFiles;
 import edu.ntnu.idi.idatt.model.Board;
 import java.io.File;
 import java.util.List;
