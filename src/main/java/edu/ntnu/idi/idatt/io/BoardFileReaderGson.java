@@ -55,11 +55,11 @@ public class BoardFileReaderGson implements BoardFileReader {
       JsonObject boardJson = JsonParser.parseReader(reader).getAsJsonObject();
 
       // Extract board properties
-      String name = boardJson.has("name")
-          ? boardJson.get("name").getAsString() : "default name";
+      String name = boardJson.has("name") ?
+          boardJson.get("name").getAsString() : "default name";
 
-      String description = boardJson.has("description")
-          ? boardJson.get("description").getAsString() : "default description";
+      String description = boardJson.has("description") ?
+          boardJson.get("description").getAsString() : "default description";
 
       logger.info("Creating a new BoardGame: {} {}", name, description);
 
@@ -68,7 +68,7 @@ public class BoardFileReaderGson implements BoardFileReader {
       game.setName(name);
       game.setDescription(description);
 
-      Board board = BoardGame.getBoard();
+      Board board = game.getBoard();
       board.setRows(boardJson.get("rows").getAsInt());
       board.setColumns(boardJson.get("columns").getAsInt());
 
@@ -163,7 +163,8 @@ public class BoardFileReaderGson implements BoardFileReader {
 
       return board;
     } catch (Exception e) {
-      throw new JsonParsingException("Error while parsing JSON-fil: " + e.getMessage(), e);
+      logger.error("Error while reading board file", e.getMessage(), e);
+      throw new JsonParsingException("Feil ved parsing av JSON-fil: " + e.getMessage(), e);
     }
   }
 }
