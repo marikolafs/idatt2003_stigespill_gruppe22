@@ -1,14 +1,8 @@
 package edu.ntnu.idi.idatt.engine;
 
-
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
-import edu.ntnu.idi.idatt.observer.BoardGameObserver;
-import edu.ntnu.idi.idatt.observer.GameEvent;
-import edu.ntnu.idi.idatt.observer.Observable;
-import edu.ntnu.idi.idatt.observer.events.Event;
-import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +20,7 @@ public class BoardGame {
   private static BoardGame instance;
   private static String name;
   private static String description;
-  private static boolean rollButtonPressed;
 
-  /**
-   * The getInstance method is a singleton pattern implementation. It ensures that only one
-   * instance of the BoardGame class is created.
-   *
-   * @param name the name of the game
-   * @param description the description of the game
-   * @return the single instance of BoardGame
-   */
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
       instance = new BoardGame("default name", "default description");
@@ -47,7 +32,6 @@ public class BoardGame {
   private Player currentPlayer;
   private Dice dice;
   private static List<Player> players;
-  private final List<BoardGameObserver> observers;
 
   /**
    * The constructor initializes the board and players list.
@@ -74,15 +58,7 @@ public class BoardGame {
    * @param description the description
    */
   public void setDescription(String description) {
-    BoardGame.description = description;
-  }
-
-  public static void setCurrentPlayer(Player player) {
-    currentPlayer = player;
-  }
-
-  public static void setPlayerView(PlayerView playerView) {
-    playerView = playerView;
+    this.description = description;
   }
 
   /**
@@ -119,7 +95,6 @@ public class BoardGame {
    */
   public Player getCurrentPlayer() {
     return currentPlayer;
-
   }
 
   /**
@@ -157,8 +132,6 @@ public class BoardGame {
       Tile startingTile = board.getStartingTile();
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
-      notifyObservers(new GameEvent(Event.PLAYER_ADDED,
-          player.getName() + " joined the game", player));
     }
   }
 
@@ -170,7 +143,7 @@ public class BoardGame {
    * @return null
    * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
-  public Board createBoard(int columns, int rows) {
+  public Board createBoard(int rows, int columns) {
 
     if (rows <= 0 || columns <= 0) {
       throw new IllegalArgumentException("Number of rows and columns must be greater than 0");
@@ -186,22 +159,22 @@ public class BoardGame {
 
       if (leftToRight) {
         for (int c = 0; c < columns; c++) {
-          Tile tile = new Tile(tileId++, null, c, r);
+          Tile tile = new Tile(tileId++, null, r, c);
           board.addTile(tile);
         }
       } else {
         for (int c = columns - 1; c >= 0; c--) {
-          Tile tile = new Tile(tileId++, null, c, r);
+          Tile tile = new Tile(tileId++, null, r, c);
           board.addTile(tile);
         }
       }
     }
+
     Tile startingTile = board.getTile(1);
     board.setStartingTile(startingTile);
     Tile goalTile = board.getTile(rows * columns);
     board.setGoalTile(goalTile);
 
-    notifyObservers(new GameEvent(Event.BOARD_CREATED, "The game board has been created.", null));
     return null;
   }
 
@@ -215,21 +188,7 @@ public class BoardGame {
     if (numberOfDice <= 0) {
       throw new IllegalArgumentException("Number of dice must be greater than 0");
     }
-    dice = new Dice(numberOfDice);
-    notifyObservers(new GameEvent(Event.DICE_CREATED,
-        "The game dice have been created.", null));
-  }
-
-  private static int currentPlayerIndex = 0;
-  private static boolean gameWon = false;
-
-  /**
-   * Accessor method for gameWon.
-   *
-   * @return gameWon
-   */
-  public static boolean setGameWon(boolean value) {
-    return gameWon;
+    this.dice = new Dice(numberOfDice);
   }
 
   /**
@@ -237,71 +196,35 @@ public class BoardGame {
    * allowing each player to roll the dice and move on the board. The game concludes when the first
    * player reaches the last tile (goal), at which point a winner is decided.
    */
-  public static void play() {
+  public void play() {
+    boolean gameWon = false;
+    while (!gameWon) {
+      for (Player player : players) {
+        if (player.shouldHold()) {
+          System.out.println(player.getName() + " holds ");
+          player.setHoldAction(false);
+          continue;
+        }
+        currentPlayer = player;
+        Tile currentTile = player.getCurrentTile();
 
-    if (gameWon) {
-      return;
+        int steps = dice.roll();
+        player.move(steps);
+
+        currentTile.leavePlayer(player);
+
+        Tile newTile = player.getCurrentTile();
+        newTile.landPlayer(player);
+        currentPlayer.placeOnTile(newTile);
+
+        if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
+          gameWon = true;
+          break;
+        }
+      }
     }
-
-    Player player = players.get(currentPlayerIndex);
-    setCurrentPlayer(player);
-
-
-    notifyObservers(
-        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
-  /**
-   * The rollDice method is responsible for rolling the dice and moving the player on the board.
-   * It updates the players position, triggers any actions associated with the new tile
-   * and checks for a winner.
-   *
-   * @param player the player who is rolling the dice
-   */
-  public static void rollDice(Player player) {
-
-    int diceValue = dice.roll();
-
-    Tile currentTile = player.getCurrentTile();
-    currentTile.leavePlayer(player);
-
-    player.move(diceValue);
-    Tile newTile = player.getCurrentTile();
-    newTile.landPlayer(player);
-
-    player.placeOnTile(newTile);
-
-    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
-        player.getName() + " moved to tile " + newTile.getTileId(), player));
-
-    if (newTile.getLandAction() != null) {
-      newTile.getLandAction().perform(player);
-      notifyObservers(new GameEvent(Event.TILE_ACTION,
-          player.getName() + " triggered an action on tile "
-              + newTile.getTileId(), player));
-    }
-
-    if (newTile.getTileId() >= getBoard().getGoalTile().getTileId()) {
-      notifyObservers(new GameEvent(Event.PLAYER_WIN,
-          player.getName() + " wins the game!", player));
-      notifyObservers(new GameEvent(Event.GAME_END,
-          "The game has ended.", null));
-      gameWon = true;
-      System.out.println(getWinner().getName() + " won the game!");
-      return;
-    }
-
-    nextTurn();
-  }
-
-  /**
-   * The nextTurn method is responsible for moving to the next player's turn. It updates the
-   * currentPlayerIndex and calls the play method to start the next player's turn.
-   */
-  public static void nextTurn() {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    play();
-  }
 
   /**
    * The getWinner method is responsible for determining the winner of the game. It iterates over
@@ -319,5 +242,9 @@ public class BoardGame {
       }
     }
     return winner;
+  }
+
+  public static void main(String[] args) {
+    System.out.println("hello world!");
   }
 }

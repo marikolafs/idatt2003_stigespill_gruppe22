@@ -14,6 +14,7 @@ public class Player {
   final String name;
   private Tile currentTile;
   private String piece;
+  private boolean holdAction = false;
 
   /**
    * Constructs a new Player with the specified name and places the player on the
@@ -53,6 +54,14 @@ public class Player {
    */
   public String getPiece() {
     return piece;
+  }
+
+  public boolean shouldHold() {
+    return holdAction;
+  }
+
+  public void setHoldAction(boolean holdAction) {
+    this.holdAction = holdAction;
   }
 
   /**
