@@ -1,10 +1,12 @@
 package edu.ntnu.idi.idatt.engine;
 
+
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.observer.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 import edu.ntnu.idi.idatt.observer.Observable;
@@ -139,7 +141,7 @@ public class BoardGame extends Observable {
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
       notifyObservers(new GameEvent
-          ("player_joined", player.getName() + " joined the game", player));
+          (Event.PLAYER_ADDED, player.getName() + " joined the game", player));
     }
   }
 
@@ -183,7 +185,7 @@ public class BoardGame extends Observable {
     board.setGoalTile(goalTile);
 
     notifyObservers(new GameEvent
-        ("board_created", "The game board has been created.", null));
+        (Event.BOARD_CREATED, "The game board has been created.", null));
     return null;
   }
 
@@ -199,7 +201,7 @@ public class BoardGame extends Observable {
     }
     this.dice = new Dice(numberOfDice);
     notifyObservers(new GameEvent
-        ("dice_created", "The game dice have been created.", null));
+        (Event.DICE_CREATED, "The game dice have been created.", null));
   }
 
   /**
@@ -212,9 +214,10 @@ public class BoardGame extends Observable {
     while (!gameWon) {
       for (Player player : players) {
         notifyObservers(new GameEvent
-            ("game_started", "The game has started!", null));
+            (Event.GAME_START, "The game has started!", null));
 
         currentPlayer = player;
+        notifyObservers(new GameEvent(Event.PLAYER_CHANGE,"Player changed to " + player.getName(), player));
         System.out.println("Player " + player.getName() + " is on tile " + player.getCurrentTile().getTileId());
         Tile currentTile = player.getCurrentTile();
 
@@ -229,13 +232,13 @@ public class BoardGame extends Observable {
         currentPlayer.placeOnTile(newTile);
 
 
-        notifyObservers(new GameEvent("player_moved", player.getName()
+        notifyObservers(new GameEvent(Event.PLAYER_MOVED, player.getName()
             + " moved to tile " + newTile.getTileId(), player));
 
         if (newTile.getLandAction() != null) {
           newTile.getLandAction().perform(player);
           notifyObservers(new GameEvent
-              ("tile_action", player.getName() + " triggered an action on tile "
+              (Event.TILE_ACTION, player.getName() + " triggered an action on tile "
                   + newTile.getTileId(), player));
         }
 
@@ -244,8 +247,11 @@ public class BoardGame extends Observable {
           gameWon = true;
 
           notifyObservers(new GameEvent
-              ("winner_declared", player.getName() + " wins the game!", player));
+              (Event.PLAYER_WIN, player.getName() + " wins the game!", player));
+          notifyObservers
+              (new GameEvent(Event.GAME_END, "The game has ended.", null));
           break;
+
         }
       }
     }

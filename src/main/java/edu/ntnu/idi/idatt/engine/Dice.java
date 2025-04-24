@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.engine;
 
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.observer.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class Dice extends Observable {
       roll = die.roll();
       rollDice += roll;
     }
-    notifyObservers(new GameEvent("dice_rolled", "Dice rolled: " + rollDice, null));
+    notifyObservers(new GameEvent(Event.ROLL_DICE, "Dice rolled: " + rollDice, null));
     return rollDice;
   }
 
