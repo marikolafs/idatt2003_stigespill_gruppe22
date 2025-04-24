@@ -217,6 +217,7 @@ public class BoardGame extends Observable {
             (Event.GAME_START, "The game has started!", null));
 
         currentPlayer = player;
+        notifyObservers(new GameEvent(Event.PLAYER_CHANGE,"Player changed to " + player.getName(), player));
         System.out.println("Player " + player.getName() + " is on tile " + player.getCurrentTile().getTileId());
         Tile currentTile = player.getCurrentTile();
 
@@ -247,7 +248,10 @@ public class BoardGame extends Observable {
 
           notifyObservers(new GameEvent
               (Event.PLAYER_WIN, player.getName() + " wins the game!", player));
+          notifyObservers
+              (new GameEvent(Event.GAME_END, "The game has ended.", null));
           break;
+
         }
       }
     }
