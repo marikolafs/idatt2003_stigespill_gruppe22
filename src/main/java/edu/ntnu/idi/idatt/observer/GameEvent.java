@@ -7,7 +7,7 @@ import edu.ntnu.idi.idatt.observer.events.Event;
  * This class is used to encapsulate the details of the event and the player associated with it.
  */
 public class GameEvent {
-  private final String eventType;
+  private final Event eventType;
   private final String eventDetails;
   private final Player player;
 
@@ -19,7 +19,7 @@ public class GameEvent {
    * @param player the player associated with the event
    */
   public GameEvent(Event eventType, String eventDetails, Player player) {
-    this.eventType = eventType.toString();
+    this.eventType = eventType;
     this.eventDetails = eventDetails;
     this.player = player;
   }
@@ -38,7 +38,7 @@ public class GameEvent {
    *
    * @return the event type
    */
-  public String getEventType() {
+  public Event getEventType() {
     return eventType;
   }
 
