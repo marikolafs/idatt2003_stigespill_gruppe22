@@ -6,8 +6,8 @@ import edu.ntnu.idi.idatt.view.PlayerView;
 import javafx.scene.control.Button;
 
 public class PlayerController {
-  private Dice dice;
-  private PlayerView playerView;
+  private final Dice dice;
+  private final PlayerView playerView;
 
   public PlayerController(Dice dice, PlayerView playerView) {
     this.dice = dice;
