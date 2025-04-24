@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.ui;
 
 import edu.ntnu.idi.idatt.BoardGameFactory;
-import edu.ntnu.idi.idatt.PlayerFiles;
+import edu.ntnu.idi.idatt.io.PlayerFiles;
 import edu.ntnu.idi.idatt.controller.PlayerController;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
@@ -30,24 +30,16 @@ public class BoardGameApp extends Application {
   private static List<Player> players;
   private Observable observable = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
 
-  /*
-  Mål for påsken
-  - fullføre designmønstre
-  - sette opp basic gui
-  - ferdig gjøre hold action
-  - fikse example board filen
-  - evt annet?
-   */
-
   @Override
   public void start(Stage stage) throws Exception {
-    BoardGameFactory boardGameFactory = new BoardGameFactory();
     boardGameFactory.createLadderGame90();
 
     game.addPlayer(new Player("player1", game, "piece1"));
     game.addPlayer(new Player("player2", game, "piece2"));
 
     game.getPlayers().getFirst().move(2);
+
+    game.play();
 
     View view = new View(stage);
     PlayerView playerView = view.getPlayerView();
@@ -56,6 +48,7 @@ public class BoardGameApp extends Application {
 //    LadderGameView ladderGameView = new LadderGameView(stage);
 
 //    stage.setFullScreen(true);
+
     stage.show();
   }
 
