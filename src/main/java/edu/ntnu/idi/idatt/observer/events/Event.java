@@ -50,6 +50,9 @@ public enum Event {
      * Event when a tile action is performed.
      */
     TILE_ACTION,
-
+    /**
+     * Event when a player changes.
+     */
+    PLAYER_CHANGE
 
 }
