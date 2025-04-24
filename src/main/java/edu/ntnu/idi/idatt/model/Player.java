@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.observer.events.Event;
 
 /**
  * Represents a player in the boardgame. A player has a name and is always located on a tile.
@@ -10,7 +13,7 @@ import edu.ntnu.idi.idatt.engine.BoardGame;
  *
  * @version 1.0
  */
-public class Player {
+public class Player extends Observable {
   final String name;
   private Tile currentTile;
   private String piece;
@@ -81,6 +84,8 @@ public class Player {
         currentTile = currentTile.getNextTile();
       }
     }
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+        "Player " + name + " moved to tile " + currentTile.getTileId(), this));
   }
 
 
