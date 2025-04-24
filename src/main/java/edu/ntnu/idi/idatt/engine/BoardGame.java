@@ -1,12 +1,15 @@
 package edu.ntnu.idi.idatt.engine;
 
 
+
+import static edu.ntnu.idi.idatt.controller.PlayerController.playerView;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.observer.events.Event;
+import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 import edu.ntnu.idi.idatt.observer.Observable;
@@ -25,6 +28,7 @@ public class BoardGame extends Observable {
   private static BoardGame instance;
   private static String name;
   private static String description;
+  private static boolean rollButtonPressed;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -68,6 +72,18 @@ public class BoardGame extends Observable {
     this.description = description;
   }
 
+  public static boolean setRollButtonPressed(boolean value) {
+    return rollButtonPressed;
+  }
+
+  public static void setCurrentPlayer(Player player) {
+    currentPlayer = player;
+  }
+
+  public static void setPlayerView(PlayerView playerView) {
+    playerView = playerView;
+  }
+
   /**
    * Accessor method for name.
    *
@@ -86,12 +102,16 @@ public class BoardGame extends Observable {
     return description;
   }
 
+  public static boolean isRollButtonPressed() {
+    return rollButtonPressed;
+  }
+
   /**
    * Accessor method for board.
    *
    * @return the board object
    */
-  public Board getBoard() {
+  public static Board getBoard() {
     return board;
   }
 
@@ -204,59 +224,71 @@ public class BoardGame extends Observable {
         (Event.DICE_CREATED, "The game dice have been created.", null));
   }
 
+  private static int currentPlayerIndex = 0;
+  private static boolean gameWon = false;
+
+  public static boolean setGameWon(boolean value) {
+    return gameWon;
+  }
+
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
    * allowing each player to roll the dice and move on the board. The game concludes when the first
    * player reaches the last tile (goal), at which point a winner is decided.
    */
   public static void play() {
-    boolean gameWon = false;
-    while (!gameWon) {
-      for (Player player : players) {
-        notifyObservers(new GameEvent
-            (Event.GAME_START, "The game has started!", null));
 
-        currentPlayer = player;
-        notifyObservers(new GameEvent(Event.PLAYER_CHANGE,"Player changed to " + player.getName(), player));
-        System.out.println("Player " + player.getName() + " is on tile " + player.getCurrentTile().getTileId());
-        Tile currentTile = player.getCurrentTile();
-
-        int steps = dice.roll();
-        System.out.println("Steps: " + steps);
-        player.move(steps);
-
-        currentTile.leavePlayer(player);
-
-        Tile newTile = player.getCurrentTile();
-        newTile.landPlayer(player);
-        currentPlayer.placeOnTile(newTile);
-
-
-        notifyObservers(new GameEvent(Event.PLAYER_MOVED, player.getName()
-            + " moved to tile " + newTile.getTileId(), player));
-
-        if (newTile.getLandAction() != null) {
-          newTile.getLandAction().perform(player);
-          notifyObservers(new GameEvent
-              (Event.TILE_ACTION, player.getName() + " triggered an action on tile "
-                  + newTile.getTileId(), player));
-        }
-
-        if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
-          System.out.println("Player " + player.getName() + " has won");
-          gameWon = true;
-
-          notifyObservers(new GameEvent
-              (Event.PLAYER_WIN, player.getName() + " wins the game!", player));
-          notifyObservers
-              (new GameEvent(Event.GAME_END, "The game has ended.", null));
-          break;
-
-        }
-      }
+    if (gameWon) {
+      return;
     }
+
+    Player player = players.get(currentPlayerIndex);
+    setCurrentPlayer(player);
+
+    notifyObservers(new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
+  public static void rollDice(Player player) {
+
+    int diceValue = dice.roll();
+    playerView.setDiceRollValue(diceValue);
+
+    Tile currentTile = player.getCurrentTile();
+    currentTile.leavePlayer(player);
+
+    player.move(diceValue);
+    Tile newTile = player.getCurrentTile();
+    newTile.landPlayer(player);
+
+    player.placeOnTile(newTile);
+
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+        player.getName() + " moved to tile " + newTile.getTileId(), player));
+
+    if (newTile.getLandAction() != null) {
+      newTile.getLandAction().perform(player);
+      notifyObservers(new GameEvent(Event.TILE_ACTION,
+          player.getName() + " triggered an action on tile "
+              + newTile.getTileId(), player));
+    }
+
+    if (newTile.getTileId() >= getBoard().getGoalTile().getTileId()) {
+      notifyObservers(new GameEvent(Event.PLAYER_WIN,
+          player.getName() + " wins the game!", player));
+      notifyObservers(new GameEvent(Event.GAME_END,
+          "The game has ended.", null));
+      gameWon = true;
+      System.out.println(getWinner().getName() + " won the game!");
+      return;
+    }
+
+    nextTurn();
+  }
+
+  public static void nextTurn() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    play();
+  }
 
   /**
    * The getWinner method is responsible for determining the winner of the game. It iterates over
