@@ -1,8 +1,17 @@
 package edu.ntnu.idi.idatt.view;
 
 
+import static edu.ntnu.idi.idatt.observer.events.Event.PLAYER_MOVED;
+import static edu.ntnu.idi.idatt.observer.events.Event.ROLL_DICE;
+
+
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.events.Event;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -14,7 +23,7 @@ import javafx.scene.text.Text;
  * The PlayerView class represents the view for a player in the game.
  * It displays the player's name, current tile, and dice roll value including a roll button.
  */
-public class PlayerView extends HBox {
+public class PlayerView extends HBox implements BoardGameObserver {
   private final Button rollButton;
   private  Text playerName;
   private  Text tileName;
@@ -79,4 +88,42 @@ public class PlayerView extends HBox {
   public void setTileName(int tileName) {
     this.tileName.setText(String.valueOf(tileName));
   }
+
+  @Override
+  public void stateChanged(GameEvent event) {
+    switch (event.getEventType()){
+        case PLAYER_MOVED -> {
+            if (event.getPlayer() instanceof Player) {
+            Player player = (Player) event.getPlayer();
+            Platform.runLater(() -> {
+                setPlayerName(player.getName());
+                setTileName(player.getCurrentTile().getTileId());
+            });
+            }
+        }
+      case ROLL_DICE -> {
+            if (event.getPlayer() instanceof Player) {
+            Player player = (Player) event.getPlayer();
+            Platform.runLater(() -> {
+                setPlayerName(player.getName());
+                setTileName(player.getCurrentTile().getTileId());
+            });
+            }
+        }
+      case PLAYER_CHANGE -> {
+            if (event.getPlayer() instanceof Player) {
+            Player player = (Player) event.getPlayer();
+            Platform.runLater(() -> {
+                setPlayerName(player.getName());
+                setTileName(player.getCurrentTile().getTileId());
+            });
+            }
+        }
+
+      default -> {
+          // Handle other events if needed
+      }
+    }
+  }
+
 }
