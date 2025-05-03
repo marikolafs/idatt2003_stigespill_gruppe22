@@ -3,10 +3,13 @@ package edu.ntnu.idi.idatt.view;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,7 +23,8 @@ import javafx.scene.shape.Rectangle;
  * The GameBoardView class is responsible for rendering the game board and the players on it.
  * It creates a grid pane to represent the board and adds tiles and player pieces.
  */
-public class GameBoardView extends StackPane {
+public class GameBoardView extends StackPane implements BoardGameObserver {
+
   private static final double TILE_SIZE = 50;
   private final GridPane gridPane;
   private final Board board;
@@ -82,6 +86,35 @@ public class GameBoardView extends StackPane {
 
       playerPane.getChildren().addAll(imageView, label);
       gridPane.add(playerPane, player.getCurrentTile().getX(), player.getCurrentTile().getY());
+
+    }
+  }
+
+  public void updateBoard() throws FileNotFoundException {
+    gridPane.getChildren().clear();
+    addTilesToGrid();
+    addPlayersToGrid();
+  }
+
+  @Override
+  public void stateChanged(GameEvent event) {
+    switch (event.getEventType()){
+      case PLAYER_MOVED -> {
+        if (event.getPlayer() instanceof Player) {
+          Player player = (Player) event.getPlayer();
+          Platform.runLater(() -> {
+            try {
+              updateBoard();
+            } catch (FileNotFoundException e) {
+              throw new RuntimeException(e);
+            }
+          });
+        }
+      }
+
+      default -> {
+        // Handle other events if needed
+      }
     }
   }
 }
