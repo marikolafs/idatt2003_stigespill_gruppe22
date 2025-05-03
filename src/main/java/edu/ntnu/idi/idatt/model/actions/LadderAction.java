@@ -18,11 +18,8 @@ import org.slf4j.LoggerFactory;
  */
 public class LadderAction implements TileAction {
   private static final Logger logger = LoggerFactory.getLogger(LadderAction.class);
-  private static int destinationTileId;
-  private static String description;
-
-
-
+  private final int destinationTileId;
+  private final String description;
 
   public LadderAction( int destinationTileId, String description ) {
     if (description.isBlank()) {
@@ -38,7 +35,7 @@ public class LadderAction implements TileAction {
    *
    * @return the destination tile id
    */
-  public static int getDestinationTileId() {
+  public int getDestinationTileId() {
     return destinationTileId;
   }
 
@@ -47,7 +44,7 @@ public class LadderAction implements TileAction {
    *
    * @return the description
    */
-  public static String getDescription() {
+  public String getDescription() {
     return description;
   }
 
