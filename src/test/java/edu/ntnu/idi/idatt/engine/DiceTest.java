@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.engine;
 
+import edu.ntnu.idi.idatt.observer.events.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class DiceTest {
      @Test
     @DisplayName("Should notify observers when dice are rolled and return the rolled value")
     void testNotifyObservers() {
-        GameEvent event = new GameEvent("dice_rolled", "Dice rolled: 7", null);
+        GameEvent event = new GameEvent(Event.ROLL_DICE, "Dice rolled: 7", null);
         dice.addObserver(observer);
         dice.roll();
 
