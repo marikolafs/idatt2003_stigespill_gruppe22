@@ -1,5 +1,8 @@
 package edu.ntnu.idi.idatt.observer;
 
+
+import edu.ntnu.idi.idatt.observer.events.Event;
+
 /**
  * Interface for observing game events.
  */
@@ -12,5 +15,6 @@ public interface BoardGameObserver {
    * @param event the event
    */
   void stateChanged(GameEvent event);
+
 
 }
