@@ -35,7 +35,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LadderGameView {
+public class LadderGameView extends BorderPane {
+
+  GameBoardView gameBoardView;
 
   BoardGameFactory boardGameFactory = new BoardGameFactory();
   private static BoardGame game = BoardGame.getInstance(BoardGame.getName(),
@@ -50,9 +52,14 @@ public class LadderGameView {
   BorderPane layout = new BorderPane();
   Scene scene = new Scene(layout, 300, 300, Color.WHITE);
 
+  public LadderGameView(GameBoardView gameBoardView, PlayerView playerView) {
+    setCenter(gameBoardView);
+    setBottom(playerView);
+  }
+
   public LadderGameView(Stage stage) throws Exception {
     welcomeView(stage);
-    playerSetupView(stage);
+    selectPlayerSetupView(stage, "LadderGame");
     gameBoardView();
     playerView();
     scene.setRoot(layout);
@@ -146,31 +153,52 @@ public class LadderGameView {
   Scene welcomeScene = new Scene(root, 300, 300, Color.WHITE);
 
   public void welcomeView(Stage stage) throws FileNotFoundException {
+    TilePane tilePane = new TilePane();
+
+    Label welcomeLabel = new Label("Welcome! What game would you like to play?");
 
     Button ladderButton = new Button("LadderGame");
     ladderButton.setOnAction(e -> {
       try {
-        playerSetupView(stage);
+        selectPlayerSetupView(stage, "LadderGame");
       } catch (FileNotFoundException ex) {
         throw new RuntimeException(ex);
       }
     });
-    root.getChildren().add(ladderButton);
-    game.setName("Ladder Game");
-    game.setDescription("Ladder Game");
+
+    Button ludoButton = new Button("Ludo");
+    ludoButton.setOnAction(e -> {
+      try {
+        selectPlayerSetupView(stage, "Ludo");
+      } catch (FileNotFoundException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
+
+    tilePane.setAlignment(Pos.CENTER);
+    tilePane.setHgap(10);
+    tilePane.setVgap(10);
+    tilePane.getChildren().addAll(welcomeLabel, ladderButton, ludoButton);
+    root.getChildren().addAll(tilePane);
+    game.setName("Select a game");
+    game.setDescription("Select a game");
   }
 
-  public void playerSetupView(Stage stage) throws FileNotFoundException {
+  public void selectPlayerSetupView(Stage stage, String gameType) throws FileNotFoundException {
     Label label = new Label("How many players?");
     ComboBox<Integer> playerCountBox = new ComboBox<>();
-    playerCountBox.getItems().addAll(2, 3, 4, 5);
+    if (gameType.equals("LadderGame")) {
+      playerCountBox.getItems().addAll(2, 3, 4, 5);
+    } else if (gameType.equals("Ludo")) {
+      playerCountBox.getItems().addAll(2, 3, 4);
+    }
     playerCountBox.setValue(2);
 
     Button nextButton = new Button("Next");
     nextButton.setOnAction(e -> {
       playerCount = playerCountBox.getValue();
       try {
-        showPlayerScene(stage);
+        showPlayerScene(stage, gameType);
       } catch (FileNotFoundException ex) {
         throw new RuntimeException(ex);
       }
@@ -183,12 +211,19 @@ public class LadderGameView {
     stage.show();
   }
 
-  private void showPlayerScene(Stage stage) throws FileNotFoundException {
+  private void showPlayerScene(Stage stage, String gameType) throws FileNotFoundException {
     VBox playerLayout = new VBox(15);
     playerLayout.setPadding(new Insets(20));
 
     List<TextField> nameFields = new ArrayList<>();
     List<ComboBox<String>>  pieceFields = new ArrayList<>();
+
+    List<String> availablePieces = new ArrayList<>();
+    if (gameType.equals("LadderGame")) {
+      availablePieces.addAll(List.of("Pig", "Cat", "Rabbit", "Chicken", "Sheep"));
+    } else if (gameType.equals("Ludo")) {
+      availablePieces.addAll(List.of("Cat", "Rabbit", "Chicken", "Sheep"));
+    }
 
     for (int i = 0; i < playerCount; i++) {
       Label playerLabel  = new Label("Player " + (i + 1));
@@ -227,13 +262,34 @@ public class LadderGameView {
         System.out.println(player.getName() + " (" + player.getPiece() + ")");
       });
 
-      stage.setScene(scene);
+      try {
+        initalizeGame(gameType);
+        stage.setScene(scene);
+      } catch (FileNotFoundException ex) {
+        throw new RuntimeException(ex);
+      }
     });
 
     playerLayout.getChildren().add(startButton);
     Scene playerScene = new Scene(playerLayout, 400, 100 + playerCount*90);
     stage.setScene(playerScene);
     stage.setTitle("Player setup");
+  }
+
+  private void initalizeGame(String gameType) throws FileNotFoundException {
+    if (gameType.equals("LadderGame")) {
+      try {
+        boardGameFactory.createLadderGame90();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    } else if (gameType.equals("Ludo")) {
+      try {
+        boardGameFactory.createLadderGame45(); // change once ludo is incorporated
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   public void showAlert(String title, String message) {

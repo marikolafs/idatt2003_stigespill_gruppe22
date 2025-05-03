@@ -4,23 +4,16 @@ import edu.ntnu.idi.idatt.BoardGameFactory;
 import edu.ntnu.idi.idatt.io.PlayerFiles;
 import edu.ntnu.idi.idatt.controller.PlayerController;
 import edu.ntnu.idi.idatt.engine.BoardGame;
-import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
-import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.view.GameBoardView;
 import edu.ntnu.idi.idatt.view.LadderGameView;
 import edu.ntnu.idi.idatt.view.PlayerView;
 import edu.ntnu.idi.idatt.view.View;
-import java.io.File;
 import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BoardGameApp extends Application {
@@ -42,14 +35,18 @@ public class BoardGameApp extends Application {
     game.play();
 
     View view = new View(stage);
+    GameBoardView gameBoardView = view.getGameBoardView();
     PlayerView playerView = view.getPlayerView();
+
+    LadderGameView ladderGameView = new  LadderGameView(gameBoardView, playerView);
+    Scene scene = new Scene(ladderGameView, 1000, 800);
+    stage.setScene(scene);
+    stage.setFullScreen(true);
+    stage.show();
+
     PlayerController playerController = new PlayerController(game.getDice(), playerView);
     observable.addObserver(playerView);
-//    LadderGameView ladderGameView = new LadderGameView(stage);
-
-//    stage.setFullScreen(true);
-
-    stage.show();
+    observable.addObserver(gameBoardView);
   }
 
   public static void main(String[] args) {
