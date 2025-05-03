@@ -72,10 +72,6 @@ public class BoardGame extends Observable {
     this.description = description;
   }
 
-  public static boolean setRollButtonPressed(boolean value) {
-    return rollButtonPressed;
-  }
-
   public static void setCurrentPlayer(Player player) {
     currentPlayer = player;
   }
@@ -100,10 +96,6 @@ public class BoardGame extends Observable {
    */
   public static String getDescription() {
     return description;
-  }
-
-  public static boolean isRollButtonPressed() {
-    return rollButtonPressed;
   }
 
   /**
