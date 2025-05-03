@@ -9,6 +9,7 @@ import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -65,14 +66,18 @@ public class BoardFileWriterGson implements BoardFileWriter {
 
         // Write tile action if it exists
         if (tile.getLandAction() != null) {
-          writer.beginObject();
           writer.name("action");
-          writer.name("type").value(String.valueOf(tile.getLandAction()));
-          writer.name("destinationTileId").value(LadderAction.getDestinationTileId());
-          writer.name("description").value(LadderAction.getDescription());
+          writer.beginObject();
+          TileAction tileAction = tile.getLandAction();
+
+          if (tileAction instanceof LadderAction) {
+            LadderAction ladderAction = (LadderAction) tileAction;
+            writer.name("type").value("Ladder");
+            writer.name("destinationTileId").value(ladderAction.getDestinationTileId());
+            writer.name("description").value(ladderAction.getDescription());
+          }
           writer.endObject();
         }
-        writer.endObject();
       }
       writer.endArray();
       writer.endObject();
