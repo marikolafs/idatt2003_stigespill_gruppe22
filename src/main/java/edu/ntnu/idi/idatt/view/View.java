@@ -43,4 +43,9 @@ public class View extends BorderPane{
   public PlayerView getPlayerView() {
     return playerView;
   }
+
+  public GameBoardView getGameBoardView() {
+    return gameBoardView;
+  }
 }
+
