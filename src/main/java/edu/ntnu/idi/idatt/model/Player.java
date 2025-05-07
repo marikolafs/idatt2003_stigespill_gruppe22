@@ -14,6 +14,7 @@ public class Player {
   final String name;
   private Tile currentTile;
   private String piece;
+  private boolean holdAction = false;
 
   /**
    * Constructs a new Player with the specified name and places the player on the
@@ -55,6 +56,14 @@ public class Player {
     return piece;
   }
 
+  public boolean shouldHold() {
+    return holdAction;
+  }
+
+  public void setHoldAction(boolean holdAction) {
+    this.holdAction = holdAction;
+  }
+
   /**
    * Places the player on the given tile and sets it to the current tile.
    *
@@ -82,9 +91,4 @@ public class Player {
       }
     }
   }
-
-
-
-
-
 }

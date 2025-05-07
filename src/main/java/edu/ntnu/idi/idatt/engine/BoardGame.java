@@ -100,7 +100,6 @@ public class BoardGame extends Observable {
    */
   public Player getCurrentPlayer() {
     return currentPlayer;
-
   }
 
   /**
@@ -144,7 +143,8 @@ public class BoardGame extends Observable {
   }
 
   /**
-   * Creates a new board with the specified number of rows and columns.
+   * Creates a new board with the specified number of rows and columns, and adds tiles in a
+   * serpentine pattern.
    *
    * @param rows and columns the number of rows and columns the board should contain.
    * @return null
@@ -160,13 +160,23 @@ public class BoardGame extends Observable {
     board.setColumns(columns);
 
     int tileId = 1;
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < columns; c++) {
-        Tile tile = new Tile(tileId, null, r, c);
-        board.addTile(tile);
-        tileId++;
+
+    for (int r = rows - 1; r >= 0; r--) {
+      boolean leftToRight = (rows - 1 - r) % 2 == 0;
+
+      if (leftToRight) {
+        for (int c = 0; c < columns; c++) {
+          Tile tile = new Tile(tileId++, null, r, c);
+          board.addTile(tile);
+        }
+      } else {
+        for (int c = columns - 1; c >= 0; c--) {
+          Tile tile = new Tile(tileId++, null, r, c);
+          board.addTile(tile);
+        }
       }
     }
+
     Tile startingTile = board.getTile(1);
     board.setStartingTile(startingTile);
     Tile goalTile = board.getTile(rows * columns);
@@ -201,8 +211,16 @@ public class BoardGame extends Observable {
     boolean gameWon = false;
     while (!gameWon) {
       for (Player player : players) {
+
+        if (player.shouldHold()) {
+          System.out.println(player.getName() + " holds ");
+          player.setHoldAction(false);
+          continue;
+        }
+
         notifyObservers(new GameEvent
             ("game_started", "The game has started!", null));
+
 
         currentPlayer = player;
         Tile currentTile = player.getCurrentTile();
@@ -255,5 +273,6 @@ public class BoardGame extends Observable {
       }
     }
     return winner;
+
   }
 }
