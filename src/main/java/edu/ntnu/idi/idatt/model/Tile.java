@@ -54,7 +54,6 @@ public class Tile extends Observable {
    *
    * @return the nextTile
    */
-
   public Tile getNextTile() {
     return nextTile;
   }

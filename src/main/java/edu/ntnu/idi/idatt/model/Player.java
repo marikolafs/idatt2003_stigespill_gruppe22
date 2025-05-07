@@ -87,9 +87,4 @@ public class Player extends Observable {
     notifyObservers(new GameEvent(Event.PLAYER_MOVED,
         "Player " + name + " moved to tile " + currentTile.getTileId(), this));
   }
-
-
-
-
-
 }

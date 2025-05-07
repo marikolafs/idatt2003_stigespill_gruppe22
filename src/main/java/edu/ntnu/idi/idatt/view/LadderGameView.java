@@ -48,6 +48,8 @@ public class LadderGameView extends BorderPane {
   private int playerCount;
   private static List<Player> players = game.getPlayers();
   private final List<String> availablePieces = new ArrayList<>(List.of("Pig", "Cat", "Rabbit", "Chicken", "Sheep"));
+  private final Button ladderButton = new Button("LadderGame");
+  private final Button ludoButton = new Button("Ludo");
 
   BorderPane layout = new BorderPane();
   Scene scene = new Scene(layout, 300, 300, Color.WHITE);
@@ -61,7 +63,7 @@ public class LadderGameView extends BorderPane {
     welcomeView(stage);
     selectPlayerSetupView(stage, "LadderGame");
     gameBoardView();
-    playerView();
+    //playerView();
     scene.setRoot(layout);
     stage.setTitle("Ladder Game");
     stage.setScene(welcomeScene);
@@ -122,7 +124,8 @@ public class LadderGameView extends BorderPane {
    *
    * @throws FileNotFoundException if the image file cannot be found
    */
-  //TODO edit to update the board through the observer, change depending on currentPlayer
+
+  /*
   public void playerView() throws FileNotFoundException {
 
     HBox hBox = new HBox();
@@ -145,6 +148,8 @@ public class LadderGameView extends BorderPane {
     layout.setBottom(hBox);
   }
 
+   */
+
   Group root = new Group();
   Group root2 = new Group();
   Group root3 = new Group();
@@ -156,24 +161,6 @@ public class LadderGameView extends BorderPane {
     TilePane tilePane = new TilePane();
 
     Label welcomeLabel = new Label("Welcome! What game would you like to play?");
-
-    Button ladderButton = new Button("LadderGame");
-    ladderButton.setOnAction(e -> {
-      try {
-        selectPlayerSetupView(stage, "LadderGame");
-      } catch (FileNotFoundException ex) {
-        throw new RuntimeException(ex);
-      }
-    });
-
-    Button ludoButton = new Button("Ludo");
-    ludoButton.setOnAction(e -> {
-      try {
-        selectPlayerSetupView(stage, "Ludo");
-      } catch (FileNotFoundException ex) {
-        throw new RuntimeException(ex);
-      }
-    });
 
     tilePane.setAlignment(Pos.CENTER);
     tilePane.setHgap(10);
