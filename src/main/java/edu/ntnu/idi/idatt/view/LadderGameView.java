@@ -173,5 +173,4 @@ public class LadderGameView extends BorderPane {
     alert.setContentText(message);
     alert.showAndWait();
   }
-
 }
