@@ -4,18 +4,24 @@ import edu.ntnu.idi.idatt.model.Player;
 
 public class FinalStretchAction implements TileAction {
 
-  private final String color;
+  private final String description;
+  private final String piece;
 
-  public FinalStretchAction(String color) {
-    this.color = color;
+  public FinalStretchAction(String description, String color) {
+    this.description = description;
+    this.piece = color;
   }
 
-  public String getColor() {
-    return color;
+  public String getDescription() {
+    return description;
   }
 
-  public String setColor(String color) {
-    return color;
+  public String getPiece() {
+    return piece;
+  }
+
+  public String setPiece(String piece) {
+    return piece;
   }
 
   @Override
