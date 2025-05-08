@@ -9,9 +9,11 @@ import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.FinalStretchAction;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
+import edu.ntnu.idi.idatt.model.actions.StartFinalStretchAction;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -137,6 +139,21 @@ public class BoardFileReaderGson implements BoardFileReader {
 
             HoldAction holdAction = new HoldAction(actionDescription);
             currentTile.setLandAction(holdAction);
+          }
+
+          if("StartFinalStretchAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+
+            StartFinalStretchAction startFinalAction = new StartFinalStretchAction(actionDescription, piece);
+            currentTile.setLandAction(startFinalAction);
+          }
+
+          if("FinalStretchAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+            FinalStretchAction finalAction = new FinalStretchAction(actionDescription, piece);
+            currentTile.setLandAction(finalAction);
           }
         }
       }
