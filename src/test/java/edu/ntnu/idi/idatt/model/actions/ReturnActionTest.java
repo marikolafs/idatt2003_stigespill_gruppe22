@@ -37,7 +37,7 @@ public class ReturnActionTest {
   }
 
   @Test
-  void testLadderAction() {
+  void testReturnAction() {
     actionTile.landPlayer(player);
 
     assertEquals(game.getBoard().getTile(destinationTile.getTileId()), player.getCurrentTile(),
