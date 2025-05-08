@@ -4,7 +4,6 @@ package edu.ntnu.idi.idatt.view;
 import static edu.ntnu.idi.idatt.observer.events.Event.PLAYER_MOVED;
 import static edu.ntnu.idi.idatt.observer.events.Event.ROLL_DICE;
 
-
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
@@ -51,8 +50,6 @@ public class PlayerView extends HBox implements BoardGameObserver {
     ImageView imageView = new ImageView(image);
     imageView.setFitHeight(50);
     imageView.setFitWidth(50);
-
-
 
     this.getChildren().addAll(imageView, rollButton, playerName, tileName, diceRollValue);
   }
@@ -125,5 +122,4 @@ public class PlayerView extends HBox implements BoardGameObserver {
       }
     }
   }
-
 }
