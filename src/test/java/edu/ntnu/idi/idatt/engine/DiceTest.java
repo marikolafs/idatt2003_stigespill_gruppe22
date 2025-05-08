@@ -36,7 +36,7 @@ class DiceTest {
         dice.roll();
 
         assertEquals(1,dice.getObservers().size() , "There should be one observer");
-        assertEquals("dice_rolled",event.getEventType(), "The event type should be 'dice_rolled'");
+        assertEquals(Event.ROLL_DICE,event.getEventType(), "The event type should be 'dice_rolled'");
         assertEquals( "Dice rolled: 7",event.getEventDetails(), "The event message should be 'Dice rolled: 7'");
     }
 

@@ -45,7 +45,7 @@ class TileTest {
 
       assertEquals(1, tile.getObservers().size());
       assertEquals(player1, tile.getPlayersOnTile().get(0));
-      assertEquals("player_landed",event.getEventType());
+      assertEquals(Event.PLAYER_MOVED,event.getEventType());
     }
 
 

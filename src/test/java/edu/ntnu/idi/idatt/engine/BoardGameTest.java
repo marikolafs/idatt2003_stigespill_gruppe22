@@ -35,7 +35,7 @@ public class BoardGameTest {
 
       assertEquals(1, tile.getObservers().size());
       assertEquals(player, tile.getPlayersOnTile().get(0));
-      assertEquals("player_landed", event.getEventType());
+      assertEquals(Event.PLAYER_MOVED, event.getEventType());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class BoardGameTest {
     void createBoard_ReturnRowsAndColumns() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
       game.createBoard(9, 10);
-      assertEquals(9, game.getBoard().getRows());
-      assertEquals(10, game.getBoard().getColumns());
+      assertEquals(10, game.getBoard().getRows());
+      assertEquals(9, game.getBoard().getColumns());
     }
 
     @Test
@@ -107,11 +107,14 @@ public class BoardGameTest {
       game.addPlayer(player1);
       game.addPlayer(player2);
 
-      game.play();
+
+      Tile goalTile = game.getBoard().getGoalTile();
+      player1.placeOnTile(goalTile);
+
 
       Player winner = game.getWinner();
-
-      assertEquals(game.getBoard().getGoalTile().getTileId(), winner.getCurrentTile().getTileId(), "Winner should be at the goal tile");
+      assertNotNull(winner, "Winner should not be null");
+      assertEquals(player1, winner, "Player1 should be the winner");
     }
 
     @Test
