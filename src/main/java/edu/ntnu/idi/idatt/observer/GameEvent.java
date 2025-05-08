@@ -5,6 +5,8 @@ import edu.ntnu.idi.idatt.observer.events.Event;
 /**
  * Represents an event in the game, such as a player moving or a winner being declared.
  * This class is used to encapsulate the details of the event and the player associated with it.
+ *
+ * @version 1.0
  */
 public class GameEvent {
   private final Event eventType;

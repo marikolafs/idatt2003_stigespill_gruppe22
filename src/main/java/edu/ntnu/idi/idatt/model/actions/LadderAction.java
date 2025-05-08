@@ -21,7 +21,14 @@ public class LadderAction implements TileAction {
   private final int destinationTileId;
   private final String description;
 
-  public LadderAction( int destinationTileId, String description ) {
+  /**
+   * Constructs a LadderAction with a specified destination tile ID and description.
+   *
+   * @param destinationTileId the ID of the tile to which the player will be moved
+   * @param description       a description of the action
+   * @throws IllegalArgumentException if the description is null or empty
+   */
+  public LadderAction(int destinationTileId, String description) {
     if (description.isBlank()) {
       throw new IllegalArgumentException("Description cannot be null or empty");
     }
@@ -51,8 +58,7 @@ public class LadderAction implements TileAction {
 
   @Override
   public void perform(Player player) {
-    BoardGame game= BoardGame.getInstance("default name", "default description");
-    Tile destinationTile = game.getBoard().getTile(destinationTileId);
+    Tile destinationTile = BoardGame.getBoard().getTile(destinationTileId);
 
     if (destinationTile == null) {
       logger.error("Destination tile {} not found", destinationTileId);

@@ -8,7 +8,7 @@ import java.util.Map;
  * Represents the board consisting of tiles.
  * The board has a name and a description of the game it displays.
  * The board has the purpose of adding and storing tiles.
- * Each tile has an unique id which the board can use to keep track of the tiles in the game
+ * Each tile has a unique id which the board can use to keep track of the tiles in the game.
  *
  * @version 1.3
  */
@@ -32,8 +32,6 @@ public class Board {
     this.tiles = new HashMap<>();
     this.startingTile = null;
     this.goalTile = null;
-    this.rows = rows;
-    this.columns = columns;
   }
 
   /**
@@ -71,7 +69,7 @@ public class Board {
   }
 
   /**
-   * Accessor method for rows
+   * Accessor method for rows.
    *
    * @return the number of rows on the board
    */
@@ -80,7 +78,7 @@ public class Board {
   }
 
   /**
-   * Mutator method for rows
+   * Mutator method for rows.
    *
    * @param rows the new amount of rows
    */
@@ -89,7 +87,7 @@ public class Board {
   }
 
   /**
-   * Accessor method for columns
+   * Accessor method for columns.
    *
    * @return the number of columns on the board
    */
@@ -98,7 +96,7 @@ public class Board {
   }
 
   /**
-   * Mutator method for columns
+   * Mutator method for columns.
    *
    * @param columns the new amount of columns
    */
@@ -136,6 +134,13 @@ public class Board {
     }
   }
 
+  /**
+   * Adds a ladder to the board.
+   * The ladder is represented by a LadderAction object.
+   *
+   * @param ladderStart the starting tile id of the ladder
+   * @param destinationTileId the destination tile id of the ladder
+   */
   public void addLadder(int ladderStart, int destinationTileId) {
     LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");
     Tile ladderTile = getTile(ladderStart);

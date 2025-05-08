@@ -7,47 +7,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  The Dice class is responsible for creating and storing die objects, rolling the dice,
+ *  The Dice class is responsible for creating and storing die objects, rolling the diceList,
  *  summing their values, and retrieving the value of a specific die.
  *
  * @version 1.1
  */
 public class Dice extends Observable {
-  private final List<Die> dice;
+  private final List<Die> diceList;
 
   /**
    * The constructor constructs a new die objects based on numberOfDice and adds them to the list.
    *
-   * @param numberOfDice the number of die objects to be constructed and added to the dice list
+   * @param numberOfDice the number of die objects to be constructed and added to the diceList list
    */
 
   public Dice(int numberOfDice) {
-    this.dice = new ArrayList<>();
+    this.diceList = new ArrayList<>();
 
     for (int i = 0; i < numberOfDice; i++) {
       Die die = new Die();
-      dice.add(die);
+      diceList.add(die);
     }
   }
 
   /**
-   * Accessor method for dice.
+   * Accessor method for diceList.
    *
-   * @return dice
+   * @return diceList
    */
-    public List<Die> getDiceList() {
-        return dice;
-    }
+  public List<Die> getDiceList() {
+    return diceList;
+  }
 
   /**
-   * Rolls the dice in the list individually and sums the values.
+   * Rolls the diceList in the list individually and sums the values.
    *
-   * @return the sum of the rolled dice
+   * @return the sum of the rolled diceList
    */
   public int roll() {
     int rollDice = 0;
     int roll;
-    for (Die die : dice) {
+    for (Die die : diceList) {
       roll = die.roll();
       rollDice += roll;
     }
@@ -56,22 +56,18 @@ public class Dice extends Observable {
   }
 
   /**
-   * Retrieves the value of a specific die from the dice list.
+   * Retrieves the value of a specific die from the diceList list.
    *
    * @param dieNumber the index of the die subtracted by 1 to retrieve the value from.
-   * @return the value of the die at the spedified index
-   * @throws IllegalArgumentException if the provided dieNumber is more or less than existing dice
+   * @return the value of the die at the specified index
+   * @throws IllegalArgumentException if the provided dieNumber is more or less than existing diceList
    */
   public int getDie(int dieNumber) {
-    if (dieNumber <= 0 || dieNumber > dice.size()) {
-      throw new IllegalArgumentException("dieNumber cannot be less or more than existing dice");
+    if (dieNumber <= 0 || dieNumber > diceList.size()) {
+      throw new IllegalArgumentException("dieNumber cannot be less or more than existing diceList");
     }
-    return dice.get(dieNumber - 1).getValue();
+    return diceList.get(dieNumber - 1).getValue();
   }
 }
 
 
-/*I dette spillet skal det benyttes terninger (engelsk: Dice).
-Samlingen av alle terninger er representert
-av klassen Dice. En enkelt terning er representert av klassen Die. Terningene rulles samtidig, og
-øynene summeres.*/

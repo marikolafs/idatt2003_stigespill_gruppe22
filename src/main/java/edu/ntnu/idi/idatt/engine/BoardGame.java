@@ -1,18 +1,18 @@
 package edu.ntnu.idi.idatt.engine;
 
 
-
 import static edu.ntnu.idi.idatt.controller.PlayerController.playerView;
-import edu.ntnu.idi.idatt.observer.BoardGameObserver;
-import edu.ntnu.idi.idatt.observer.GameEvent;
+
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.observer.BoardGameObserver;
+import edu.ntnu.idi.idatt.observer.GameEvent;
+import edu.ntnu.idi.idatt.observer.Observable;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
-import edu.ntnu.idi.idatt.observer.Observable;
 
 
 /**
@@ -30,6 +30,14 @@ public class BoardGame extends Observable {
   private static String description;
   private static boolean rollButtonPressed;
 
+  /**
+   * The getInstance method is a singleton pattern implementation. It ensures that only one
+   * instance of the BoardGame class is created.
+   *
+   * @param name the name of the game
+   * @param description the description of the game
+   * @return the single instance of BoardGame
+   */
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
       instance = new BoardGame("default name", "default description");
@@ -41,16 +49,16 @@ public class BoardGame extends Observable {
   private static Player currentPlayer;
   private static Dice dice;
   private static List<Player> players;
-  private List<BoardGameObserver> observers;
+  private final List<BoardGameObserver> observers;
 
   /**
    * The constructor initializes the board and players list.
    */
   public BoardGame(String name, String description) {
-    this.name = name;
-    this.description = description;
-    this.board = new Board();
-    this.players = new ArrayList<>();
+    BoardGame.name = name;
+    BoardGame.description = description;
+    board = new Board();
+    players = new ArrayList<>();
     this.observers = new ArrayList<>();
   }
 
@@ -60,7 +68,7 @@ public class BoardGame extends Observable {
    * @param name the name
    */
   public void setName(String name) {
-    this.name = name;
+    BoardGame.name = name;
   }
 
   /**
@@ -69,7 +77,7 @@ public class BoardGame extends Observable {
    * @param description the description
    */
   public void setDescription(String description) {
-    this.description = description;
+    BoardGame.description = description;
   }
 
   public static void setCurrentPlayer(Player player) {
@@ -152,8 +160,8 @@ public class BoardGame extends Observable {
       Tile startingTile = board.getStartingTile();
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
-      notifyObservers(new GameEvent
-          (Event.PLAYER_ADDED, player.getName() + " joined the game", player));
+      notifyObservers(new GameEvent(Event.PLAYER_ADDED,
+          player.getName() + " joined the game", player));
     }
   }
 
@@ -196,8 +204,7 @@ public class BoardGame extends Observable {
     Tile goalTile = board.getTile(rows * columns);
     board.setGoalTile(goalTile);
 
-    notifyObservers(new GameEvent
-        (Event.BOARD_CREATED, "The game board has been created.", null));
+    notifyObservers(new GameEvent(Event.BOARD_CREATED, "The game board has been created.", null));
     return null;
   }
 
@@ -211,14 +218,19 @@ public class BoardGame extends Observable {
     if (numberOfDice <= 0) {
       throw new IllegalArgumentException("Number of dice must be greater than 0");
     }
-    this.dice = new Dice(numberOfDice);
-    notifyObservers(new GameEvent
-        (Event.DICE_CREATED, "The game dice have been created.", null));
+    dice = new Dice(numberOfDice);
+    notifyObservers(new GameEvent(Event.DICE_CREATED,
+        "The game dice have been created.", null));
   }
 
   private static int currentPlayerIndex = 0;
   private static boolean gameWon = false;
 
+  /**
+   * Accessor method for gameWon.
+   *
+   * @return gameWon
+   */
   public static boolean setGameWon(boolean value) {
     return gameWon;
   }
@@ -237,9 +249,18 @@ public class BoardGame extends Observable {
     Player player = players.get(currentPlayerIndex);
     setCurrentPlayer(player);
 
-    notifyObservers(new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
+
+    notifyObservers(
+        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
+  /**
+   * The rollDice method is responsible for rolling the dice and moving the player on the board.
+   * It updates the players position, triggers any actions associated with the new tile
+   * and checks for a winner.
+   *
+   * @param player the player who is rolling the dice
+   */
   public static void rollDice(Player player) {
 
     int diceValue = dice.roll();
@@ -277,6 +298,10 @@ public class BoardGame extends Observable {
     nextTurn();
   }
 
+  /**
+   * The nextTurn method is responsible for moving to the next player's turn. It updates the
+   * currentPlayerIndex and calls the play method to start the next player's turn.
+   */
   public static void nextTurn() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     play();

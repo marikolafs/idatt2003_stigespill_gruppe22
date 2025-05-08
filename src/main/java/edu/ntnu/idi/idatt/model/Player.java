@@ -27,7 +27,6 @@ public class Player extends Observable {
    */
   public Player(String name, BoardGame game, String piece) {
     this.name = name;
-    this.currentTile = currentTile;
     this.piece = piece;
   }
 
@@ -71,7 +70,7 @@ public class Player extends Observable {
     this.currentTile = tile;
   }
 
-// TODO add exception for last tile
+
   /**
    * Moves the player a number of steps on the board. The player is moved to the next tile if it is
    * not null.

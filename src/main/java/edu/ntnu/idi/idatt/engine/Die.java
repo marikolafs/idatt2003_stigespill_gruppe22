@@ -10,8 +10,7 @@ import java.util.Random;
  */
 public class Die {
   private int lastRolledValue;
-  private int number;
-
+  private final Random rand = new Random();
 
 
   /**
@@ -23,9 +22,6 @@ public class Die {
     return lastRolledValue;
   }
 
-  public int GetNumber() {
-    return number;
-  }
 
   /**
    * Rolls the die and generates a random number between 1-6 (inclusive).
@@ -34,7 +30,6 @@ public class Die {
    * @return the last rolled value
    */
   public int roll() {
-    Random rand = new Random();
     int max = 6;
     int min = 1;
 
@@ -44,8 +39,4 @@ public class Die {
     return rolledValue;
   }
 
-  public int setNumber(int number) {
-    this.number = number;
-    return number;
-  }
 }

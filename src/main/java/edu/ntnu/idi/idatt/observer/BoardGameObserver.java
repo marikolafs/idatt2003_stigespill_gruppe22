@@ -1,8 +1,6 @@
 package edu.ntnu.idi.idatt.observer;
 
 
-import edu.ntnu.idi.idatt.observer.events.Event;
-
 /**
  * Interface for observing game events.
  */

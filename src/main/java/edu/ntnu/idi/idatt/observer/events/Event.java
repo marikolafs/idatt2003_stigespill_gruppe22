@@ -1,5 +1,11 @@
 package edu.ntnu.idi.idatt.observer.events;
 
+/**
+ * The Event enum represents various events that can occur in the game. These events are used to
+ * notify observers about changes in the game state.
+ *
+ * @version 1.2
+ */
 public enum Event {
     /**
      * Event when a player rolls the dice.

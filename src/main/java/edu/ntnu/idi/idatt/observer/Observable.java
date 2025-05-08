@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The Observable class is responsible for managing a list of observers and notifying them of
+ * changes in the game state. It provides methods to add, remove, and notify observers.
+ *
+ * @version 1.0
+ */
 public abstract class Observable {
     private static List<BoardGameObserver> observers;
 
     protected Observable() {
-        this.observers = new ArrayList<>();
+        observers = new ArrayList<>();
     }
 
     /**
