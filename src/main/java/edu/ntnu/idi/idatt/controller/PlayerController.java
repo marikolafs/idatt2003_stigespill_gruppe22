@@ -11,8 +11,6 @@ import javafx.scene.control.Button;
  */
 public class PlayerController {
 
-  private static Dice dice;
-  public static PlayerView playerView;
   private static final BoardGame game = BoardGame.getInstance(BoardGame.getName(),
       BoardGame.getDescription());
 
@@ -24,12 +22,13 @@ public class PlayerController {
    * @param playerView the view to be updated
    */
   public PlayerController(Dice dice, PlayerView playerView) {
-    this.dice = dice;
-    this.playerView = playerView;
+    BoardGame.setPlayerView(playerView);
 
-    game.setPlayerView(playerView);
 
     Button rollButton = playerView.getRollButton();
-    rollButton.setOnAction(e -> game.rollDice(game.getCurrentPlayer()));
+    rollButton.setOnAction(e -> {
+      BoardGame.rollDice(game.getCurrentPlayer());
+      playerView.setDiceRollValue(game.getDice().getLastRolledValue());
+    });
   }
 }

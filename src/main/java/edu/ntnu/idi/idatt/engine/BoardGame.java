@@ -1,8 +1,6 @@
 package edu.ntnu.idi.idatt.engine;
 
 
-import static edu.ntnu.idi.idatt.controller.PlayerController.playerView;
-
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
@@ -264,7 +262,6 @@ public class BoardGame extends Observable {
   public static void rollDice(Player player) {
 
     int diceValue = dice.roll();
-    playerView.setDiceRollValue(diceValue);
 
     Tile currentTile = player.getCurrentTile();
     currentTile.leavePlayer(player);

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Dice extends Observable {
   private final List<Die> diceList;
+  private int lastRolledValue;
 
   /**
    * The constructor constructs a new die objects based on numberOfDice and adds them to the list.
@@ -23,6 +24,7 @@ public class Dice extends Observable {
 
   public Dice(int numberOfDice) {
     this.diceList = new ArrayList<>();
+    this.lastRolledValue = 0;
 
     for (int i = 0; i < numberOfDice; i++) {
       Die die = new Die();
@@ -40,6 +42,15 @@ public class Dice extends Observable {
   }
 
   /**
+   * Accessor method for lastRolledValue.
+   *
+   * @return lastRolledValue
+   */
+    public int getLastRolledValue() {
+        return lastRolledValue;
+    }
+
+  /**
    * Rolls the diceList in the list individually and sums the values.
    *
    * @return the sum of the rolled diceList
@@ -52,6 +63,7 @@ public class Dice extends Observable {
       rollDice += roll;
     }
     notifyObservers(new GameEvent(Event.ROLL_DICE, "Dice rolled: " + rollDice, null));
+    lastRolledValue = rollDice;
     return rollDice;
   }
 
