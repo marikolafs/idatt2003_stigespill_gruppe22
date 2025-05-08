@@ -28,7 +28,11 @@ public class PlayerController {
     Button rollButton = playerView.getRollButton();
     rollButton.setOnAction(e -> {
       BoardGame.rollDice(game.getCurrentPlayer());
+      int dice1Value = game.getDice().getDie(1);
+      int dice2Value = game.getDice().getDie(2);
+      playerView.setDiceImages(dice1Value, dice2Value);
       playerView.setDiceRollValue(game.getDice().getLastRolledValue());
+
     });
   }
 }
