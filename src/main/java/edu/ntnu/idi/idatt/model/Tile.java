@@ -22,6 +22,9 @@ public class Tile extends Observable {
   private List<Player> playersOnTile;
   private int x;
   private int y;
+  private boolean isHomeTile;
+  private Player owner;
+  private List<Piece> pieces = new ArrayList<>();
 
   /**
    * Constructs a Tile with a specified tile ID and land action.
@@ -93,6 +96,27 @@ public class Tile extends Observable {
    */
   public void setNextTile(Tile nextTile) {
     this.nextTile = nextTile;
+  }
+
+  public void addPiece(Piece piece) {
+    pieces.add(piece);
+  }
+
+  public void removePiece(Piece piece) {
+    pieces.remove(piece);
+  }
+
+  public boolean isHomeTile() {
+    return isHomeTile;
+  }
+
+  public void setHomeTile(boolean isHomeTile, Player owner) {
+    this.isHomeTile = isHomeTile;
+    this.owner = owner;
+  }
+
+  public boolean isOwnedBy(Player player) {
+    return this.owner == player;
   }
 
   /**

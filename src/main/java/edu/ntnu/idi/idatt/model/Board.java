@@ -17,6 +17,7 @@ import java.util.Map;
 public class Board {
 
   private final Map<Integer, Tile> tiles;
+  private final Map<Player, Tile> entryTiles = new HashMap<>();
   private Tile startingTile;
   private Tile goalTile;
   private int rows;
@@ -115,6 +116,15 @@ public class Board {
    */
   public Map<Integer, Tile> getTiles() {
     return tiles;
+  }
+
+  //Potentially move to tileAction (HomeEntryAction)
+  public void setEntryTileFor(Player player, Tile tile) {
+    entryTiles.put(player, tile);
+  }
+
+  public Tile getEntryTileFor(Player player) {
+    return entryTiles.get(player);
   }
 
   /**
