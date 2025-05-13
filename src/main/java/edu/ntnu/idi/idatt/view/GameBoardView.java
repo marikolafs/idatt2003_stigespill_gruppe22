@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 /**
  * The GameBoardView class is responsible for rendering the game board and the players on it.
@@ -29,17 +30,21 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
   private final GridPane gridPane;
   private final Board board;
   private final List<Player> players;
+  private Text winnerDeclaration;
 
   public GameBoardView(Board board, List<Player> players) throws FileNotFoundException {
     this.board = board;
     this.players = players;
     this.gridPane = new GridPane();
     this.gridPane.setAlignment(Pos.CENTER);
+    this.winnerDeclaration = new Text();
+
+    this.winnerDeclaration.setStyle("-fx-font-size: 90;");
 
     addTilesToGrid();
     addPlayersToGrid();
 
-    this.getChildren().add(gridPane);
+    this.getChildren().addAll(gridPane, winnerDeclaration);
   }
 
   /**
@@ -100,8 +105,7 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
   public void stateChanged(GameEvent event) {
     switch (event.getEventType()){
       case PLAYER_MOVED -> {
-        if (event.getPlayer() instanceof Player) {
-          Player player = (Player) event.getPlayer();
+        if (event.getPlayer() instanceof Player player) {
           Platform.runLater(() -> {
             try {
               updateBoard();
@@ -111,6 +115,12 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
           });
         }
       }
+      case PLAYER_WIN -> {
+            if (event.getPlayer() instanceof Player player) {
+            Platform.runLater(() ->
+                winnerDeclaration.setText(player.getName() + " has won the game!"));
+            }
+        }
 
       default -> {
         // Handle other events if needed
