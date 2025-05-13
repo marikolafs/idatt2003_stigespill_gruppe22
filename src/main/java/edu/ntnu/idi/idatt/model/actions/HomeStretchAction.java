@@ -2,12 +2,12 @@ package edu.ntnu.idi.idatt.model.actions;
 
 import edu.ntnu.idi.idatt.model.Player;
 
-public class FinalStretchAction implements TileAction {
+public class HomeStretchAction implements TileAction {
 
   private final String description;
   private final String piece;
 
-  public FinalStretchAction(String description, String color) {
+  public HomeStretchAction(String description, String color) {
     this.description = description;
     this.piece = color;
   }
