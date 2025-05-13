@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Represents a return action in the board game, this makes it so that if a player lands on a tile
- * with a return action, they will be forced to move one tile back.
- * This class implements the TileAction interface and can be set as a landing action on game tiles.
- * When a player lands on a tile with a ReturnAction, they are immediately moved to the specified
- * destination tile.
+ * with a return action, they will be forced to move one tile back. This class implements the
+ * TileAction interface and can be set as a landing action on game tiles. When a player lands on a
+ * tile with a ReturnAction, they are immediately moved to the specified destination tile.
  */
 public class ReturnAction implements TileAction {
 
