@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.engine;
 
-import edu.ntnu.idi.idatt.model.actions.FinalStretchAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.model.Board;
@@ -225,11 +224,6 @@ public class BoardGame extends Observable {
 
         currentPlayer = player;
         Tile currentTile = player.getCurrentTile();
-
-        if (currentPlayer.isOnFinalStretch()) {
-          System.out.println(player.getName() + " has entered the final stretch. ");
-          // add logic for switching to final stretch
-        }
 
         int steps = dice.roll();
         player.move(steps);
