@@ -6,7 +6,6 @@ import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.view.PlayerSetupView;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,12 +16,9 @@ import javafx.stage.Stage;
 
 public class PlayerSetupController {
 
-  private final SceneManager sceneManager;
   private BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
-  private BoardGameFactory boardGameFactory = new BoardGameFactory();
 
   public PlayerSetupController(Stage stage, SceneManager sceneManager, String gameType) {
-    this.sceneManager = sceneManager;
     PlayerSetupView view = new PlayerSetupView(gameType);
     Scene scene = new Scene(view.getLayout(), 400, 400);
 
@@ -34,18 +30,17 @@ public class PlayerSetupController {
     });
 
     view.getStartButton().setOnAction(e -> {
-      List<Player> players = new ArrayList<>();
       Set<String> usedPieces = new HashSet<>();
 
-      if (gameType == "LadderGame"){
+      if (gameType.equals( "LadderGame")){
         try {
-          boardGameFactory.createLadderGame90();
+          BoardGameFactory.createLadderGame90();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
-      } else if (gameType == "Ludo"){
+      } else if (gameType.equals("Ludo")){
         try {
-          boardGameFactory.createLadderGame45();
+          BoardGameFactory.createLadderGame45();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
@@ -64,7 +59,7 @@ public class PlayerSetupController {
         game.addPlayer(new Player(name, game, piece));
       }
 
-      game.play();
+      BoardGame.play();
       try {
         new GameBoardController(stage, sceneManager);
       } catch (FileNotFoundException ex) {
