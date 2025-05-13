@@ -54,6 +54,9 @@ public class BoardGameFactory {
     game.getBoard().addLadder(4, 14);
     game.getBoard().addLadder(9, 31);
     game.getBoard().addLadder(20, 42);
+    game.getBoard().addLadder(41, 35);
+    game.getBoard().addLadder(15, 6);
+    game.getBoard().addLadder(31, 28);
     return game;
   }
 }
