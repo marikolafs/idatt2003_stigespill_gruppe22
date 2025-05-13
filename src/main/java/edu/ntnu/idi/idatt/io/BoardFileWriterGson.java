@@ -60,6 +60,7 @@ public class BoardFileWriterGson implements BoardFileWriter {
         }
 
         // Write tile action if it exists
+        //TODO: edit to account for different tile actions
         if (tile.getLandAction() != null) {
           writer.beginObject();
           writer.name("action");
