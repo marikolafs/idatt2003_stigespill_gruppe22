@@ -22,8 +22,6 @@ public class Tile extends Observable {
   private List<Player> playersOnTile;
   private int x;
   private int y;
-  private boolean isHomeTile;
-  private Player owner;
   private List<Piece> pieces = new ArrayList<>();
 
   /**
@@ -106,19 +104,6 @@ public class Tile extends Observable {
     pieces.remove(piece);
   }
 
-  public boolean isHomeTile() {
-    return isHomeTile;
-  }
-
-  public void setHomeTile(boolean isHomeTile, Player owner) {
-    this.isHomeTile = isHomeTile;
-    this.owner = owner;
-  }
-
-  public boolean isOwnedBy(Player player) {
-    return this.owner == player;
-  }
-
   /**
    * Accessor method for x.
    *
@@ -186,7 +171,7 @@ public class Tile extends Observable {
   }
 
   /**
-   * Remove the player from the tile when its supposed to leave the tile.
+   * Remove the player from the tile when they are supposed to leave the tile.
    *
    * @param player the player to leave the tile
    * @throws IllegalArgumentException if player is null
