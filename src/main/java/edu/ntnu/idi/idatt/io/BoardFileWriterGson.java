@@ -7,7 +7,12 @@ import com.google.gson.stream.JsonWriter;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
+import edu.ntnu.idi.idatt.model.actions.HoldAction;
+import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -60,13 +65,37 @@ public class BoardFileWriterGson implements BoardFileWriter {
         }
 
         // Write tile action if it exists
-        //TODO: edit to account for different tile actions
         if (tile.getLandAction() != null) {
           writer.beginObject();
           writer.name("action");
-          writer.name("type").value(String.valueOf(tile.getLandAction()));
-          writer.name("destinationTileId").value(LadderAction.getDestinationTileId());
-          writer.name("description").value(LadderAction.getDescription());
+          writer.beginObject();
+          TileAction tileAction = tile.getLandAction();
+          if (tileAction instanceof LadderAction) {
+            LadderAction ladderAction = (LadderAction) tileAction;
+            writer.name("type").value("ladder");
+            writer.name("destinationTileId").value(ladderAction.getDestinationTileId());
+            writer.name("description").value(ladderAction.getDescription());
+          } else if (tileAction instanceof HoldAction) {
+            HoldAction holdAction = (HoldAction) tileAction;
+            writer.name("type").value("hold");
+            writer.name("description").value(holdAction.getDescription());
+          } else if (tileAction instanceof ReturnAction) {
+            ReturnAction returnAction = (ReturnAction) tileAction;
+            writer.name("type").value("return");
+            writer.name("description").value(returnAction.getDescription());
+          } else if (tileAction instanceof EntryAction) {
+            EntryAction entryAction = (EntryAction) tileAction;
+            writer.name("type").value("entry");
+            writer.name("destinationTileId").value(entryAction.getDestinationTileId());
+            writer.name("piece").value(entryAction.getPiece());
+            writer.name("description").value(entryAction.getDescription());
+          } else if (tileAction instanceof HomeEntryAction) {
+            HomeEntryAction homeAction = (HomeEntryAction) tileAction;
+            writer.name("type").value("home");
+            writer.name("destinationTileId").value(homeAction.getDestinationTileId());
+            writer.name("piece").value(homeAction.getPiece());
+            writer.name("description").value(homeAction.getDescription());
+          }
           writer.endObject();
         }
         writer.endObject();
