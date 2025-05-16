@@ -18,13 +18,15 @@ public class Player {
   private String piece;
   private boolean holdAction = false;
   private List<Piece> pieces = new ArrayList<>();
+  private Piece currentPiece;
+  private boolean isWinner = false;
 
   /**
    * Constructs a new Player with the specified name and places the player on the starting tile of
    * the game board.
    *
-   * @param name the name of the player
-   * @param game the BoardGame instance from which the starting tile is retrieved
+   * @param name  the name of the player
+   * @param game  the BoardGame instance from which the starting tile is retrieved
    * @param piece the piece assigned to the player
    */
   public Player(String name, BoardGame game, String piece) {
@@ -69,6 +71,14 @@ public class Player {
     return pieces;
   }
 
+  public Piece getCurrentPiece() {
+    return currentPiece;
+  }
+
+  public void setCurrentPiece(Piece currentPiece) {
+    this.currentPiece = currentPiece;
+  }
+
   /**
    * Accessor method stating whether a player is set to hold their next turn.
    *
@@ -98,6 +108,10 @@ public class Player {
       throw new IllegalArgumentException("Tile cannot be null");
     }
     this.currentTile = tile;
+  }
+
+  public void isWinner(boolean value) {
+    isWinner = value;
   }
 
 // TODO add exception for last tile
