@@ -8,7 +8,13 @@
       "id": 1,
       "nextTileId": 2,
       "x": 8,
-      "y": 15
+      "y": 15,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 53,
+        "piece": "Yellow",
+        "description": "Start of home stretch for yellow pieces."
+      }
     },
     {
       "id": 2,
@@ -22,9 +28,10 @@
       "x": 9,
       "y": 14,
       "action": {
-        "type": "StartFinalStretchAction",
+        "type": "EntryAction",
+        "destinationTileId": 3,
         "piece": "Yellow",
-        "description": "Start of final stretch for yellow piece"
+        "description": "First tile for yellow pieces."
       }
     },
     {
@@ -91,7 +98,13 @@
       "id": 14,
       "nextTileId": 15,
       "x": 15,
-      "y": 8
+      "y": 8,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 59,
+        "piece": "Blue",
+        "description": "Start of home stretch for blue pieces."
+      }
     },
     {
       "id": 15,
@@ -105,9 +118,10 @@
       "x": 14,
       "y": 7,
       "action": {
-        "type": "StartFinalStretchAction",
+        "type": "EntryAction",
+        "destinationTileId": 16,
         "piece": "Blue",
-        "description": "Start of final stretch for blue piece"
+        "description": "First tile for blue pieces."
       }
     },
     {
@@ -174,7 +188,13 @@
       "id": 27,
       "nextTileId": 28,
       "x": 8,
-      "y": 1
+      "y": 1,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 65,
+        "piece": "Red",
+        "description": "Start of home stretch for red pieces."
+      }
     },
     {
       "id": 28,
@@ -188,9 +208,10 @@
       "x": 7,
       "y": 2,
       "action": {
-        "type": "StartFinalStretchAction",
+        "type": "EntryAction",
+        "destinationTileId": 29,
         "piece": "Red",
-        "description": "Start of final stretch for red piece"
+        "description": "First tile for red pieces."
       }
     },
     {
@@ -257,7 +278,13 @@
       "id": 40,
       "nextTileId": 41,
       "x": 1,
-      "y": 8
+      "y": 8,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 71,
+        "piece": "Green",
+        "description": "Start of home stretch for green pieces."
+      }
     },
     {
       "id": 41,
@@ -271,9 +298,10 @@
       "x": 2,
       "y": 9,
       "action": {
-        "type": "StartFinalStretchAction",
+        "type": "EntryAction",
+        "destinationTileId": 42,
         "piece": "Green",
-        "description": "Start of final stretch for green piece"
+        "description": "First tile for green pieces."
       }
     },
     {
@@ -369,12 +397,7 @@
     {
       "id": 58,
       "x": 8,
-      "y": 9,
-      "action": {
-        "type": "FinalStretchAction",
-        "piece": "Yellow",
-        "description": "End of final stretch for yellow piece"
-      }
+      "y": 9
     },
     {
       "id": 59,
@@ -409,12 +432,7 @@
     {
       "id": 64,
       "x": 9,
-      "y": 8,
-      "action": {
-        "type": "FinalStretchAction",
-        "piece": "Blue",
-        "description": "End of final stretch for blue piece"
-      }
+      "y": 8
     },
     {
       "id": 65,
@@ -449,12 +467,7 @@
     {
       "id": 70,
       "x": 8,
-      "y": 7,
-      "action": {
-        "type": "FinalStretchAction",
-        "piece": "Red",
-        "description": "End of final stretch for red piece"
-      }
+      "y": 7
     },
     {
       "id": 71,
@@ -489,12 +502,7 @@
     {
       "id": 76,
       "x": 7,
-      "y": 8,
-      "action": {
-        "type": "FinalStretchAction",
-        "piece": "Green",
-        "description": "End of final stretch for green piece"
-      }
+      "y": 8
     }
   ]
 }
