@@ -1,31 +1,12 @@
 package edu.ntnu.idi.idatt.model.actions;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
-import java.util.HashMap;
 import java.util.Map;
-
-/*
-Ludo regler:
-- 1 terning
-- 4 brikker per spiller -> mulighet for tilpassning?
-- hvis terningen viser 6, kan du ta ut en ny brikke i startområdet
-  eller flytte en allerede aktiv brikke 6 steg fremover.
-- du kan hoppe over motstanderens brikker, men du kan bli slått tilbake til
-  startområdet hvis en motstander lander på samme plass som din.
-- når en brikke når målområdet, må du få eksakt antall øyne på terningen for å hjemføre den
-- du vinner om du er først til å få alle dine brikker trygt i mål
-
-
-- legge til brikker for hver spiller, plassere de på riktig punkt på brettet.
-- gjøre det mulig å velge hvilken brikke som skal flyttes hvis den er ute av startområdet, men ikke kommet i mål enda.
-- ha en måte å endre stien for brikker basert på farge/brikke
- */
-
-/*
-Maybe change to "homeTile" + entry tile from home (startFinalStretch)
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents the starting tile of a players final stretch in Ludo. When a player with the
@@ -34,58 +15,27 @@ Maybe change to "homeTile" + entry tile from home (startFinalStretch)
  */
 public class HomeEntryAction implements TileAction {
 
-  //tenker at disse brettene kan være fil-baserte så vi unngår å måtte deale med å endre createBoard
-
+  private static final Logger log = LoggerFactory.getLogger(HomeEntryAction.class);
   private final String description;
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
   String piece;
-  private final Map<Integer, Tile> tiles;
-
-  HomeStretchAction homeStretchAction;
+  private int destinationTileId;
 
 
-  public HomeEntryAction(String description, String piece) {
+  public HomeEntryAction(String description, String piece, int destinationTileId) {
     this.description = description;
     this.piece = piece;
-    tiles = game.getBoard().getTiles();
+    this.destinationTileId = destinationTileId;
   }
 
   /**
    * Determines a players route based on which piece they are using.
    *
-   * @param player the player whose path is being determined.
+   * @param piece the piece whose path is being determined.
    */
-  public void setNextTiles(Player player) {
-
-    // set startFinalStretchAction on all tiles 6 tiles before the final stretch
-    // then consistently check whether they are at the final stretch tiles. ??
-
-    Map<Integer, Tile> finalTiles = new HashMap<>();
-
-    int checkingTile = player.getCurrentTile().getTileId();
-    if (player.getPiece().equals(piece)) {
-      //player.setFinalStretch(true);
-    }
-
-    for (Tile tile : tiles.values()) {
-      if (tile.getLandAction().equals("HomeEntryAction") && tile.getTileId() >  checkingTile) {
-        finalTiles.put(tile.getTileId(), tile);
-      }
-    }
-
-    /*
-
-    for (Tile tile : tiles.values()) {
-
-      if ("FinalStretchAction".equals(tile.getLandAction())) {
-        if (finalStretchAction.getPiece().equals(player.getPiece())) {
-          finalTiles.put(tile.getTileId(), tile);
-        }
-      }
-    }
-
-     */
-    //add logic to set next tile as the tiles for the last stretch of the correct color, in the correct order
+  public void setNextTiles(Piece piece, int destinationTileId) {
+    Map<Integer, Tile> tiles = game.getBoard().getTiles();
+    tiles.get(piece.getCurrentTile().getTileId()).setNextTile(tiles.get(destinationTileId));
   }
 
   /**
@@ -93,11 +43,36 @@ public class HomeEntryAction implements TileAction {
    *
    * @return the description of the action.
    */
-  public String getDescrption() {
+  public String getDescription() {
     return description;
+  }
+
+  /**
+   * Accessor method for destinationTileId.
+   *
+   * @return the tile id of the destination for the action
+   */
+  public int getDestinationTileId() {
+    return destinationTileId;
+  }
+
+  /**
+   * Mutator method for destinationTileId.
+   *
+   * @param destinationTileId the destination for the action
+   */
+  public void setDestinationTileId(int destinationTileId) {
+    this.destinationTileId = destinationTileId;
+  }
+
+  public String getPiece() {
+    return piece;
   }
 
   @Override
   public void perform(Player player) {
+    setNextTiles(player.getCurrentPiece(), getDestinationTileId());
+
+    log.info("{} {} -> Has entered home stretch", player.getName(), description);
   }
 }

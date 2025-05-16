@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import java.util.ArrayList;
@@ -24,8 +25,11 @@ public class Ludo extends BoardGame {
   private boolean gameWon = false;
   private Dice dice;
   private Board board;
+  private HomeEntryAction homeEntryAction;
 
   private final List<BoardGameObserver> observers;
+
+  // TODO add method for returning pieces to start when another player lands on them (might not have time :P)
 
   /**
    * The constructor initializes the board and players list. The number of dice is set here.
@@ -38,7 +42,6 @@ public class Ludo extends BoardGame {
     this.board = new Board();
     this.observers = new ArrayList<>();
   }
-
 
   /**
    * Adds a player to the game. The player is added to the list of players if it is not already
@@ -54,13 +57,16 @@ public class Ludo extends BoardGame {
 
     if (!players.contains(player)) {
       players.add(player);
+      for (int i = 0; i < 4; i++){
+        player.getPieces().add(new Piece(player, player.getCurrentTile(), false, true));
+      }
       notifyObservers(
           new GameEvent("player_joined", player.getName() + " joined the game", player));
     }
   }
 
   /**
-   * The play method is responsible for managing the game play. It iterates over the players, *
+   * The play method is responsible for managing the game play. It iterates over the players,
    * allowing each player to roll the dice and move their pieces on the board. The game concludes
    * when the first * player gets all their pieces to the last tile, at which point a winner is
    * decided.
@@ -140,6 +146,8 @@ public class Ludo extends BoardGame {
    */
   public void movePiece(Piece piece, int diceValue) {
 
+    piece.getPlayer().setCurrentPiece(piece);
+
     // Move piece to its starting tile when activated
     if (piece.isInStart()) {
       Tile entryTile = getEntryTileFor(piece);
@@ -164,23 +172,51 @@ public class Ludo extends BoardGame {
   }
 
   /**
-   * the getDestinationTile method sets the destination of a piece, depending on what value was
-   * rolled on the dice.
+   * The getDestinationTile method sets the destination of a piece, depending on what value was
+   * rolled on the dice. If the piece enters its home entry tile, it will move towards its home tile.
    *
    * @param piece     the piece being moved
    * @param diceValue the value rolled
    * @return the destination for the piece
    */
-  //TODO: sjekk om det går ann å knytte denne opp mot move i Player
   public Tile getDestinationTile(Piece piece, int diceValue) {
     Tile current = piece.getCurrentTile();
     for (int i = 0; i < diceValue; i++) {
+      //Check whether a piece has reached its home entry tile.
+      if(current.getLandAction().equals("HomeEntryAction")) {
+        Tile previousTile = current;
+        homeEntryAction.perform(piece.getPlayer());
+        current = current.getNextTile();
+        previousTile.setNextTile(board.getTile(previousTile.getTileId() + 1));
+        return current;
+      }
+      //If there is no next tile, ascertain that the piece is home, and assess whether the game has been won.
       if (current.getNextTile() == null) {
+        piece.setHome(true);
+        setWinner(piece.getPlayer());
         return null;
       }
       current = current.getNextTile();
     }
     return current;
+  }
+
+  /**
+   * Sets a player as the winner of the game if they have gotten all their pieces into their home.
+   *
+   * @param player the player being set as the winner.
+   */
+  public void setWinner(Player player) {
+    int homeCount = 0;
+    for ( Piece piece : player.getPieces() ) {
+      if (piece.isHome()) {
+        homeCount++;
+      }
+    }
+    if (homeCount == 4) {
+      gameWon = true;
+      player.isWinner(true);
+    }
   }
 
   /**
