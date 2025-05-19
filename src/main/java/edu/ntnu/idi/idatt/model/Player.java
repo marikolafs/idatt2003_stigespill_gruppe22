@@ -114,6 +114,10 @@ public class Player {
     isWinner = value;
   }
 
+  public boolean getIsWinner() {
+    return isWinner;
+  }
+
 // TODO add exception for last tile
 
   /**
