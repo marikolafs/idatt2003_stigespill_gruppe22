@@ -3,7 +3,9 @@ package edu.ntnu.idi.idatt.view;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import java.io.FileNotFoundException;
 import javafx.scene.Scene;
+
 import javafx.scene.layout.BorderPane;
+
 import javafx.stage.Stage;
 
 /**
@@ -11,10 +13,7 @@ import javafx.stage.Stage;
  * GameBoardView and PlayerView into a single scene.
  */
 public class View extends BorderPane{
-  private final GameBoardView gameBoardView;
-  private final PlayerView playerView;
-  private final Scene scene;
-  private BoardGame boardGame = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+
 
   /**
    * The constructor sets up the main layout of the application.
@@ -23,9 +22,11 @@ public class View extends BorderPane{
    * @throws FileNotFoundException if an image file cannot be found.
    */
   public View(Stage stage) throws FileNotFoundException {
-    this.gameBoardView = new GameBoardView(boardGame.getBoard(), boardGame.getPlayers());
-    this.playerView = new PlayerView();
-    this.scene = new Scene(this, 1200, 800);
+    BoardGame boardGame = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+    Scene scene = new Scene(this, 1200, 800);
+
+    GameBoardView gameBoardView = new GameBoardView(BoardGame.getBoard(), boardGame.getPlayers());
+    PlayerView playerView = new PlayerView();
 
     this.setCenter(gameBoardView);
     this.setBottom(playerView);
@@ -34,18 +35,6 @@ public class View extends BorderPane{
     stage.setTitle(BoardGame.getName());
     stage.setScene(scene);
 
-  }
-
-  /**
-   * Accessor method for the player view.
-   * @return the player view
-   */
-  public PlayerView getPlayerView() {
-    return playerView;
-  }
-
-  public GameBoardView getGameBoardView() {
-    return gameBoardView;
   }
 }
 
