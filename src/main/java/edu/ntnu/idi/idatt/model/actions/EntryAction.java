@@ -1,11 +1,21 @@
 package edu.ntnu.idi.idatt.model.actions;
 
+import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Tile representing a pieces entry onto the board.
+ * Tile representing a pieces entry onto the board. Determines which tile a piece should enter the
+ * board on, based on which tile they start on.
  */
 public class EntryAction implements TileAction {
+
+  private static Logger logger = LoggerFactory.getLogger(EntryAction.class);
+  private final BoardGame game = BoardGame.getInstance(BoardGame.getName(),
+      BoardGame.getDescription());
 
   private final String description;
   private final String piece;
@@ -47,5 +57,17 @@ public class EntryAction implements TileAction {
 
   @Override
   public void perform(Player player) {
+    Piece piece = player.getCurrentPiece();
+    if (piece == null || !piece.isInStart()) {
+      return;
+    }
+    Tile destinationTile = game.getBoard().getTile(destinationTileId);
+    if (destinationTile == null) {
+      logger.warn("No destiantion tile found for piece {}", player.getPiece());
+      return;
+    }
+    piece.setCurrentTile(destinationTile);
+    piece.setInStart(false);
+    destinationTile.addPiece(piece);
   }
 }
