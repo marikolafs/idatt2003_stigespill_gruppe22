@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.model;
 
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,13 +118,18 @@ public class Board {
     return tiles;
   }
 
-  //Potentially move to tileAction (HomeEntryAction)
-  public void setEntryTileFor(Player player, Tile tile) {
-    entryTiles.put(player, tile);
-  }
-
-  public Tile getEntryTileFor(Player player) {
-    return entryTiles.get(player);
+  /**
+   * Accessor method for a pieces starting tile. Sees which tiles contain the EntryTile action and returns the tile belonging to a specified piece.
+   * @param piece the piece the starting tile belongs to
+   */
+  public Tile getStartingTileForPiece(String piece) {
+    for (Tile tile : tiles.values()) {
+      TileAction action = tile.getLandAction();
+      if (action instanceof EntryAction entryAction && entryAction.getPiece().equalsIgnoreCase(piece)) {
+        return tile;
+      }
+    }
+    return null;
   }
 
   /**
