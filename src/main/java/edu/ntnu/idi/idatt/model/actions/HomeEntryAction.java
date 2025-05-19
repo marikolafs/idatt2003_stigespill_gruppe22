@@ -29,16 +29,6 @@ public class HomeEntryAction implements TileAction {
   }
 
   /**
-   * Determines a players route based on which piece they are using.
-   *
-   * @param piece the piece whose path is being determined.
-   */
-  public void setNextTiles(Piece piece, int destinationTileId) {
-    Map<Integer, Tile> tiles = game.getBoard().getTiles();
-    tiles.get(piece.getCurrentTile().getTileId()).setNextTile(tiles.get(destinationTileId));
-  }
-
-  /**
    * Accessor method for the actions description.
    *
    * @return the description of the action.
@@ -71,7 +61,13 @@ public class HomeEntryAction implements TileAction {
 
   @Override
   public void perform(Player player) {
-    setNextTiles(player.getCurrentPiece(), getDestinationTileId());
+    if (player == null || player.getCurrentPiece() == null) {
+      return;
+    }
+
+    Piece piece = player.getCurrentPiece();
+    Tile destinationTile = game.getBoard().getTile(destinationTileId);
+    piece.setCurrentTile(destinationTile);
 
     log.info("{} {} -> Has entered home stretch", player.getName(), description);
   }
