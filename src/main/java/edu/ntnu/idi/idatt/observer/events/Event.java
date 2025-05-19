@@ -59,6 +59,11 @@ public enum Event {
     /**
      * Event when a player changes.
      */
-    PLAYER_CHANGE
+    PLAYER_CHANGE,
+
+    /**
+     * Event when a player piece has changed.
+     */
+    PLAYER_PIECE_CHANGED
 
 }
