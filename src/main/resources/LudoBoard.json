@@ -26,13 +26,7 @@
       "id": 3,
       "nextTileId": 4,
       "x": 9,
-      "y": 14,
-      "action": {
-        "type": "EntryAction",
-        "destinationTileId": 3,
-        "piece": "Yellow",
-        "description": "First tile for yellow pieces."
-      }
+      "y": 14
     },
     {
       "id": 4,
@@ -116,13 +110,7 @@
       "id": 16,
       "nextTileId": 17,
       "x": 14,
-      "y": 7,
-      "action": {
-        "type": "EntryAction",
-        "destinationTileId": 16,
-        "piece": "Blue",
-        "description": "First tile for blue pieces."
-      }
+      "y": 7
     },
     {
       "id": 17,
@@ -206,13 +194,7 @@
       "id": 29,
       "nextTileId": 30,
       "x": 7,
-      "y": 2,
-      "action": {
-        "type": "EntryAction",
-        "destinationTileId": 29,
-        "piece": "Red",
-        "description": "First tile for red pieces."
-      }
+      "y": 2
     },
     {
       "id": 30,
@@ -296,13 +278,7 @@
       "id": 42,
       "nextTileId": 43,
       "x": 2,
-      "y": 9,
-      "action": {
-        "type": "EntryAction",
-        "destinationTileId": 42,
-        "piece": "Green",
-        "description": "First tile for green pieces."
-      }
+      "y": 9
     },
     {
       "id": 43,
@@ -503,6 +479,50 @@
       "id": 76,
       "x": 7,
       "y": 8
+    },
+    {
+      "id": 77,
+      "x": 1,
+      "y": 15,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 42,
+        "piece": "Green",
+        "description": "First tile for green pieces."
+      }
+    },
+    {
+      "id": 78,
+      "x": 15,
+      "y": 15,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 3,
+        "piece": "Yellow",
+        "description": "First tile for yellow pieces."
+      }
+    },
+    {
+      "id": 79,
+      "x": 15,
+      "y": 1,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 16,
+        "piece": "Blue",
+        "description": "First tile for green pieces."
+      }
+    },
+    {
+      "id": 80,
+      "x": 1,
+      "y": 1,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 29,
+        "piece": "Red",
+        "description": "First tile for red pieces."
+      }
     }
   ]
 }
