@@ -12,7 +12,7 @@ public class Piece {
   private Tile currentTile;
   private boolean isHome;
   private boolean isInStart;
-  private static Player player;
+  private Player player;
 
 
   /**
@@ -90,7 +90,7 @@ public class Piece {
    *
    * @return the player who owns a piece
    */
-  public static Player getPlayer() {
+  public Player getPlayer() {
     return player;
   }
 }
