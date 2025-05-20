@@ -17,7 +17,7 @@ public class BoardGameFactory {
   }
 
   public static BoardGame createLadderGame90() throws Exception {
-    BoardGame game = createGame("Ladder game 90", "Ladder game with 90 tiles", 2, 9, 10);
+    BoardGame game = createGame("Ladder game 90", "Ladder game with 90 tiles", 2, 10, 9);
     game.getBoard().addLadder(2, 38);
     game.getBoard().addLadder(9, 11);
     game.getBoard().addLadder(26, 6);
@@ -50,7 +50,7 @@ public class BoardGameFactory {
   }
 
   public static BoardGame createLadderGame45() throws Exception {
-    BoardGame game = createGame("Ladder game 45", "Ladder game with 45 tiles", 2, 5, 9);
+    BoardGame game = createGame("Ladder game 45", "Ladder game with 45 tiles", 2, 9, 5);
     game.getBoard().addLadder(4, 14);
     game.getBoard().addLadder(9, 31);
     game.getBoard().addLadder(20, 42);

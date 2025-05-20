@@ -16,8 +16,16 @@ public class WelcomeController {
     WelcomeView welcomeView = new WelcomeView();
     Scene welcomeScene = new Scene(welcomeView.getView(), 400, 300);
 
-    welcomeView.getLadderButton().setOnAction(event -> {
-      new PlayerSetupController(stage, sceneManager, "LadderGame");
+    welcomeView.getLadder90Button().setOnAction(event -> {
+      new PlayerSetupController(stage, sceneManager, "LadderGame90");
+    });
+
+    welcomeView.getLadder45Button().setOnAction(event -> {
+      new PlayerSetupController(stage, sceneManager, "LadderGame45");
+    });
+
+    welcomeView.getLadder90PlusButton().setOnAction(event -> {
+      new PlayerSetupController(stage, sceneManager, "LadderGame90Plus");
     });
 
     welcomeView.getLudoButton().setOnAction(event -> {

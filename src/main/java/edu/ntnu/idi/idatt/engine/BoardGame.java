@@ -8,6 +8,8 @@ import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.observer.events.Event;
+import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class BoardGame extends Observable {
   private static BoardGame instance;
   private static String name;
   private static String description;
+  private static boolean rollButtonPressed;
+  private static Player currentPlayer;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -34,7 +38,6 @@ public class BoardGame extends Observable {
   }
 
   private static Board board;
-  private Player currentPlayer;
   private Dice dice;
   private static List<Player> players;
   private List<BoardGameObserver> observers;
@@ -93,6 +96,14 @@ public class BoardGame extends Observable {
     return description;
   }
 
+  public static void setCurrentPlayer(Player player) {
+    currentPlayer = player;
+  }
+
+  public static void setPlayerView(PlayerView playerView) {
+    playerView = playerView;
+  }
+
   /**
    * Accessor method for board.
    *
@@ -147,7 +158,7 @@ public class BoardGame extends Observable {
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
       notifyObservers(new GameEvent
-          ("player_joined", player.getName() + " joined the game", player));
+          (Event.PLAYER_ADDED, player.getName() + " joined the game", player));
     }
   }
 
@@ -171,7 +182,7 @@ public class BoardGame extends Observable {
    * @return null
    * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
-  public Board createBoard(int rows, int columns) {
+  public Board createBoard(int columns, int rows) {
 
     if (rows <= 0 || columns <= 0) {
       throw new IllegalArgumentException("Number of rows and columns must be greater than 0");
@@ -187,12 +198,12 @@ public class BoardGame extends Observable {
 
       if (leftToRight) {
         for (int c = 0; c < columns; c++) {
-          Tile tile = new Tile(tileId++, null, r, c);
+          Tile tile = new Tile(tileId++, null, c, r);
           board.addTile(tile);
         }
       } else {
         for (int c = columns - 1; c >= 0; c--) {
-          Tile tile = new Tile(tileId++, null, r, c);
+          Tile tile = new Tile(tileId++, null, c, r);
           board.addTile(tile);
         }
       }
@@ -204,7 +215,7 @@ public class BoardGame extends Observable {
     board.setGoalTile(goalTile);
 
     notifyObservers(new GameEvent
-        ("board_created", "The game board has been created.", null));
+        (Event.BOARD_CREATED, "The game board has been created.", null));
     return null;
   }
 
@@ -220,7 +231,7 @@ public class BoardGame extends Observable {
     }
     this.dice = new Dice(numberOfDice);
     notifyObservers(new GameEvent
-        ("dice_created", "The game dice have been created.", null));
+        (Event.DICE_CREATED, "The game dice have been created.", null));
   }
 
   /**
@@ -229,50 +240,51 @@ public class BoardGame extends Observable {
    * player reaches the last tile (goal), at which point a winner is decided.
    */
   public void play() {
-    boolean gameWon = false;
-    while (!gameWon) {
-      for (Player player : players) {
-
-        if (player.shouldHold()) {
-          System.out.println(player.getName() + " holds ");
-          player.setHoldAction(false);
-          continue;
-        }
-
-        notifyObservers(new GameEvent
-            ("game_started", "The game has started!", null));
-
-        currentPlayer = player;
-        Tile currentTile = player.getCurrentTile();
-
-        int steps = dice.roll();
-        player.move(steps);
-
-        currentTile.leavePlayer(player);
-
-        Tile newTile = player.getCurrentTile();
-        newTile.landPlayer(player);
-        currentPlayer.placeOnTile(newTile);
-
-        notifyObservers(new GameEvent("player_moved", player.getName()
-            + " moved to tile " + newTile.getTileId(), player));
-
-        if (newTile.getLandAction() != null) {
-          newTile.getLandAction().perform(player);
-          notifyObservers(new GameEvent
-              ("tile_action", player.getName() + " triggered an action on tile "
-                  + newTile.getTileId(), player));
-        }
-
-        if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
-          gameWon = true;
-
-          notifyObservers(new GameEvent
-              ("winner_declared", player.getName() + " wins the game!", player));
-          break;
-        }
-      }
+    if (gameWon) {
+      return;
     }
+
+    Player player = players.get(currentPlayerIndex);
+    setCurrentPlayer(player);
+
+
+    notifyObservers(
+        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
+  }
+
+  public void rollDice(Player player) {
+    int diceValue = dice.roll();
+
+    Tile currentTile = player.getCurrentTile();
+    currentTile.leavePlayer(player);
+
+    player.move(diceValue);
+    Tile newTile = player.getCurrentTile();
+    newTile.landPlayer(player);
+
+    player.placeOnTile(newTile);
+
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+        player.getName() + " moved to tile " + newTile.getTileId(), player));
+
+    if (newTile.getLandAction() != null) {
+      newTile.getLandAction().perform(player);
+      notifyObservers(new GameEvent(Event.TILE_ACTION,
+          player.getName() + " triggered an action on tile "
+              + newTile.getTileId(), player));
+    }
+
+    if (newTile.getTileId() >= getBoard().getGoalTile().getTileId()) {
+      notifyObservers(new GameEvent(Event.PLAYER_WIN,
+          player.getName() + " wins the game!", player));
+      notifyObservers(new GameEvent(Event.GAME_END,
+          "The game has ended.", null));
+      gameWon = true;
+      System.out.println(getWinner().getName() + " won the game!");
+      return;
+    }
+
+    nextTurn();
   }
 
   /**
@@ -289,7 +301,7 @@ public class BoardGame extends Observable {
     Player player = players.get(currentPlayerIndex);
     handleTurn(player);
     notifyObservers(
-        new GameEvent("player_change", "Player changed to " + player.getName(), player));
+        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
   /**
@@ -304,7 +316,7 @@ public class BoardGame extends Observable {
         .toList();
 
     if (activePieces.isEmpty()) {
-      nextTurn();
+      nextLudoTurn();
       return;
     } else if (activePieces.size() == 1) {
       movePiece(activePieces.get(0), diceValue);
@@ -313,7 +325,7 @@ public class BoardGame extends Observable {
 
     // Player can go again if they rolled a 6
     if (diceValue != 6) {
-      nextTurn();
+      nextLudoTurn();
     }
   }
 
@@ -323,6 +335,11 @@ public class BoardGame extends Observable {
   public void nextTurn() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     play();
+  }
+
+  public void nextLudoTurn() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    playLudo();
   }
 
   /**
