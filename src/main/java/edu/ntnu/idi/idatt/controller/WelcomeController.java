@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.controller;
 
 import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.view.WelcomeView;
+import java.io.FileNotFoundException;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -11,7 +12,7 @@ public class WelcomeController {
 
   private SceneManager sceneManager;
 
-  public WelcomeController(Stage stage, SceneManager sceneManager) {
+  public WelcomeController(Stage stage, SceneManager sceneManager) throws FileNotFoundException {
     WelcomeView welcomeView = new WelcomeView();
     Scene welcomeScene = new Scene(welcomeView.getView(), 400, 300);
 
