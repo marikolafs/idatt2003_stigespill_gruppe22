@@ -8,7 +8,9 @@ import com.google.gson.JsonParser;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
+import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.io.FileReader;
@@ -131,11 +133,29 @@ public class BoardFileReaderGson implements BoardFileReader {
             currentTile.setLandAction(returnAction);
           }
 
-          if("HoldAction".equals(actionType)) {
+          if ("HoldAction".equals(actionType)) {
             String actionDescription = actionJson.get("description").getAsString();
 
             HoldAction holdAction = new HoldAction(actionDescription);
             currentTile.setLandAction(holdAction);
+          }
+
+          if ("HomeEntryAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+            int destinationTileId = actionJson.get("destinationTileId").getAsInt();
+
+            HomeEntryAction startHomeAction = new HomeEntryAction(actionDescription, piece,
+                destinationTileId);
+            currentTile.setLandAction(startHomeAction);
+          }
+
+          if ("EntryAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+            int destinationTileId = actionJson.get("destinationTileId").getAsInt();
+            EntryAction entryAction = new EntryAction(actionDescription, piece, destinationTileId);
+            currentTile.setLandAction(entryAction);
           }
         }
       }

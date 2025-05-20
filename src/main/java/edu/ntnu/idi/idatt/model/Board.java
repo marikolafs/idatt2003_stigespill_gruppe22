@@ -1,8 +1,10 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +19,12 @@ import java.util.Map;
 public class Board {
 
   private final Map<Integer, Tile> tiles;
+  private final Map<Player, Tile> entryTiles = new HashMap<>();
   private Tile startingTile;
   private Tile goalTile;
   private int rows;
   private int columns;
+  private Map<String, Tile> startingTiles = new HashMap<>();
 
 
   /**
@@ -115,6 +119,20 @@ public class Board {
    */
   public Map<Integer, Tile> getTiles() {
     return tiles;
+  }
+
+  /**
+   * Accessor method for a pieces starting tile. Sees which tiles contain the EntryTile action and returns the tile belonging to a specified piece.
+   * @param piece the piece the starting tile belongs to
+   */
+  public Tile getStartingTileForPiece(String piece) {
+    for (Tile tile : tiles.values()) {
+      TileAction action = tile.getLandAction();
+      if (action instanceof EntryAction entryAction && entryAction.getPiece().equalsIgnoreCase(piece)) {
+        return tile;
+      }
+    }
+    return null;
   }
 
   /**
