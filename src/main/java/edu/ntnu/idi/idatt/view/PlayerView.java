@@ -10,6 +10,7 @@ import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,11 +28,12 @@ import javafx.scene.text.Text;
 public class PlayerView extends HBox implements BoardGameObserver {
   private final Button rollButton;
   private  Text playerName;
-  private  Text tileName;
   private  Text diceRollValue;
   private final ImageView dice1ImageView;
   private final ImageView dice2ImageView;
   private VBox vBox;
+  private ImageView pieceImageView;
+  private String pieceName;
 
   /**
    * Adds a button to roll the dice, an image of the current players piece and
@@ -41,28 +43,23 @@ public class PlayerView extends HBox implements BoardGameObserver {
    */
   public PlayerView() throws FileNotFoundException {
     this.setSpacing(50);
-    this.rollButton = new Button("Roll");
+    this.rollButton = new Button("ROLL DICE");
     this.playerName = new Text("Player Name");
-    this.tileName = new Text("Current Tile");
-    this.diceRollValue = new Text("Dice Roll Value");
     this.dice1ImageView = new ImageView();
     this.dice2ImageView = new ImageView();
     this.vBox = new VBox();
+    this.pieceImageView = new ImageView();
+    this.pieceName = pieceName;
 
     this.setAlignment(Pos.CENTER);
     vBox.setAlignment(Pos.CENTER);
     this.setPadding(new Insets(10, 10, 50, 10));
 
 
-    // Player piece image
-    FileInputStream inputstream = new FileInputStream("src/main/resources/images/pieces/kitty.png");
-    Image image = new Image(inputstream);
-    ImageView imageView = new ImageView(image);
-    imageView.setFitHeight(50);
-    imageView.setFitWidth(50);
-
-    vBox.getChildren().addAll(imageView, playerName);
+    vBox.getChildren().addAll(pieceImageView, playerName);
     this.getChildren().addAll(vBox, rollButton, dice1ImageView, dice2ImageView);
+
+    rollButton.setStyle("-fx-background-color:OLIVE;");
   }
 
   /**
@@ -73,13 +70,7 @@ public class PlayerView extends HBox implements BoardGameObserver {
     return rollButton;
   }
 
-  /**
-   * Returns the text field for the player name.
-   * @param diceRollValue the dice roll value
-   */
-  public void setDiceRollValue(int diceRollValue) {
-    this.diceRollValue.setText("Dice roll " + diceRollValue);
-  }
+
 
   /**
    * Returns the text field for the player name.
@@ -87,14 +78,6 @@ public class PlayerView extends HBox implements BoardGameObserver {
    */
   public void setPlayerName(String playerName) {
     this.playerName.setText(playerName);
-  }
-
-  /**
-   * Returns the text field for the tile name.
-   * @param tileName the tile id
-   */
-  public void setTileName(int tileName) {
-    this.tileName.setText(String.valueOf(tileName));
   }
 
   /**
@@ -115,7 +98,7 @@ public class PlayerView extends HBox implements BoardGameObserver {
       dice1ImageView.setImage(dice1Image);
       dice2ImageView.setImage(dice2Image);
 
-      // Set image sizes
+
       dice1ImageView.setFitWidth(50);
       dice1ImageView.setFitHeight(50);
       dice2ImageView.setFitWidth(50);
@@ -125,11 +108,29 @@ public class PlayerView extends HBox implements BoardGameObserver {
     }
   }
 
-    /**
-     * Updates the view based on the game event.
-     *
-     * @param event the game event
-     */
+  /**
+   * Updates the image of the players piece.
+   *
+   * @param piecePath the path to the image of the piece
+   */
+  public void setPieceImage(String pieceName) {
+    String piecePath = "/images/pieces/" + pieceName + ".png";
+    InputStream inputStream = getClass().getResourceAsStream(piecePath);
+    if (inputStream == null) {
+      throw new IllegalArgumentException("Image not found at path: " + piecePath);
+    }
+    pieceImageView.setFitWidth(50);
+    pieceImageView.setFitHeight(50);
+
+    Image image = new Image(inputStream);
+    this.pieceImageView.setImage(image);
+  }
+
+  /**
+   * Updates the view based on the game event.
+   *
+   * @param event the game event
+   */
   @Override
   public void stateChanged(GameEvent event) {
     switch (event.getEventType()){
@@ -138,7 +139,6 @@ public class PlayerView extends HBox implements BoardGameObserver {
             Player player = (Player) event.getPlayer();
             Platform.runLater(() -> {
                 setPlayerName(player.getName());
-                setTileName(player.getCurrentTile().getTileId());
             });
             }
         }
@@ -147,16 +147,21 @@ public class PlayerView extends HBox implements BoardGameObserver {
             Player player = (Player) event.getPlayer();
             Platform.runLater(() -> {
                 setPlayerName(player.getName());
-                setTileName(player.getCurrentTile().getTileId());
             });
             }
         }
       case PLAYER_CHANGE -> {
-            if (event.getPlayer() instanceof Player) {
-            Player player = (Player) event.getPlayer();
+            if (event.getPlayer() instanceof Player player) {
             Platform.runLater(() -> {
                 setPlayerName(player.getName());
-                setTileName(player.getCurrentTile().getTileId());
+                setPieceImage(player.getPiece());
+            });
+            }
+        }
+      case PLAYER_PIECE_CHANGED -> {
+            if (event.getPlayer() instanceof Player player) {
+            Platform.runLater(() -> {
+              setPieceImage(player.getPiece());
             });
             }
         }

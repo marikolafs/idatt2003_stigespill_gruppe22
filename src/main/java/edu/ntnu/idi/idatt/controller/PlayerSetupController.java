@@ -32,13 +32,13 @@ public class PlayerSetupController {
     view.getStartButton().setOnAction(e -> {
       Set<String> usedPieces = new HashSet<>();
 
-      if (gameType.equals( "LadderGame")){
+      if (gameType.equals("LadderGame")) {
         try {
           BoardGameFactory.createLadderGame90();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
-      } else if (gameType.equals("Ludo")){
+      } else if (gameType.equals("Ludo")) {
         try {
           BoardGameFactory.createLadderGame45();
         } catch (Exception ex) {
@@ -56,7 +56,11 @@ public class PlayerSetupController {
         }
 
         usedPieces.add(piece);
-        game.addPlayer(new Player(name, game, piece));
+        Player player = new Player(name, game, piece);
+        game.addPlayer(player);
+
+
+        player.setPiece(piece);
       }
 
       BoardGame.play();

@@ -19,6 +19,7 @@ public class PlayerSetupView {
   private final List<ComboBox<String>> pieceFields = new ArrayList<>();
 
   public PlayerSetupView(String gameType) {
+    startButton.setStyle("-fx-background-color:OLIVE;");
     layout.setPadding(new Insets(20));
 
     Label label = new Label("How many players should be added?");

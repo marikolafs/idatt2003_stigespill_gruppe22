@@ -7,6 +7,7 @@ import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Platform;
@@ -80,8 +81,13 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
       StackPane playerPane = new StackPane();
 
       // Load player image
-      FileInputStream inputstream = new FileInputStream("src/main/resources/images/pieces/kitty.png");
-      Image image = new Image(inputstream);
+      String piecePath = "/images/pieces/" + player.getPiece() + ".png";;
+      InputStream inputStream = getClass().getResourceAsStream(piecePath);
+      if (inputStream == null) {
+        throw new IllegalArgumentException("Image not found at path: " + piecePath);
+      }
+
+      Image image = new Image(inputStream);
       ImageView imageView = new ImageView(image);
       imageView.setFitHeight(40);
       imageView.setFitWidth(40);
@@ -114,6 +120,15 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
             }
           });
         }
+      }
+      case PLAYER_PIECE_CHANGED -> {
+        Platform.runLater(() -> {
+          try {
+            updateBoard();
+          } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+          }
+        });
       }
       case PLAYER_WIN -> {
             if (event.getPlayer() instanceof Player player) {
