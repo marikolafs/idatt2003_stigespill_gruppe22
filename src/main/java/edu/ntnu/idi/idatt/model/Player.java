@@ -57,6 +57,7 @@ public class Player extends Observable {
     return piece;
   }
 
+
   /**
    * Places the player on the given tile and sets it to the current tile.
    *
@@ -85,5 +86,14 @@ public class Player extends Observable {
     }
     notifyObservers(new GameEvent(Event.PLAYER_MOVED,
         "Player " + name + " moved to tile " + currentTile.getTileId(), this));
+  }
+
+  public void setPiece(String piece) {
+    if (piece == null || piece.isEmpty()) {
+      throw new IllegalArgumentException("Piece cannot be null or empty");
+    }
+    this.piece = piece;
+    notifyObservers(new GameEvent(Event.PLAYER_PIECE_CHANGED,
+        "Player " + name + " changed piece to " + piece, this));
   }
 }
