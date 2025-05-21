@@ -2,37 +2,29 @@ package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.BoardGameFactory;
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
+import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LadderGameView extends BorderPane {
@@ -44,11 +36,15 @@ public class LadderGameView extends BorderPane {
       BoardGame.getDescription());
   private Board board = game.getBoard();
   private Map<Integer, Tile> tiles = board.getTiles();
+  private BoardFileReaderGson reader;
+  private Path file;
 
   private int playerCount;
   private static List<Player> players = game.getPlayers();
   private final List<String> availablePieces = new ArrayList<>(List.of("Pig", "Cat", "Rabbit", "Chicken", "Sheep"));
-  private final Button ladderButton = new Button("LadderGame");
+  private final Button ladder90Button = new Button("LadderGame 90");
+  private final Button ladder45Button = new Button("LadderGame 45");
+  private final Button ladder90PlusButton = new Button("LadderGame 90+");
   private final Button ludoButton = new Button("Ludo");
 
   BorderPane layout = new BorderPane();
@@ -62,7 +58,7 @@ public class LadderGameView extends BorderPane {
   public void selectPlayerSetupView(Stage stage, String gameType) throws FileNotFoundException {
     Label label = new Label("How many players?");
     ComboBox<Integer> playerCountBox = new ComboBox<>();
-    if (gameType.equals("LadderGame")) {
+    if (gameType.equals("LadderGame90") || gameType.equals("LadderGame45") ||  gameType.equals("LadderGame90Plus")) {
       playerCountBox.getItems().addAll(2, 3, 4, 5);
     } else if (gameType.equals("Ludo")) {
       playerCountBox.getItems().addAll(2, 3, 4);
@@ -94,10 +90,10 @@ public class LadderGameView extends BorderPane {
     List<ComboBox<String>>  pieceFields = new ArrayList<>();
 
     List<String> availablePieces = new ArrayList<>();
-    if (gameType.equals("LadderGame")) {
+    if (gameType.equals("LadderGame90") || gameType.equals("LadderGame45") ||  gameType.equals("LadderGame90Plus")) {
       availablePieces.addAll(List.of("Pig", "Cat", "Rabbit", "Chicken", "Sheep"));
     } else if (gameType.equals("Ludo")) {
-      availablePieces.addAll(List.of("Cat", "Rabbit", "Chicken", "Sheep"));
+      availablePieces.addAll(List.of("Cat", "Pig", "Chicken", "Sheep"));
     }
 
     for (int i = 0; i < playerCount; i++) {
@@ -140,7 +136,7 @@ public class LadderGameView extends BorderPane {
       try {
         initalizeGame(gameType);
         stage.setScene(scene);
-      } catch (FileNotFoundException ex) {
+      } catch (JsonParsingException ex) {
         throw new RuntimeException(ex);
       }
     });
@@ -151,16 +147,35 @@ public class LadderGameView extends BorderPane {
     stage.setTitle("Player setup");
   }
 
-  private void initalizeGame(String gameType) throws FileNotFoundException {
-    if (gameType.equals("LadderGame")) {
+  // potensielt endre til switch heller enn if
+  private void initalizeGame(String gameType) throws JsonParsingException {
+    if (gameType.equals("LadderGame90")) {
       try {
         boardGameFactory.createLadderGame90();
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
+    } else if (gameType.equals("LadderGame45")) {
+      try {
+        boardGameFactory.createLadderGame45();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    } else if (gameType.equals("LadderGame90Plus")) {
+      try {
+        boardGameFactory.createLadderGame90Plus();
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     } else if (gameType.equals("Ludo")) {
       try {
-        boardGameFactory.createLadderGame45(); // change once ludo is incorporated
+        game.reset();
+        game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+        reader = new BoardFileReaderGson();
+        file = Paths.get("src/main/resources/LudoBoard.json");
+        board = reader.readBoard(file);
+        board.setStartingTile(board.getTile(1));
+        game.createDice(1);
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
