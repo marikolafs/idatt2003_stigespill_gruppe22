@@ -71,6 +71,10 @@ public class Player {
     return pieces;
   }
 
+  public void setPiece(String piece) {
+    this.piece = piece;
+  }
+
   public Piece getCurrentPiece() {
     return currentPiece;
   }

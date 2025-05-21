@@ -1,10 +1,12 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.util.HashMap;
 import java.util.Map;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 
 /**
  * Represents the board consisting of tiles.

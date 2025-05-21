@@ -1,17 +1,17 @@
 package edu.ntnu.idi.idatt.engine;
 
-import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Piece;
-import edu.ntnu.idi.idatt.model.Player;
-import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
-import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
+import edu.ntnu.idi.idatt.observer.Observable;
 
 
 /**
@@ -27,8 +27,6 @@ public class BoardGame extends Observable {
   private static BoardGame instance;
   private static String name;
   private static String description;
-  private static boolean rollButtonPressed;
-  private static Player currentPlayer;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -38,12 +36,13 @@ public class BoardGame extends Observable {
   }
 
   private static Board board;
-  private Dice dice;
+  private static Player currentPlayer;
+  private static Dice dice;
   private static List<Player> players;
   private List<BoardGameObserver> observers;
   private HomeEntryAction homeEntryAction;
-  private boolean gameWon;
-  private int currentPlayerIndex = 0;
+  private static boolean gameWon;
+  private static int currentPlayerIndex = 0;
 
   /**
    * The constructor initializes the board and players list.
@@ -109,7 +108,7 @@ public class BoardGame extends Observable {
    *
    * @return the board object
    */
-  public Board getBoard() {
+  public static Board getBoard() {
     return board;
   }
 
@@ -239,7 +238,7 @@ public class BoardGame extends Observable {
    * allowing each player to roll the dice and move on the board. The game concludes when the first
    * player reaches the last tile (goal), at which point a winner is decided.
    */
-  public void play() {
+  public static void play() {
     if (gameWon) {
       return;
     }
@@ -252,7 +251,7 @@ public class BoardGame extends Observable {
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
-  public void rollDice(Player player) {
+  public static void rollDice(Player player) {
     int diceValue = dice.roll();
 
     Tile currentTile = player.getCurrentTile();
@@ -332,7 +331,7 @@ public class BoardGame extends Observable {
   /**
    * The nextTurn handles updating the current player.
    */
-  public void nextTurn() {
+  public static void nextTurn() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     play();
   }
@@ -439,6 +438,10 @@ public class BoardGame extends Observable {
       }
     }
     if (homeCount == 4) {
+      notifyObservers(new GameEvent(Event.PLAYER_WIN,
+          player.getName() + " wins the game!", player));
+      notifyObservers(new GameEvent(Event.GAME_END,
+          "The game has ended.", null));
       gameWon = true;
       player.isWinner(true);
     }
@@ -453,13 +456,14 @@ public class BoardGame extends Observable {
     return gameWon;
   }
 
+
   /**
    * The getWinner method is responsible for determining the winner of the game. It iterates over
    * the players and checks if the player has reached the goal tile.
    *
    * @return the player who has reached the goal tile first
    */
-  public Player getWinner() {
+  public static Player getWinner() {
     Player winner = null;
     for (Player player : players) {
       currentPlayer = player;
@@ -469,5 +473,6 @@ public class BoardGame extends Observable {
       }
     }
     return winner;
+
   }
 }

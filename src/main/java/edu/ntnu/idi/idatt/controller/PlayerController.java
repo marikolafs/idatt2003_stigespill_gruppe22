@@ -37,6 +37,7 @@ public class PlayerController {
     playerView.setPieceImage(player.getPiece());
 
 
+    //Oppdatere dette til å ta i betraktning Ludo spilling
     Button rollButton = playerView.getRollButton();
     rollButton.setOnAction(e -> {
       BoardGame.rollDice(game.getCurrentPlayer());
@@ -47,5 +48,4 @@ public class PlayerController {
 
     });
   }
-
 }

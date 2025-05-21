@@ -82,7 +82,7 @@ public class BoardFileWriterGson implements BoardFileWriter {
           } else if (tileAction instanceof HoldAction) {
             HoldAction holdAction = (HoldAction) tileAction;
             writer.name("type").value("hold");
-            writer.name("description").value(holdAction.getDescription());
+            writer.name("description").value(holdAction.getDescrption());
           } else if (tileAction instanceof ReturnAction) {
             ReturnAction returnAction = (ReturnAction) tileAction;
             writer.name("type").value("return");
