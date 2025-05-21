@@ -1,6 +1,10 @@
 package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
+import edu.ntnu.idi.idatt.model.Board;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BoardGameFactory {
 
@@ -57,6 +61,22 @@ public class BoardGameFactory {
     game.getBoard().addLadder(41, 35);
     game.getBoard().addLadder(15, 6);
     game.getBoard().addLadder(30, 27);
+    return game;
+  }
+
+  public static BoardGame createLudoGame() throws Exception {
+    BoardFileReaderGson reader;
+    Path file;
+
+    BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+    Board board = game.getBoard();
+    game.createDice(1);
+    BoardGame.reset();
+    game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+    reader = new BoardFileReaderGson();
+    file = Paths.get("src/main/resources/LudoBoard.json");
+    board = reader.readBoard(file);
+    board.setStartingTile(board.getTile(1));
     return game;
   }
 }

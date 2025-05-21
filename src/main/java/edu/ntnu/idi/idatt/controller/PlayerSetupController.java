@@ -47,13 +47,7 @@ public class PlayerSetupController {
         }
       } else if (gameType.equals("Ludo")) {
         try {
-          BoardGame.reset();
-          game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
-          reader = new BoardFileReaderGson();
-          file = Paths.get("src/main/resources/LudoBoard.json");
-          board = reader.readBoard(file);
-          board.setStartingTile(board.getTile(1));
-          game.createDice(1);
+          BoardGameFactory.createLudoGame();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
