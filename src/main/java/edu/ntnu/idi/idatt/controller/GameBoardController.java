@@ -23,7 +23,7 @@ public class GameBoardController {
       Scene gameScene = new Scene(layout, 1000, 800);
       sceneManager.switchScene(gameScene, "LadderGame");
 
-      PlayerController playerController = new PlayerController(game.getDice(), playerView);
+      PlayerController playerController = new PlayerController(game.getDice(), playerView, stage);
 
       game.addObserver(gameBoardView);
       game.addObserver(playerView);
