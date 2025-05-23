@@ -22,6 +22,7 @@ public class BoardGameFactory {
 
   public static BoardGame createLadderGame90() throws Exception {
     BoardGame game = createGame("Ladder game 90", "Ladder game with 90 tiles", 2, 10, 9);
+
     game.getBoard().addLadder(2, 38);
     game.getBoard().addLadder(9, 11);
     game.getBoard().addLadder(26, 6);
@@ -61,6 +62,7 @@ public class BoardGameFactory {
     game.getBoard().addLadder(41, 35);
     game.getBoard().addLadder(15, 6);
     game.getBoard().addLadder(30, 27);
+
     return game;
   }
 

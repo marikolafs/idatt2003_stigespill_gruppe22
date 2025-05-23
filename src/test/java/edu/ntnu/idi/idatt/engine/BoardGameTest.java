@@ -1,28 +1,31 @@
 package edu.ntnu.idi.idatt.engine;
 
 import edu.ntnu.idi.idatt.observer.events.Event;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class BoardGameTest {
+
   private BoardGameObserver observer = new BoardGameObserver() {
     @Override
     public void stateChanged(GameEvent event) {
       // Observer implementation for testing
     }
   };
+
   @Nested
   @DisplayName("Positive test")
   class PositiveTests {
+
     @Test
     @DisplayName("Should notify observers when a player lands on the tile")
     void notifyObservers_WhenPlayerLandsOnTile() {
@@ -140,7 +143,8 @@ public class BoardGameTest {
       // Verify it's the same instance (singleton pattern)
       assertEquals(game1, game2, "Should return the same instance");
       // First created instance values should be maintained
-      assertEquals("default name", game1.getName(), "Should keep the default name from first instantiation");
+      assertEquals("default name", game1.getName(),
+          "Should keep the default name from first instantiation");
     }
   }
 

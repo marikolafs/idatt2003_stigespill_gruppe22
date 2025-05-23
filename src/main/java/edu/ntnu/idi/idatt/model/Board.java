@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.model.actions.EntryAction;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
 import edu.ntnu.idi.idatt.model.actions.ReturnAction;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.util.HashMap;
 import java.util.Map;
 import edu.ntnu.idi.idatt.model.actions.TileAction;
@@ -24,6 +25,7 @@ public class Board {
   private Tile goalTile;
   private int rows;
   private int columns;
+  private Map<String, Tile> startingTiles = new HashMap<>();
 
 
   /**

@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,6 @@ public class HomeEntryAction implements TileAction {
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
   String piece;
   private int destinationTileId;
-
 
   /**
    * Constructs a HomeEntryAction with a specified description and destination tile, affecting a

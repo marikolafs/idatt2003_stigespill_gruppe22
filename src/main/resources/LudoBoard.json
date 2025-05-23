@@ -13,6 +13,7 @@
         "type": "HomeEntryAction",
         "destinationTileId": 53,
         "piece": "Chicken",
+
         "description": "Start of home stretch for yellow pieces."
       }
     },
