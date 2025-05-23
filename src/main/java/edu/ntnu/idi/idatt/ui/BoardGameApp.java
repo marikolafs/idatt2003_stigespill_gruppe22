@@ -30,13 +30,18 @@ public class BoardGameApp extends Application {
   BoardGameFactory boardGameFactory = new BoardGameFactory();
   private static List<Player> players;
   private Observable observable = game;
+  private WelcomeView welcomeView;
 
   @Override
   public void start(Stage stage) throws Exception {
+    this.welcomeView = new WelcomeView();
     this.primaryStage = stage;
-    SceneManager sceneManager = new SceneManager(primaryStage);
+    SceneManager sceneManager = SceneManager.getInstance(primaryStage);
+    Scene welcomeScene = new Scene(welcomeView.getView(), 400, 300);
+    sceneManager.addScene("Welcome", welcomeScene);
 
     new WelcomeController(primaryStage, sceneManager);
+
 
     primaryStage.show();
 

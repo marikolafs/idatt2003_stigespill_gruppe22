@@ -34,6 +34,8 @@ public class PlayerView extends HBox implements BoardGameObserver {
   private VBox vBox;
   private ImageView pieceImageView;
   private String pieceName;
+  private Button mainMenuButton;
+  private Button restartButton;
 
   /**
    * Adds a button to roll the dice, an image of the current players piece and
@@ -45,6 +47,8 @@ public class PlayerView extends HBox implements BoardGameObserver {
     this.setSpacing(50);
     this.rollButton = new Button("ROLL DICE");
     this.playerName = new Text("Player Name");
+    this.mainMenuButton = new Button("Main Menu");
+    this.restartButton = new Button("Restart Game");
     this.dice1ImageView = new ImageView();
     this.dice2ImageView = new ImageView();
     this.vBox = new VBox();
@@ -57,9 +61,11 @@ public class PlayerView extends HBox implements BoardGameObserver {
 
 
     vBox.getChildren().addAll(pieceImageView, playerName);
-    this.getChildren().addAll(vBox, rollButton, dice1ImageView, dice2ImageView);
+    this.getChildren().addAll(mainMenuButton,restartButton,vBox, rollButton, dice1ImageView, dice2ImageView);
 
     rollButton.setStyle("-fx-background-color:OLIVE;");
+    mainMenuButton.setStyle("-fx-background-color:OLIVE;");
+    restartButton.setStyle("-fx-background-color:OLIVE;");
   }
 
   /**
@@ -70,7 +76,21 @@ public class PlayerView extends HBox implements BoardGameObserver {
     return rollButton;
   }
 
+  /**
+   * Returns the button to restart the game.
+   * @return the restart button
+   */
+  public Button getRestartButton() {
+    return restartButton;
+  }
 
+    /**
+     * Returns the button to go to the main menu.
+     * @return the main menu button
+     */
+  public Button getMainMenuButton() {
+    return mainMenuButton;
+  }
 
   /**
    * Returns the text field for the player name.
