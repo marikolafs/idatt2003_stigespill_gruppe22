@@ -131,7 +131,7 @@ public class PlayerView extends HBox implements BoardGameObserver {
   /**
    * Updates the image of the players piece.
    *
-   * @param piecePath the path to the image of the piece
+   * @param pieceName the name for the path to the image of the piece
    */
   public void setPieceImage(String pieceName) {
     String piecePath = "/images/pieces/" + pieceName + ".png";

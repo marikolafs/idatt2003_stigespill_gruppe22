@@ -1,0 +1,528 @@
+{
+  "name": "Ludo",
+  "description": "A classic Ludo game for upto 4 players",
+  "rows": 15,
+  "columns": 15,
+  "tiles": [
+    {
+      "id": 1,
+      "nextTileId": 2,
+      "x": 8,
+      "y": 15,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 53,
+        "piece": "Chicken",
+        "description": "Start of home stretch for yellow pieces."
+      }
+    },
+    {
+      "id": 2,
+      "nextTileId": 3,
+      "x": 9,
+      "y": 15
+    },
+    {
+      "id": 3,
+      "nextTileId": 4,
+      "x": 9,
+      "y": 14
+    },
+    {
+      "id": 4,
+      "nextTileId": 5,
+      "x": 9,
+      "y": 13
+    },
+    {
+      "id": 5,
+      "nextTileId": 6,
+      "x": 9,
+      "y": 12
+    },
+    {
+      "id": 6,
+      "nextTileId": 7,
+      "x": 9,
+      "y": 11
+    },
+    {
+      "id": 7,
+      "nextTileId": 8,
+      "x": 9,
+      "y": 10
+    },
+    {
+      "id": 8,
+      "nextTileId": 9,
+      "x": 10,
+      "y": 9
+    },
+    {
+      "id": 9,
+      "nextTileId": 10,
+      "x": 11,
+      "y": 9
+    },
+    {
+      "id": 10,
+      "nextTileId": 11,
+      "x": 12,
+      "y": 9
+    },
+    {
+      "id": 11,
+      "nextTileId": 12,
+      "x": 13,
+      "y": 9
+    },
+    {
+      "id": 12,
+      "nextTileId": 13,
+      "x": 14,
+      "y": 9
+    },
+    {
+      "id": 13,
+      "nextTileId": 14,
+      "x": 15,
+      "y": 9
+    },
+    {
+      "id": 14,
+      "nextTileId": 15,
+      "x": 15,
+      "y": 8,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 59,
+        "piece": "Sheep",
+        "description": "Start of home stretch for blue pieces."
+      }
+    },
+    {
+      "id": 15,
+      "nextTileId": 16,
+      "x": 15,
+      "y": 7
+    },
+    {
+      "id": 16,
+      "nextTileId": 17,
+      "x": 14,
+      "y": 7
+    },
+    {
+      "id": 17,
+      "nextTileId": 18,
+      "x": 13,
+      "y": 7
+    },
+    {
+      "id": 18,
+      "nextTileId": 19,
+      "x": 12,
+      "y": 7
+    },
+    {
+      "id": 19,
+      "nextTileId": 20,
+      "x": 11,
+      "y": 7
+    },
+    {
+      "id": 20,
+      "nextTileId": 21,
+      "x": 10,
+      "y": 7
+    },
+    {
+      "id": 21,
+      "nextTileId": 22,
+      "x": 9,
+      "y": 6
+    },
+    {
+      "id": 22,
+      "nextTileId": 23,
+      "x": 9,
+      "y": 5
+    },
+    {
+      "id": 23,
+      "nextTileId": 24,
+      "x": 9,
+      "y": 4
+    },
+    {
+      "id": 24,
+      "nextTileId": 25,
+      "x": 9,
+      "y": 3
+    },
+    {
+      "id": 25,
+      "nextTileId": 26,
+      "x": 9,
+      "y": 2
+    },
+    {
+      "id": 26,
+      "nextTileId": 27,
+      "x": 9,
+      "y": 1
+    },
+    {
+      "id": 27,
+      "nextTileId": 28,
+      "x": 8,
+      "y": 1,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 65,
+        "piece": "Pig",
+        "description": "Start of home stretch for red pieces."
+      }
+    },
+    {
+      "id": 28,
+      "nextTileId": 29,
+      "x": 7,
+      "y": 1
+    },
+    {
+      "id": 29,
+      "nextTileId": 30,
+      "x": 7,
+      "y": 2
+    },
+    {
+      "id": 30,
+      "nextTileId": 31,
+      "x": 7,
+      "y": 3
+    },
+    {
+      "id": 31,
+      "nextTileId": 32,
+      "x": 7,
+      "y": 4
+    },
+    {
+      "id": 32,
+      "nextTileId": 33,
+      "x": 7,
+      "y": 5
+    },
+    {
+      "id": 33,
+      "nextTileId": 34,
+      "x": 7,
+      "y": 6
+    },
+    {
+      "id": 34,
+      "nextTileId": 35,
+      "x": 6,
+      "y": 7
+    },
+    {
+      "id": 35,
+      "nextTileId": 36,
+      "x": 5,
+      "y": 7
+    },
+    {
+      "id": 36,
+      "nextTileId": 37,
+      "x": 4,
+      "y": 7
+    },
+    {
+      "id": 37,
+      "nextTileId": 38,
+      "x": 3,
+      "y": 7
+    },
+    {
+      "id": 38,
+      "nextTileId": 39,
+      "x": 2,
+      "y": 7
+    },
+    {
+      "id": 39,
+      "nextTileId": 40,
+      "x": 1,
+      "y": 7
+    },
+    {
+      "id": 40,
+      "nextTileId": 41,
+      "x": 1,
+      "y": 8,
+      "action": {
+        "type": "HomeEntryAction",
+        "destinationTileId": 71,
+        "piece": "Cat",
+        "description": "Start of home stretch for green pieces."
+      }
+    },
+    {
+      "id": 41,
+      "nextTileId": 42,
+      "x": 1,
+      "y": 9
+    },
+    {
+      "id": 42,
+      "nextTileId": 43,
+      "x": 2,
+      "y": 9
+    },
+    {
+      "id": 43,
+      "nextTileId": 44,
+      "x": 3,
+      "y": 9
+    },
+    {
+      "id": 44,
+      "nextTileId": 45,
+      "x": 4,
+      "y": 9
+    },
+    {
+      "id": 45,
+      "nextTileId": 46,
+      "x": 5,
+      "y": 9
+    },
+    {
+      "id": 46,
+      "nextTileId": 47,
+      "x": 6,
+      "y": 9
+    },
+    {
+      "id": 47,
+      "nextTileId": 48,
+      "x": 7,
+      "y": 10
+    },
+    {
+      "id": 48,
+      "nextTileId": 49,
+      "x": 7,
+      "y": 11
+    },
+    {
+      "id": 49,
+      "nextTileId": 50,
+      "x": 7,
+      "y": 12
+    },
+    {
+      "id": 50,
+      "nextTileId": 51,
+      "x": 7,
+      "y": 13
+    },
+    {
+      "id": 51,
+      "nextTileId": 52,
+      "x": 7,
+      "y": 14
+    },
+    {
+      "id": 52,
+      "nextTileId": 1,
+      "x": 7,
+      "y": 15
+    },
+    {
+      "id": 53,
+      "nextTileId": 54,
+      "x": 8,
+      "y": 14
+    },
+    {
+      "id": 54,
+      "nextTileId": 55,
+      "x": 8,
+      "y": 13
+    },
+    {
+      "id": 55,
+      "nextTileId": 56,
+      "x": 8,
+      "y": 12
+    },
+    {
+      "id": 56,
+      "nextTileId": 57,
+      "x": 8,
+      "y": 11
+    },
+    {
+      "id": 57,
+      "nextTileId": 58,
+      "x": 8,
+      "y": 10
+    },
+    {
+      "id": 58,
+      "x": 8,
+      "y": 9
+    },
+    {
+      "id": 59,
+      "nextTileId": 60,
+      "x": 14,
+      "y": 8
+    },
+    {
+      "id": 60,
+      "nextTileId": 61,
+      "x": 13,
+      "y": 8
+    },
+    {
+      "id": 61,
+      "nextTileId": 62,
+      "x": 12,
+      "y": 8
+    },
+    {
+      "id": 62,
+      "nextTileId": 63,
+      "x": 11,
+      "y": 8
+    },
+    {
+      "id": 63,
+      "nextTileId": 64,
+      "x": 10,
+      "y": 8
+    },
+    {
+      "id": 64,
+      "x": 9,
+      "y": 8
+    },
+    {
+      "id": 65,
+      "nextTileId": 66,
+      "x": 8,
+      "y": 2
+    },
+    {
+      "id": 66,
+      "nextTileId": 67,
+      "x": 8,
+      "y": 3
+    },
+    {
+      "id": 67,
+      "nextTileId": 68,
+      "x": 8,
+      "y": 4
+    },
+    {
+      "id": 68,
+      "nextTileId": 69,
+      "x": 8,
+      "y": 5
+    },
+    {
+      "id": 69,
+      "nextTileId": 70,
+      "x": 8,
+      "y": 6
+    },
+    {
+      "id": 70,
+      "x": 8,
+      "y": 7
+    },
+    {
+      "id": 71,
+      "nextTileId": 72,
+      "x": 2,
+      "y": 8
+    },
+    {
+      "id": 72,
+      "nextTileId": 73,
+      "x": 3,
+      "y": 8
+    },
+    {
+      "id": 73,
+      "nextTileId": 74,
+      "x": 4,
+      "y": 8
+    },
+    {
+      "id": 74,
+      "nextTileId": 75,
+      "x": 5,
+      "y": 8
+    },
+    {
+      "id": 75,
+      "nextTileId": 76,
+      "x": 6,
+      "y": 8
+    },
+    {
+      "id": 76,
+      "x": 7,
+      "y": 8
+    },
+    {
+      "id": 77,
+      "x": 1,
+      "y": 15,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 42,
+        "piece": "Cat",
+        "description": "First tile for green pieces."
+      }
+    },
+    {
+      "id": 78,
+      "x": 15,
+      "y": 15,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 3,
+        "piece": "Chicken",
+        "description": "First tile for yellow pieces."
+      }
+    },
+    {
+      "id": 79,
+      "x": 15,
+      "y": 1,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 16,
+        "piece": "Sheep",
+        "description": "First tile for green pieces."
+      }
+    },
+    {
+      "id": 80,
+      "x": 1,
+      "y": 1,
+      "action": {
+        "type": "EntryAction",
+        "destinationTileId": 29,
+        "piece": "pig",
+        "description": "First tile for red pieces."
+      }
+    }
+  ]
+}

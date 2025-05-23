@@ -25,7 +25,8 @@ public class View extends BorderPane{
     BoardGame boardGame = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
     Scene scene = new Scene(this, 1200, 800);
 
-    GameBoardView gameBoardView = new GameBoardView(BoardGame.getBoard(), boardGame.getPlayers());
+    GameBoardView gameBoardView = new GameBoardView(BoardGame.getBoard(), boardGame.getPlayers(),
+        boardGame.getGameType());
     PlayerView playerView = new PlayerView();
 
     this.setCenter(gameBoardView);

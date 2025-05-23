@@ -23,6 +23,7 @@ public class Tile extends Observable {
   private List<Player> playersOnTile;
   private int x;
   private int y;
+  private List<Piece> pieces = new ArrayList<>();
 
   /**
    * Constructs a Tile with a specified tile ID and land action.
@@ -95,6 +96,14 @@ public class Tile extends Observable {
     this.nextTile = nextTile;
   }
 
+  public void addPiece(Piece piece) {
+    pieces.add(piece);
+  }
+
+  public void removePiece(Piece piece) {
+    pieces.remove(piece);
+  }
+
   /**
    * Accessor method for x.
    *
@@ -162,7 +171,7 @@ public class Tile extends Observable {
   }
 
   /**
-   * Remove the player from the tile when its supposed to leave the tile.
+   * Remove the player from the tile when they are supposed to leave the tile.
    *
    * @param player the player to leave the tile
    * @throws IllegalArgumentException if player is null

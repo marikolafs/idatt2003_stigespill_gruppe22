@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.view;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Insets;
@@ -23,7 +24,7 @@ public class PlayerSetupView {
     layout.setPadding(new Insets(20));
 
     Label label = new Label("How many players should be added?");
-    if (gameType.equals("LadderGame")) {
+    if (gameType.equals("LadderGame90") || gameType.equals("LadderGame45") || gameType.equals("LadderGame90Plus")) {
       playerComboBox.getItems().addAll(2, 3, 4, 5);
     } else if (gameType.equals("Ludo")) {
       playerComboBox.getItems().addAll(2, 3, 4);

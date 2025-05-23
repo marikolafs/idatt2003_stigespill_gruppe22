@@ -9,7 +9,11 @@ import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
+import edu.ntnu.idi.idatt.model.actions.HoldAction;
+import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,11 +55,11 @@ public class BoardFileReaderGson implements BoardFileReader {
       JsonObject boardJson = JsonParser.parseReader(reader).getAsJsonObject();
 
       // Extract board properties
-      String name = boardJson.has("name")
-          ? boardJson.get("name").getAsString() : "default name";
+      String name = boardJson.has("name") ?
+          boardJson.get("name").getAsString() : "default name";
 
-      String description = boardJson.has("description")
-          ? boardJson.get("description").getAsString() : "default description";
+      String description = boardJson.has("description") ?
+          boardJson.get("description").getAsString() : "default description";
 
       logger.info("Creating a new BoardGame: {} {}", name, description);
 
@@ -64,7 +68,7 @@ public class BoardFileReaderGson implements BoardFileReader {
       game.setName(name);
       game.setDescription(description);
 
-      Board board = BoardGame.getBoard();
+      Board board = game.getBoard();
       board.setRows(boardJson.get("rows").getAsInt());
       board.setColumns(boardJson.get("columns").getAsInt());
 
@@ -122,12 +126,45 @@ public class BoardFileReaderGson implements BoardFileReader {
             LadderAction ladderAction = new LadderAction(destinationTileId, actionDescription);
             currentTile.setLandAction(ladderAction);
           }
+
+          if ("ReturnAction".equals(actionType)) {
+            String actionDescription = actionJson.get("description").getAsString();
+
+            ReturnAction returnAction = new ReturnAction(actionDescription);
+            currentTile.setLandAction(returnAction);
+          }
+
+          if ("HoldAction".equals(actionType)) {
+            String actionDescription = actionJson.get("description").getAsString();
+
+            HoldAction holdAction = new HoldAction(actionDescription);
+            currentTile.setLandAction(holdAction);
+          }
+
+          if ("HomeEntryAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+            int destinationTileId = actionJson.get("destinationTileId").getAsInt();
+
+            HomeEntryAction startHomeAction = new HomeEntryAction(actionDescription, piece,
+                destinationTileId);
+            currentTile.setLandAction(startHomeAction);
+          }
+
+          if ("EntryAction".equals(actionType)) {
+            String piece = actionJson.get("piece").getAsString();
+            String actionDescription = actionJson.get("description").getAsString();
+            int destinationTileId = actionJson.get("destinationTileId").getAsInt();
+            EntryAction entryAction = new EntryAction(actionDescription, piece, destinationTileId);
+            currentTile.setLandAction(entryAction);
+          }
         }
       }
 
       return board;
     } catch (Exception e) {
-      throw new JsonParsingException("Error while parsing JSON-fil: " + e.getMessage(), e);
+      logger.error("Error while reading board file", e.getMessage(), e);
+      throw new JsonParsingException("Feil ved parsing av JSON-fil: " + e.getMessage(), e);
     }
   }
 }

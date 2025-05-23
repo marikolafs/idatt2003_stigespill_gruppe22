@@ -17,10 +17,10 @@ public class LadderGameController {
 
   public LadderGameController(Stage stage) {
 
-    Button ladderButton = new Button("LadderGame");
-    ladderButton.setOnAction(e -> {
+    Button ladder90Button = new Button("LadderGame90");
+    ladder90Button.setOnAction(e -> {
       try {
-        ladderGameView.selectPlayerSetupView(stage, "LadderGame");
+        ladderGameView.selectPlayerSetupView(stage, "LadderGame90");
       } catch (FileNotFoundException ex) {
         throw new RuntimeException(ex);
       }
@@ -35,5 +35,22 @@ public class LadderGameController {
       }
     });
 
+    Button ladder90PlusButton = new Button("LadderGame90+");
+    ladder90PlusButton.setOnAction(e -> {
+      try {
+        ladderGameView.selectPlayerSetupView(stage, "LadderGame90Plus");
+      } catch (FileNotFoundException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
+
+    Button ladder45Button = new Button("LadderGame45");
+    ladder45Button.setOnAction(e -> {
+      try {
+        ladderGameView.selectPlayerSetupView(stage, "LadderGame45");
+      } catch (FileNotFoundException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
   }
 }

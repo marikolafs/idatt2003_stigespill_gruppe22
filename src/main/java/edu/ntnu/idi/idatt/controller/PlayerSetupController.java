@@ -3,9 +3,13 @@ package edu.ntnu.idi.idatt.controller;
 import edu.ntnu.idi.idatt.BoardGameFactory;
 import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
+import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.view.PlayerSetupView;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +21,9 @@ import javafx.stage.Stage;
 public class PlayerSetupController {
 
   private BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
+  private BoardFileReaderGson reader;
+  private Path file;
+  private Board board;
 
   public PlayerSetupController(Stage stage, SceneManager sceneManager, String gameType) {
     PlayerSetupView view = new PlayerSetupView(gameType);
@@ -32,13 +39,25 @@ public class PlayerSetupController {
     view.getStartButton().setOnAction(e -> {
       Set<String> usedPieces = new HashSet<>();
 
-      if (gameType.equals("LadderGame")) {
+      if (gameType.equals("LadderGame90")) {
         try {
           BoardGameFactory.createLadderGame90();
         } catch (Exception ex) {
           throw new RuntimeException(ex);
         }
       } else if (gameType.equals("Ludo")) {
+        try {
+          BoardGameFactory.createLudoGame();
+        } catch (Exception ex) {
+          throw new RuntimeException(ex);
+        }
+      }  else if (gameType.equals("LadderGame90Plus")) {
+        try {
+          BoardGameFactory.createLadderGame90Plus();
+        } catch (Exception ex) {
+          throw new RuntimeException(ex);
+        }
+      } else if (gameType.equals("LadderGame45")) {
         try {
           BoardGameFactory.createLadderGame45();
         } catch (Exception ex) {
@@ -58,14 +77,21 @@ public class PlayerSetupController {
         usedPieces.add(piece);
         Player player = new Player(name, game, piece);
         game.addPlayer(player);
+        if (gameType.equals("Ludo")){
+          game.giveLudoPieces(player);
+        }
 
 
         player.setPiece(piece);
       }
 
-      BoardGame.play();
+      if (gameType.equals("Ludo")) {
+        game.playLudo();
+      } else {
+        game.play();
+      }
       try {
-        new GameBoardController(stage, sceneManager);
+        new GameBoardController(stage, sceneManager, gameType);
       } catch (FileNotFoundException ex) {
         throw new RuntimeException(ex);
       }

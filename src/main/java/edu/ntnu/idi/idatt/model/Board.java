@@ -1,20 +1,25 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.model.actions.EntryAction;
+import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import java.util.HashMap;
 import java.util.Map;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 
 /**
  * Represents the board consisting of tiles.
  * The board has a name and a description of the game it displays.
  * The board has the purpose of adding and storing tiles.
- * Each tile has a unique id which the board can use to keep track of the tiles in the game.
+ * Each tile has an unique id which the board can use to keep track of the tiles in the game
  *
  * @version 1.3
  */
 public class Board {
 
   private final Map<Integer, Tile> tiles;
+  private final Map<Player, Tile> entryTiles = new HashMap<>();
   private Tile startingTile;
   private Tile goalTile;
   private int rows;
@@ -32,6 +37,8 @@ public class Board {
     this.tiles = new HashMap<>();
     this.startingTile = null;
     this.goalTile = null;
+    this.rows = rows;
+    this.columns = columns;
   }
 
   /**
@@ -69,7 +76,7 @@ public class Board {
   }
 
   /**
-   * Accessor method for rows.
+   * Accessor method for rows
    *
    * @return the number of rows on the board
    */
@@ -78,7 +85,7 @@ public class Board {
   }
 
   /**
-   * Mutator method for rows.
+   * Mutator method for rows
    *
    * @param rows the new amount of rows
    */
@@ -87,7 +94,7 @@ public class Board {
   }
 
   /**
-   * Accessor method for columns.
+   * Accessor method for columns
    *
    * @return the number of columns on the board
    */
@@ -96,7 +103,7 @@ public class Board {
   }
 
   /**
-   * Mutator method for columns.
+   * Mutator method for columns
    *
    * @param columns the new amount of columns
    */
@@ -111,6 +118,20 @@ public class Board {
    */
   public Map<Integer, Tile> getTiles() {
     return tiles;
+  }
+
+  /**
+   * Accessor method for a pieces starting tile. Sees which tiles contain the EntryTile action and returns the tile belonging to a specified piece.
+   * @param piece the piece the starting tile belongs to
+   */
+  public Tile getStartingTileForPiece(String piece) {
+    for (Tile tile : tiles.values()) {
+      TileAction action = tile.getLandAction();
+      if (action instanceof EntryAction entryAction && entryAction.getPiece().equalsIgnoreCase(piece)) {
+        return tile;
+      }
+    }
+    return null;
   }
 
   /**
@@ -145,6 +166,23 @@ public class Board {
     LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");
     Tile ladderTile = getTile(ladderStart);
     ladderTile.setLandAction(ladderAction);
+  }
+
+  /**
+   * Adds a return tile to the board.
+   *
+   * @param returnTileId the tileId where the return action will be placed.
+   */
+  public void addReturn(int returnTileId) {
+    ReturnAction returnAction = new ReturnAction("Return action");
+    Tile returnTile = getTile(returnTileId);
+    returnTile.setLandAction(returnAction);
+  }
+
+  public void addHold(int holdTileId) {
+    HoldAction holdAction = new HoldAction("Hold action");
+    Tile holdTile = getTile(holdTileId);
+    holdTile.setLandAction(holdAction);
   }
 
   /**
