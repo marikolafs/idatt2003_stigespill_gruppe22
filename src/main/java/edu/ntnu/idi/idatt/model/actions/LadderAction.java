@@ -18,13 +18,17 @@ import org.slf4j.LoggerFactory;
  */
 public class LadderAction implements TileAction {
   private static final Logger logger = LoggerFactory.getLogger(LadderAction.class);
-  private static int destinationTileId;
-  private static String description;
+  private final int destinationTileId;
+  private final String description;
 
-
-
-
-  public LadderAction( int destinationTileId, String description ) {
+  /**
+   * Constructs a LadderAction with a specified destination tile ID and description.
+   *
+   * @param destinationTileId the ID of the tile to which the player will be moved
+   * @param description       a description of the action
+   * @throws IllegalArgumentException if the description is null or empty
+   */
+  public LadderAction(int destinationTileId, String description) {
     if (description.isBlank()) {
       throw new IllegalArgumentException("Description cannot be null or empty");
     }
@@ -38,7 +42,7 @@ public class LadderAction implements TileAction {
    *
    * @return the destination tile id
    */
-  public static int getDestinationTileId() {
+  public int getDestinationTileId() {
     return destinationTileId;
   }
 
@@ -47,15 +51,14 @@ public class LadderAction implements TileAction {
    *
    * @return the description
    */
-  public static String getDescription() {
+  public String getDescription() {
     return description;
   }
 
 
   @Override
   public void perform(Player player) {
-    BoardGame game= BoardGame.getInstance("default name", "default description");
-    Tile destinationTile = game.getBoard().getTile(destinationTileId);
+    Tile destinationTile = BoardGame.getBoard().getTile(destinationTileId);
 
     if (destinationTile == null) {
       logger.error("Destination tile {} not found", destinationTileId);

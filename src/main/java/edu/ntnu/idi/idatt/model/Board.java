@@ -7,6 +7,7 @@ import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.util.HashMap;
 import java.util.Map;
+import edu.ntnu.idi.idatt.model.actions.TileAction;
 
 /**
  * Represents the board consisting of tiles.
@@ -158,9 +159,10 @@ public class Board {
 
   /**
    * Adds a ladder to the board.
+   * The ladder is represented by a LadderAction object.
    *
-   * @param ladderStart the tileId of the starting tile for the ladder
-   * @param destinationTileId the tileId of the ending tile for the ladder
+   * @param ladderStart the starting tile id of the ladder
+   * @param destinationTileId the destination tile id of the ladder
    */
   public void addLadder(int ladderStart, int destinationTileId) {
     LadderAction ladderAction = new LadderAction(destinationTileId, "Ladder");

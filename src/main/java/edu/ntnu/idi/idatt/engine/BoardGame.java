@@ -1,5 +1,11 @@
 package edu.ntnu.idi.idatt.engine;
 
+
+
+import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
+import edu.ntnu.idi.idatt.io.PlayerFiles;
+import edu.ntnu.idi.idatt.io.BoardFileWriterGson;
+
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
@@ -8,8 +14,17 @@ import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.Observable;
+
+import edu.ntnu.idi.idatt.observer.events.Event;
+import edu.ntnu.idi.idatt.view.PlayerView;
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Paths;
+import java.util.Optional;
+import javafx.scene.control.ChoiceDialog;
+
 
 
 /**
@@ -25,6 +40,7 @@ public class BoardGame extends Observable {
   private static BoardGame instance;
   private static String name;
   private static String description;
+  private static String gameType;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -34,13 +50,15 @@ public class BoardGame extends Observable {
   }
 
   private static Board board;
-  private Player currentPlayer;
-  private Dice dice;
+  private static Player currentPlayer;
+  private static Dice dice;
   private static List<Player> players;
   private List<BoardGameObserver> observers;
   private HomeEntryAction homeEntryAction;
-  private boolean gameWon;
-  private int currentPlayerIndex = 0;
+
+  private static boolean gameWon;
+  private static int currentPlayerIndex = 0;
+
 
   /**
    * The constructor initializes the board and players list.
@@ -55,6 +73,31 @@ public class BoardGame extends Observable {
 
   public static void reset() {
     instance = null;
+  }
+
+  /**
+   * The reset method resets the BoardGame instance
+   */
+  public static void reset() {
+    instance = null;
+  }
+
+  /**
+   * Accessor method for gameType
+   *
+   * @return the type of game being played
+   */
+  public String getGameType() {
+    return gameType;
+  }
+
+  /**
+   * Mutator method for gameType
+   *
+   * @param gameType the type of game being played
+   */
+  public void setGameType(String gameType) {
+    this.gameType = gameType;
   }
 
   /**
@@ -93,12 +136,20 @@ public class BoardGame extends Observable {
     return description;
   }
 
+  public static void setCurrentPlayer(Player player) {
+    currentPlayer = player;
+  }
+
+  public static void setPlayerView(PlayerView playerView) {
+    playerView = playerView;
+  }
+
   /**
    * Accessor method for board.
    *
    * @return the board object
    */
-  public Board getBoard() {
+  public static Board getBoard() {
     return board;
   }
 
@@ -147,7 +198,7 @@ public class BoardGame extends Observable {
       player.placeOnTile(startingTile);
       startingTile.landPlayer(player);
       notifyObservers(new GameEvent
-          ("player_joined", player.getName() + " joined the game", player));
+          (Event.PLAYER_ADDED, player.getName() + " joined the game", player));
     }
   }
 
@@ -159,7 +210,8 @@ public class BoardGame extends Observable {
    */
   public void giveLudoPieces(Player player) {
     for (int i = 0; i < 4; i++) {
-      player.getPieces().add(new Piece(player, board.getStartingTile(), false, true));
+      player.getPieces()
+          .add(new Piece(player, board.getStartingTileForPiece(player.getPiece()), false, true));
     }
   }
 
@@ -171,7 +223,7 @@ public class BoardGame extends Observable {
    * @return null
    * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
-  public Board createBoard(int rows, int columns) {
+  public Board createBoard(int columns, int rows) {
 
     if (rows <= 0 || columns <= 0) {
       throw new IllegalArgumentException("Number of rows and columns must be greater than 0");
@@ -187,12 +239,13 @@ public class BoardGame extends Observable {
 
       if (leftToRight) {
         for (int c = 0; c < columns; c++) {
-          Tile tile = new Tile(tileId++, null, r, c);
+          Tile tile = new Tile(tileId++, null, c, r);
+
           board.addTile(tile);
         }
       } else {
         for (int c = columns - 1; c >= 0; c--) {
-          Tile tile = new Tile(tileId++, null, r, c);
+          Tile tile = new Tile(tileId++, null, c, r);
           board.addTile(tile);
         }
       }
@@ -204,7 +257,7 @@ public class BoardGame extends Observable {
     board.setGoalTile(goalTile);
 
     notifyObservers(new GameEvent
-        ("board_created", "The game board has been created.", null));
+        (Event.BOARD_CREATED, "The game board has been created.", null));
     return null;
   }
 
@@ -220,7 +273,7 @@ public class BoardGame extends Observable {
     }
     this.dice = new Dice(numberOfDice);
     notifyObservers(new GameEvent
-        ("dice_created", "The game dice have been created.", null));
+        (Event.DICE_CREATED, "The game dice have been created.", null));
   }
 
   /**
@@ -228,51 +281,289 @@ public class BoardGame extends Observable {
    * allowing each player to roll the dice and move on the board. The game concludes when the first
    * player reaches the last tile (goal), at which point a winner is decided.
    */
-  public void play() {
-    boolean gameWon = false;
-    while (!gameWon) {
-      for (Player player : players) {
+  public static void play() {
 
-        if (player.shouldHold()) {
-          System.out.println(player.getName() + " holds ");
-          player.setHoldAction(false);
-          continue;
+    if (gameWon) {
+      return;
+    }
+
+    Player player = players.get(currentPlayerIndex);
+    setCurrentPlayer(player);
+
+
+    notifyObservers(
+        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
+  }
+
+  /**
+   * The rollDice method is responsible for handling a turn in a Ladder game. It rolls the dice and
+   * moves the current player the appropriate amount of tiles, making sure to check for any
+   * potential tileActions on the destination tile
+   *
+   * @param player the player whose turn it is
+   */
+  public static void rollDice(Player player) {
+
+    if (player.shouldHold()) {
+      System.out.println(player.getName() + " holds ");
+      player.setHoldAction(false);
+      nextTurn();
+    }
+
+    int diceValue = dice.roll();
+
+    Tile currentTile = player.getCurrentTile();
+    currentTile.leavePlayer(player);
+
+    player.move(diceValue);
+    Tile newTile = player.getCurrentTile();
+    newTile.landPlayer(player);
+
+    player.placeOnTile(newTile);
+
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+        player.getName() + " moved to tile " + newTile.getTileId(), player));
+
+    if (newTile.getLandAction() != null) {
+      newTile.getLandAction().perform(player);
+      notifyObservers(new GameEvent(Event.TILE_ACTION,
+          player.getName() + " triggered an action on tile "
+              + newTile.getTileId(), player));
+    }
+
+    if (newTile.getTileId() >= getBoard().getGoalTile().getTileId()) {
+      notifyObservers(new GameEvent(Event.PLAYER_WIN,
+          player.getName() + " wins the game!", player));
+      notifyObservers(new GameEvent(Event.GAME_END,
+          "The game has ended.", null));
+      gameWon = true;
+      System.out.println(getWinner().getName() + " won the game!");
+      return;
+    }
+
+    nextTurn();
+  }
+
+  /**
+   * The playLudo method is responsible for managing Ludo game play. It iterates over the players,
+   * allowing each player to roll the dice and move on the board. The game concludes when the first
+   * player has gotten all their pieces into their home, at which point a winner is decided.
+   */
+  public void playLudo() {
+
+    System.out.println("playLudo() called");
+
+    if (gameWon) {
+      return;
+    }
+
+    Player player = players.get(currentPlayerIndex);
+    setCurrentPlayer(player);
+    notifyObservers(
+        new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
+  }
+  //TODO: remove prints from ludo methods
+
+  /**
+   * The handleTurn method is responsible for handling a players turn, it rolls the dice and sees
+   * that only active pieces can move. If the player rolls a six, they get a second turn.
+   *
+   * @param player
+   */
+  public void handleTurn(Player player) {
+    System.out.println("handleTurn() called");
+
+    int diceValue = getDice().roll();
+
+    List<Piece> activePieces = currentPlayer.getPieces().stream().filter(p -> canMove(p, diceValue))
+        .toList();
+
+    if (activePieces.isEmpty()) {
+      notifyObservers(new GameEvent(Event.NO_MOVES, "No valid moves", currentPlayer));
+      System.out.println(player.getName() + " has no active pieces");
+      nextLudoTurn();
+      return;
+    } else if (activePieces.size() == 1) {
+      System.out.println(player.getName() + " has 1 active piece moving " + diceValue + " steps");
+      movePiece(activePieces.get(0), diceValue);
+
+      //player can go again if they rolled a 6
+      if (diceValue != 6) {
+        nextLudoTurn();
+      }
+      return;
+
+    } else {
+      System.out.println(
+          player.getName() + " has multiple active pieces that can move " + diceValue + " steps");
+      List<String> options = new ArrayList<>();
+      for (int i = 0; i < activePieces.size(); i++) {
+        options.add("Piece " + (i + 1));
+      }
+      
+      ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+      dialog.setTitle("Choose piece");
+      dialog.setHeaderText("Choose which piece to move");
+      dialog.setContentText("Which piece do you want to move?");
+      Optional<String> result = dialog.showAndWait();
+
+      if (result.isPresent()) {
+        int index = options.indexOf(result.get());
+        Piece chosen = activePieces.get(index);
+        movePiece(chosen, diceValue);
+
+        if (diceValue != 6) {
+          nextLudoTurn();
+        }
+      } else {
+        System.out.println("No piece selected");
+        nextLudoTurn();
+      }
+      return;
+    }
+  }
+
+  /**
+   * The nextTurn handles updating the current player
+   */
+  public static void nextTurn() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    play();
+  }
+
+  /**
+   * The nextLudoTurn method handles updating the current player in Ludo
+   */
+  public void nextLudoTurn() {
+    System.out.println("NextLudoTurn() called");
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    setCurrentPlayer(players.get(currentPlayerIndex)); //kan hende denne bør flyttes?
+    playLudo();
+  }
+
+  /**
+   * The canMove method sees whether a piece can move, when a piece is in start, if a player rolls a
+   * six canMove will return true.
+   *
+   * @param piece     the piece being checked for its ability to move
+   * @param diceValue the value of the dice rolled
+   * @return whether or not the piece can move
+   */
+  public boolean canMove(Piece piece, int diceValue) {
+    System.out.println("canMove() called");
+    if (piece.isHome()) {
+      return false;
+    }
+    if (piece.isInStart()) {
+      return diceValue == 6;
+    }
+    return getDestinationTile(piece, diceValue) != null;
+  }
+
+  /**
+   * The movePiece method is responsible for moving the piece on the board based on the value rolled
+   * on the die.
+   *
+   * @param piece     the piece being moved
+   * @param diceValue the value rolled on the die
+   */
+  public void movePiece(Piece piece, int diceValue) {
+    System.out.println("movePiece() called");
+    piece.getPlayer().setCurrentPiece(piece);
+
+    // Move piece to its starting tile when activated
+    if (piece.isInStart()) {
+      notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+          "Players piece moved onto entry tile" + piece.getPlayer().getName(), getCurrentPlayer()));
+      System.out.println("Moving " + piece.getPlayer().getName() + " onto entry tile");
+      Tile entryTile = board.getTile(
+          board.getStartingTileForPiece(piece.getPlayer().getPiece()).getTileId());
+      piece.setCurrentTile(entryTile);
+      piece.setInStart(false);
+      entryTile.getLandAction().perform(piece.getPlayer());
+      return;
+    }
+
+    Tile destination = getDestinationTile(piece, diceValue);
+    if (destination == null) {
+      throw new IllegalStateException("Destination tile is null");
+    }
+
+    Tile current = piece.getCurrentTile();
+    if (current != null) {
+      current.removePiece(piece);
+    }
+
+    destination.addPiece(piece);
+    piece.setCurrentTile(destination);
+    notifyObservers(
+        new GameEvent(Event.PLAYER_MOVED, "Players piece moved " + piece.getPlayer().getName(),
+            getCurrentPlayer()));
+  }
+
+  /**
+   * The getDestinationTile method handles finding the tile a piece should move to. It checks for
+   * possible tileActions or win conditions being met and handles these if they occur.
+   *
+   * @param piece     the piece being moved
+   * @param diceValue the value rolled on the die
+   * @return the tile the piece should move to
+   */
+  public Tile getDestinationTile(Piece piece, int diceValue) {
+    System.out.println("getDestinationTile() called");
+    Tile current = piece.getCurrentTile();
+    for (int i = 0; i < diceValue; i++) {
+      //Check whether a piece has reached its home entry tile.
+      if (current.getLandAction() instanceof HomeEntryAction) {
+        HomeEntryAction homeAction = (HomeEntryAction) current.getLandAction();
+        if (homeAction.getPiece().equalsIgnoreCase(piece.getPlayer().getPiece())) {
+          homeAction.perform(piece.getPlayer());
+          return piece.getCurrentTile();
         }
 
-        notifyObservers(new GameEvent
-            ("game_started", "The game has started!", null));
+      }
+      //If there is no next tile, ascertain that the piece is home, and assess whether the game has been won.
+      if (current.getNextTile() == null) {
+        piece.setHome(true);
+        setLudoWinner(piece.getPlayer());
+        return null;
+      }
+      current = current.getNextTile();
+    }
+    return current;
+  }
 
-        currentPlayer = player;
-        Tile currentTile = player.getCurrentTile();
-
-        int steps = dice.roll();
-        player.move(steps);
-
-        currentTile.leavePlayer(player);
-
-        Tile newTile = player.getCurrentTile();
-        newTile.landPlayer(player);
-        currentPlayer.placeOnTile(newTile);
-
-        notifyObservers(new GameEvent("player_moved", player.getName()
-            + " moved to tile " + newTile.getTileId(), player));
-
-        if (newTile.getLandAction() != null) {
-          newTile.getLandAction().perform(player);
-          notifyObservers(new GameEvent
-              ("tile_action", player.getName() + " triggered an action on tile "
-                  + newTile.getTileId(), player));
-        }
-
-        if (newTile.getTileId() >= board.getGoalTile().getTileId()) {
-          gameWon = true;
-
-          notifyObservers(new GameEvent
-              ("winner_declared", player.getName() + " wins the game!", player));
-          break;
-        }
+  /**
+   * The setLudoWinner method checks whether a player has gotten all their pieces into their home,
+   * and thereby won the game.
+   *
+   * @param player the player being examined
+   */
+  public void setLudoWinner(Player player) {
+    System.out.println("setLudoWinner() called");
+    int homeCount = 0;
+    for (Piece piece : player.getPieces()) {
+      if (piece.isHome()) {
+        homeCount++;
       }
     }
+    if (homeCount == 4) {
+      gameWon = true;
+      player.isWinner(true);
+      notifyObservers(new GameEvent(Event.PLAYER_WIN,
+          player.getName() + " wins the game!", player));
+      notifyObservers(new GameEvent(Event.GAME_END,
+          "The game has ended.", null));
+    }
+  }
+
+  /**
+   * Accessor method for the variable gameWon, determines whether the game has been won.
+   *
+   * @return whether or not the game has been won
+   */
+  public boolean getGameWon() {
+    return gameWon;
   }
 
   /**
@@ -442,7 +733,7 @@ public class BoardGame extends Observable {
    *
    * @return the player who has reached the goal tile first
    */
-  public Player getWinner() {
+  public static Player getWinner() {
     Player winner = null;
     for (Player player : players) {
       currentPlayer = player;
@@ -452,5 +743,54 @@ public class BoardGame extends Observable {
       }
     }
     return winner;
+  }
+
+  /**
+   * Responsible for resetting the game state. It clears the players list,
+   * resets the board and dice
+   */
+  public void restartGameWithSavedPlayers() {
+    try {
+      String playersFilePath = "src/main/resources/players.csv";
+      String boardFilePath = "src/main/resources/board.json";
+
+      PlayerFiles playersToFile = new PlayerFiles();
+      BoardFileWriterGson boardFileWriter = new BoardFileWriterGson();
+      BoardFileReaderGson boardFileReader = new BoardFileReaderGson();
+      playersToFile.writePlayersToFile(players);
+      boardFileWriter.writeBoard(board);
+
+      if (!new File(playersFilePath).exists() || !new File(boardFilePath).exists()) {
+        throw new Exception("Required files not found.");
+      }
+
+      dice = new Dice(2);
+      gameWon = false;
+      currentPlayerIndex = 0;
+
+      players.clear();
+      board = boardFileReader.readBoard(Paths.get(boardFilePath));
+
+      PlayerFiles.addPlayersThroughFile(new File(playersFilePath));
+
+      Tile startingTile = board.getStartingTile();
+      if (startingTile == null) {
+        throw new Exception("Starting tile is not set on the board.");
+      }
+
+      for (Player player : players) {
+        if (player.getCurrentTile() != null) {
+          player.getCurrentTile().leavePlayer(player);
+        }
+        player.placeOnTile(startingTile);
+        startingTile.landPlayer(player);
+
+        notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+            player.getName() + " placed on starting tile.", player));
+      }
+
+    } catch (Exception e) {
+      System.err.println("Failed to restart game: " + e.getMessage());
+    }
   }
 }

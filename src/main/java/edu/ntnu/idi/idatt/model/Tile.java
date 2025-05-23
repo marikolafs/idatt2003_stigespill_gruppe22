@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.model;
 import edu.ntnu.idi.idatt.model.actions.TileAction;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.Observable;
+import edu.ntnu.idi.idatt.observer.events.Event;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,6 @@ public class Tile extends Observable {
    *
    * @return the nextTile
    */
-
   public Tile getNextTile() {
     return nextTile;
   }
@@ -157,14 +157,14 @@ public class Tile extends Observable {
       playersOnTile.add(player);
     }
 
-    notifyObservers(new GameEvent("player_moved",
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED,
         player.getName() + " landed on tile " + tileId, player));
 
 
     if (landAction != null) {
       landAction.perform(player);
 
-      notifyObservers(new GameEvent("tile_action",
+      notifyObservers(new GameEvent(Event.TILE_ACTION,
           player.getName() + " triggered an action on tile " + tileId, player));
     }
 
@@ -182,7 +182,7 @@ public class Tile extends Observable {
     }
     playersOnTile.remove(player);
 
-    notifyObservers(new GameEvent("player_left",
+    notifyObservers(new GameEvent(Event.PLAYER_LEFT_TILE,
         player.getName() + " left tile " + tileId, player));
   }
 }

@@ -12,7 +12,8 @@
       "action": {
         "type": "HomeEntryAction",
         "destinationTileId": 53,
-        "piece": "Yellow",
+        "piece": "Chicken",
+
         "description": "Start of home stretch for yellow pieces."
       }
     },
@@ -96,7 +97,7 @@
       "action": {
         "type": "HomeEntryAction",
         "destinationTileId": 59,
-        "piece": "Blue",
+        "piece": "Sheep",
         "description": "Start of home stretch for blue pieces."
       }
     },
@@ -180,7 +181,7 @@
       "action": {
         "type": "HomeEntryAction",
         "destinationTileId": 65,
-        "piece": "Red",
+        "piece": "Pig",
         "description": "Start of home stretch for red pieces."
       }
     },
@@ -264,7 +265,7 @@
       "action": {
         "type": "HomeEntryAction",
         "destinationTileId": 71,
-        "piece": "Green",
+        "piece": "Cat",
         "description": "Start of home stretch for green pieces."
       }
     },
@@ -487,7 +488,7 @@
       "action": {
         "type": "EntryAction",
         "destinationTileId": 42,
-        "piece": "Green",
+        "piece": "Cat",
         "description": "First tile for green pieces."
       }
     },
@@ -498,7 +499,7 @@
       "action": {
         "type": "EntryAction",
         "destinationTileId": 3,
-        "piece": "Yellow",
+        "piece": "Chicken",
         "description": "First tile for yellow pieces."
       }
     },
@@ -509,7 +510,7 @@
       "action": {
         "type": "EntryAction",
         "destinationTileId": 16,
-        "piece": "Blue",
+        "piece": "Sheep",
         "description": "First tile for green pieces."
       }
     },
@@ -520,7 +521,7 @@
       "action": {
         "type": "EntryAction",
         "destinationTileId": 29,
-        "piece": "Red",
+        "piece": "pig",
         "description": "First tile for red pieces."
       }
     }

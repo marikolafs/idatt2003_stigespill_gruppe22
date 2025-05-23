@@ -23,8 +23,8 @@ class BoardFileWriterGsonTest {
   @BeforeEach
   void setUp() throws IOException {
     boardFileWriterGson = new BoardFileWriterGson();
-    BoardGame game = BoardGame.getInstance("default name", "default description");
-    Board board = game.getBoard();
+    game = BoardGame.getInstance("default name", "default description");
+    board = game.getBoard(); // Bruk klassevariabelen
     board.setRows(2);
     board.setColumns(1);
     Tile tile1 = new Tile(1, null, 1, 1);
@@ -41,11 +41,16 @@ class BoardFileWriterGsonTest {
     @Test
     @DisplayName("Should write a board with 2 tiles")
     void writeBoard() throws IOException {
-      boardFileReaderGson = new BoardFileReaderGson();
       testBoardPath = Paths.get("src/main/resources/board.json");
+      boardFileWriterGson.writeBoard(board);
+
+      boardFileReaderGson = new BoardFileReaderGson();
       board = boardFileReaderGson.readBoard(testBoardPath);
       game = BoardGame.getInstance("default name", "default description");
-      assertEquals(2, board.getTiles().size());
+
+      assertEquals(2, board.getTiles().size(), "The board should have 2 tiles");
+      assertEquals(2, board.getRows(), "The board should have 2 rows");
+      assertEquals(1, board.getColumns(), "The board should have 1 column");
     }
 
     @Test

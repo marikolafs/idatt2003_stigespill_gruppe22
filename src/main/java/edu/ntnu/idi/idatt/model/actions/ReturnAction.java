@@ -17,6 +17,11 @@ public class ReturnAction implements TileAction {
   private static final Logger log = LoggerFactory.getLogger(ReturnAction.class);
   private static String description;
 
+  /**
+   * Constructs a ReturnAction with a specified description
+   *
+   * @param description the description of the action
+   */
   public ReturnAction(String description) {
     if (description.isBlank()) {
       throw new IllegalArgumentException("Description cannot be null or empty");

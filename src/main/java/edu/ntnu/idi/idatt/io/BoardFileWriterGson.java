@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.EntryAction;
@@ -15,10 +16,13 @@ import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import edu.ntnu.idi.idatt.model.actions.TileAction;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BoardFileWriterGson implements BoardFileWriter {
 
   private Gson gson;
+  private static final Logger logger = LoggerFactory.getLogger(BoardFileWriterGson.class);
 
   /**
    * Constructs a new BoardFileWriterGson instance. Initializes the Gson parser to be used for JSON
@@ -78,7 +82,7 @@ public class BoardFileWriterGson implements BoardFileWriter {
           } else if (tileAction instanceof HoldAction) {
             HoldAction holdAction = (HoldAction) tileAction;
             writer.name("type").value("hold");
-            writer.name("description").value(holdAction.getDescription());
+            writer.name("description").value(holdAction.getDescrption());
           } else if (tileAction instanceof ReturnAction) {
             ReturnAction returnAction = (ReturnAction) tileAction;
             writer.name("type").value("return");
@@ -102,12 +106,14 @@ public class BoardFileWriterGson implements BoardFileWriter {
       }
       writer.endArray();
       writer.endObject();
+    } catch (Exception e) {
+      logger.error("Feil ved skriving av board til fil: {}", e.getMessage(), e);
+      throw new JsonParsingException("Kunne ikke skrive board til JSON-fil: " + e.getMessage(), e);
     } finally {
       try {
         writer.close();
-      } catch (Exception e) {
-        handleFileError(new IOException("Failed to handle file: " + e.getMessage(), e));
-        throw new IOException("Failed to write board file", e);
+      } catch (IOException e) {
+        logger.error("Kunne ikke lukke filen: {}", e.getMessage(), e);
       }
     }
   }

@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.io;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
@@ -95,13 +96,13 @@ class BoardFileReaderGsonTest {
     }
 
     @Test
-    @DisplayName("Should throw IOException when file does not exist")
+    @DisplayName("Should throw JsonParsingException when file does not exist")
     void readBoard_NonExistentFile_ShouldThrowIOException() {
       Path nonExistentPath = Paths.get("non_existent_file.json");
 
-      assertThrows(IOException.class, () -> {
+      assertThrows(JsonParsingException.class, () -> {
         boardFileReaderGson.readBoard(nonExistentPath);
-      }, "Should throw IOException for non-existent file");
+      }, "Should throw JsonParsingException for non-existent file");
     }
 
 

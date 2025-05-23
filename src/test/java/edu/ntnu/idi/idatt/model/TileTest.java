@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.model;
 
+import edu.ntnu.idi.idatt.observer.events.Event;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -37,14 +38,14 @@ class TileTest {
     void notifyObservers_WhenPlayerLandsOnTile() {
       Tile tile = game.getBoard().getTile(1);
       Player player1 = new Player("Player 1", game, "Tophat");
-      GameEvent event = new GameEvent("player_landed", "Player 1 landed on tile 1", player1);
+      GameEvent event = new GameEvent(Event.PLAYER_MOVED, "Player 1 landed on tile 1", player1);
 
       tile.addObserver(observer);
       tile.landPlayer(player1);
 
       assertEquals(1, tile.getObservers().size());
       assertEquals(player1, tile.getPlayersOnTile().get(0));
-      assertEquals("player_landed",event.getEventType());
+      assertEquals(Event.PLAYER_MOVED,event.getEventType());
     }
 
 

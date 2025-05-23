@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.EntryAction;
@@ -162,8 +163,8 @@ public class BoardFileReaderGson implements BoardFileReader {
 
       return board;
     } catch (Exception e) {
-      handleFileError(new IOException("Failed to parse board file: " + e.getMessage(), e));
-      throw new IOException("Failed to read board file", e);
+      logger.error("Error while reading board file", e.getMessage(), e);
+      throw new JsonParsingException("Feil ved parsing av JSON-fil: " + e.getMessage(), e);
     }
   }
 }

@@ -36,7 +36,7 @@ public class LudoTest {
     board = reader.readBoard(file);
     board.setStartingTile(board.getTile(1));
     players = new ArrayList<>();
-    testPlayer = new Player("test player 1", game, "Red");
+    testPlayer = new Player("test player 1", game, "Pig");
     game.giveLudoPieces(testPlayer);
     game.addPlayer(testPlayer);
   }
@@ -88,8 +88,8 @@ public class LudoTest {
       Piece testPiece = testPlayer.getPieces().get(0);
       testPiece.setInStart(false);
       testPiece.setCurrentTile(board.getTile(1));
-      game.movePiece(testPiece, 1);
-      assertEquals(2, testPiece.getCurrentTile().getTileId());
+      game.movePiece(testPiece, 3);
+      assertEquals(4, testPiece.getCurrentTile().getTileId());
     }
 
     @Test

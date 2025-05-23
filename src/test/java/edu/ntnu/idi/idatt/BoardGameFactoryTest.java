@@ -2,7 +2,9 @@ package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;
+import edu.ntnu.idi.idatt.model.actions.ReturnAction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
@@ -57,6 +59,28 @@ public class BoardGameFactoryTest {
 
       assertTrue(tileWithAction.getLandAction() instanceof LadderAction,
           "Action should be of type LadderAction");
+    }
+
+    @Test
+    @DisplayName("Should return holdAction")
+    void shouldReturnHoldAction() throws Exception {
+      BoardGame game = BoardGame.getInstance("default name", "default description");
+      BoardGameFactory.createLadderGame90Plus();
+      Tile tileWithAction = game.getBoard().getTile(21);
+      HoldAction action = (HoldAction) tileWithAction.getLandAction();
+
+      assertTrue(tileWithAction.getLandAction() instanceof HoldAction, "Action should be of type HoldAction");
+    }
+
+    @Test
+    @DisplayName("Should return returnAction")
+    void shouldReturnReturnAction() throws Exception {
+      BoardGame game = BoardGame.getInstance("default name", "default description");
+      BoardGameFactory.createLadderGame90Plus();
+      Tile tileWithAction = game.getBoard().getTile(5);
+      ReturnAction action = (ReturnAction) tileWithAction.getLandAction();
+
+      assertTrue(tileWithAction.getLandAction() instanceof ReturnAction, "Action should be of type ReturnAction");
     }
   }
 }

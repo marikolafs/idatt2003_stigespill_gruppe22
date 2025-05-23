@@ -21,7 +21,14 @@ public class HomeEntryAction implements TileAction {
   String piece;
   private int destinationTileId;
 
-
+  /**
+   * Constructs a HomeEntryAction with a specified description and destination tile, affecting a
+   * specified piece
+   *
+   * @param description       a description of the action
+   * @param piece             the piece kind of piece the action effects
+   * @param destinationTileId the tile the player should be moved to
+   */
   public HomeEntryAction(String description, String piece, int destinationTileId) {
     this.description = description;
     this.piece = piece;
@@ -55,6 +62,11 @@ public class HomeEntryAction implements TileAction {
     this.destinationTileId = destinationTileId;
   }
 
+  /**
+   * Accessor method for the type of piece being affected by the action
+   *
+   * @return the piece corresponding with the til action
+   */
   public String getPiece() {
     return piece;
   }

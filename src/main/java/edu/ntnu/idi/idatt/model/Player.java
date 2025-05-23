@@ -71,6 +71,10 @@ public class Player {
     return pieces;
   }
 
+  public void setPiece(String piece) {
+    this.piece = piece;
+  }
+
   public Piece getCurrentPiece() {
     return currentPiece;
   }
@@ -110,10 +114,20 @@ public class Player {
     this.currentTile = tile;
   }
 
+  /**
+   * Sets a player as the winner of a game
+   *
+   * @param value whether or not the player has won
+   */
   public void isWinner(boolean value) {
     isWinner = value;
   }
 
+  /**
+   * Checks whether a player has been set as the winner of a game
+   *
+   * @return whether or not the player has won
+   */
   public boolean getIsWinner() {
     return isWinner;
   }

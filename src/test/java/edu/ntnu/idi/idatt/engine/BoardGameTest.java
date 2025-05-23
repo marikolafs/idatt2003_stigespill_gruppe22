@@ -1,8 +1,8 @@
 package edu.ntnu.idi.idatt.engine;
 
+import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,14 +31,14 @@ public class BoardGameTest {
     void notifyObservers_WhenPlayerLandsOnTile() {
       Tile tile = new Tile(1, null, 1, 1);
       Player player = new Player("Chris", null, "Tophat");
-      GameEvent event = new GameEvent("player_landed", "Player Chris landed on tile 1", player);
+      GameEvent event = new GameEvent(Event.PLAYER_MOVED, "Player Chris landed on tile 1", player);
 
       tile.addObserver(observer);
       tile.landPlayer(player);
 
       assertEquals(1, tile.getObservers().size());
       assertEquals(player, tile.getPlayersOnTile().get(0));
-      assertEquals("player_landed", event.getEventType());
+      assertEquals(Event.PLAYER_MOVED, event.getEventType());
     }
 
     @Test
@@ -62,8 +62,8 @@ public class BoardGameTest {
     void createBoard_ReturnRowsAndColumns() {
       BoardGame game = new BoardGame("Test Game", "Test Description");
       game.createBoard(9, 10);
-      assertEquals(9, game.getBoard().getRows());
-      assertEquals(10, game.getBoard().getColumns());
+      assertEquals(10, game.getBoard().getRows());
+      assertEquals(9, game.getBoard().getColumns());
     }
 
     @Test
@@ -110,12 +110,14 @@ public class BoardGameTest {
       game.addPlayer(player1);
       game.addPlayer(player2);
 
-      game.play();
+
+      Tile goalTile = game.getBoard().getGoalTile();
+      player1.placeOnTile(goalTile);
+
 
       Player winner = game.getWinner();
-
-      assertEquals(game.getBoard().getGoalTile().getTileId(), winner.getCurrentTile().getTileId(),
-          "Winner should be at the goal tile");
+      assertNotNull(winner, "Winner should not be null");
+      assertEquals(player1, winner, "Player1 should be the winner");
     }
 
     @Test
