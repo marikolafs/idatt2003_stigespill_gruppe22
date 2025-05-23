@@ -36,7 +36,7 @@ public class LudoTest {
     board = reader.readBoard(file);
     board.setStartingTile(board.getTile(1));
     players = new ArrayList<>();
-    testPlayer = new Player("test player 1", game, "Red");
+    testPlayer = new Player("test player 1", game, "Pig");
     game.giveLudoPieces(testPlayer);
     game.addPlayer(testPlayer);
   }
