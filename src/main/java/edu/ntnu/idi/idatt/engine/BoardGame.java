@@ -71,10 +71,6 @@ public class BoardGame extends Observable {
     this.observers = new ArrayList<>();
   }
 
-  public static void reset() {
-    instance = null;
-  }
-
   /**
    * The reset method resets the BoardGame instance
    */
@@ -221,7 +217,8 @@ public class BoardGame extends Observable {
    *
    * @param rows and columns the number of rows and columns the board should contain.
    * @return null
-   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
+   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to
+   *                                  0.
    */
   public Board createBoard(int columns, int rows) {
 
@@ -278,8 +275,8 @@ public class BoardGame extends Observable {
 
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the first
-   * player reaches the last tile (goal), at which point a winner is decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the
+   * first player reaches the last tile (goal), at which point a winner is decided.
    */
   public static void play() {
 
@@ -290,14 +287,13 @@ public class BoardGame extends Observable {
     Player player = players.get(currentPlayerIndex);
     setCurrentPlayer(player);
 
-
     notifyObservers(
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
   /**
-   * The rollDice method is responsible for handling a turn in a Ladder game. It rolls the dice and
-   * moves the current player the appropriate amount of tiles, making sure to check for any
+   * The rollDice method is responsible for handling a turn in a Ladder game. It rolls the dice
+   * and moves the current player the appropriate amount of tiles, making sure to check for any
    * potential tileActions on the destination tile
    *
    * @param player the player whose turn it is
@@ -340,7 +336,6 @@ public class BoardGame extends Observable {
       System.out.println(getWinner().getName() + " won the game!");
       return;
     }
-
     nextTurn();
   }
 
@@ -362,7 +357,6 @@ public class BoardGame extends Observable {
     notifyObservers(
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
-  //TODO: remove prints from ludo methods
 
   /**
    * The handleTurn method is responsible for handling a players turn, it rolls the dice and sees
@@ -520,7 +514,6 @@ public class BoardGame extends Observable {
           homeAction.perform(piece.getPlayer());
           return piece.getCurrentTile();
         }
-
       }
       //If there is no next tile, ascertain that the piece is home, and assess whether the game has been won.
       if (current.getNextTile() == null) {
@@ -554,167 +547,6 @@ public class BoardGame extends Observable {
           player.getName() + " wins the game!", player));
       notifyObservers(new GameEvent(Event.GAME_END,
           "The game has ended.", null));
-    }
-  }
-
-  /**
-   * Accessor method for the variable gameWon, determines whether the game has been won.
-   *
-   * @return whether or not the game has been won
-   */
-  public boolean getGameWon() {
-    return gameWon;
-  }
-
-  /**
-   * The playLudo method is responsible for managing Ludo game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the first
-   * player has gotten all their pieces into their home, at which point a winner is decided.
-   */
-  public void playLudo() {
-
-    if (gameWon) {
-      return;
-    }
-
-    Player player = players.get(currentPlayerIndex);
-    handleTurn(player);
-    notifyObservers(
-        new GameEvent("player_change", "Player changed to " + player.getName(), player));
-  }
-
-  /**
-   * The handleTurn method is responsible for handling a players turn, it rolls the dice and sees
-   * that only active pieces can move. If the player rolls a six, they get a second turn.
-   *
-   * @param player
-   */
-  public void handleTurn(Player player) {
-    int diceValue = dice.roll();
-    List<Piece> activePieces = player.getPieces().stream().filter(p -> canMove(p, diceValue))
-        .toList();
-
-    if (activePieces.isEmpty()) {
-      nextTurn();
-      return;
-    } else if (activePieces.size() == 1) {
-      movePiece(activePieces.get(0), diceValue);
-      return;
-    }
-
-    // Player can go again if they rolled a 6
-    if (diceValue != 6) {
-      nextTurn();
-    }
-  }
-
-  /**
-   * The nextTurn handles updating the current player.
-   */
-  public void nextTurn() {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    play();
-  }
-
-  /**
-   * The canMove method sees whether a piece can move, when a piece is in start, if a player rolls a
-   * six canMove will return true.
-   *
-   * @param piece     the piece being checked for its ability to move
-   * @param diceValue the value of the dice rolled
-   * @return whether or not the piece can move
-   */
-  public boolean canMove(Piece piece, int diceValue) {
-    if (piece.isHome()) {
-      return false;
-    }
-    if (piece.isInStart()) {
-      return diceValue == 6;
-    }
-    return getDestinationTile(piece, diceValue) != null;
-  }
-
-  /**
-   * The movePiece method is responsible for moving the piece on the board based on the value rolled
-   * on the die.
-   *
-   * @param piece     the piece being moved
-   * @param diceValue the value rolled on the die
-   */
-  public void movePiece(Piece piece, int diceValue) {
-    piece.getPlayer().setCurrentPiece(piece);
-
-    // Move piece to its starting tile when activated
-    if (piece.isInStart()) {
-      Tile entryTile = board.getTile(
-          board.getStartingTileForPiece(piece.getPlayer().getPiece()).getTileId());
-      piece.setCurrentTile(entryTile);
-      piece.setInStart(false);
-      entryTile.getLandAction().perform(piece.getPlayer());
-      return;
-    }
-
-    Tile destination = getDestinationTile(piece, diceValue);
-    if (destination == null) {
-      throw new IllegalStateException("Destination tile is null");
-    }
-
-    Tile current = piece.getCurrentTile();
-    if (current != null) {
-      current.removePiece(piece);
-    }
-
-    destination.addPiece(piece);
-    piece.setCurrentTile(destination);
-  }
-
-  /**
-   * The getDestinationTile method handles finding the tile a piece should move to. It checks for
-   * possible tileActions or win conditions being met and handles these if they occur.
-   *
-   * @param piece     the piece being moved
-   * @param diceValue the value rolled on the die
-   * @return the tile the piece should move to
-   */
-  public Tile getDestinationTile(Piece piece, int diceValue) {
-    Tile current = piece.getCurrentTile();
-    for (int i = 0; i < diceValue; i++) {
-      //Check whether a piece has reached its home entry tile.
-      if (current.getLandAction() instanceof HomeEntryAction) {
-        HomeEntryAction homeAction = (HomeEntryAction) current.getLandAction();
-        if (homeAction.getPiece().equalsIgnoreCase(piece.getPlayer().getPiece())) {
-          homeAction.perform(piece.getPlayer());
-          return piece.getCurrentTile();
-        }
-
-      }
-      //If there is no next tile, ascertain that the piece is home, and assess whether the game has been won.
-      if (current.getNextTile() == null) {
-        piece.setHome(true);
-        setLudoWinner(piece.getPlayer());
-        return null;
-      }
-      current = current.getNextTile();
-    }
-    return current;
-  }
-
-  /**
-   * The setLudoWinner method checks whether a player has gotten all their pieces into their home,
-   * and thereby won the game.
-   *
-   * @param player the player being examined
-   */
-  public void setLudoWinner(Player player) {
-    int homeCount = 0;
-    for (Piece piece : player.getPieces()) {
-      if (piece.isHome()) {
-        homeCount++;
-      }
-    }
-    if (homeCount == 4) {
-      gameWon = true;
-      player.isWinner(true);
     }
   }
 
