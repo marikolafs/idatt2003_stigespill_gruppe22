@@ -14,6 +14,43 @@ The objective of this project was to develop a flexible GUI based board game fra
 - Maven for building and running
 
 ## Project structure
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── edu/ntnu/idi/idatt/
+│   │   │       ├── controller/
+│   │   │       │   ├── GameBoardController.java
+│   │   │       │   ├── PlayerController.java
+│   │   │       │   └── SceneManager.java
+│   │   │       ├── engine/
+│   │   │       │   └── BoardGame.java
+│   │   │       ├── exceptions/
+│   │   │       │   └── JsonParsingException.java
+│   │   │       ├── io/
+│   │   │       │   └── BoardFileReaderGson.java
+│   │   │       ├── model/
+│   │   │       │   ├── actions/
+│   │   │       │   │   ├── EntryAction.java
+│   │   │       │   │   ├── HoldAction.java
+│   │   │       │   │   ├── HomeEntryAction.java
+│   │   │       │   │   ├── LadderAction.java
+│   │   │       │   │   └── ReturnAction.java
+│   │   │       │   ├── Board.java
+│   │   │       │   ├── Player.java
+│   │   │       │   └── Tile.java
+│   │   │       └── view/
+│   │   │           └── GameBoardView.java
+│   │   └── resources/
+│   │       ├── ExampleBoard.json
+│   │       └── images/
+│   └── test/
+│       └── java/
+│           └── edu/ntnu/idi/idatt/
+│               ├── engine/
+│               │   └── BoardGameTest.java
+│               └── io/
+│                   └── BoardFileReaderGsonTest.java
+└── pom.xml
 
 ## Link to repository
 
