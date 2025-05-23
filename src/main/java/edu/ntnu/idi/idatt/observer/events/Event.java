@@ -62,6 +62,11 @@ public enum Event {
     PLAYER_CHANGE,
 
     /**
+     * Event when a player has no possible moves.
+     */
+    NO_MOVES,
+
+    /**
      * Event when a player piece has changed.
      */
     PLAYER_PIECE_CHANGED
