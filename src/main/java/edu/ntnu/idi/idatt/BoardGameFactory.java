@@ -68,10 +68,10 @@ public class BoardGameFactory {
     BoardFileReaderGson reader;
     Path file;
 
+    BoardGame.reset();
     BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
     Board board = game.getBoard();
     game.createDice(1);
-    BoardGame.reset();
     game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
     reader = new BoardFileReaderGson();
     file = Paths.get("src/main/resources/LudoBoard.json");
@@ -79,5 +79,6 @@ public class BoardGameFactory {
     board.setStartingTile(board.getTile(1));
     return game;
   }
+
 }
 
