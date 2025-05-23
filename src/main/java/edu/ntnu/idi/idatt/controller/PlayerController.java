@@ -1,7 +1,5 @@
 package edu.ntnu.idi.idatt.controller;
 
-
-
 import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.engine.Dice;
@@ -20,6 +18,7 @@ import javafx.stage.Stage;
  */
 public class PlayerController {
   private PlayerView playerView;
+  private Player player;
   private SceneManager sceneManager;
 
   private static final BoardGame game = BoardGame.getInstance(BoardGame.getName(),
@@ -68,9 +67,7 @@ public class PlayerController {
       game.getPlayers().clear();
       Scene welcomeScene = sceneManager.getScene("Welcome");
       sceneManager.switchScene(welcomeScene, "Welcome");
-
     });
-
 
   }
 }
