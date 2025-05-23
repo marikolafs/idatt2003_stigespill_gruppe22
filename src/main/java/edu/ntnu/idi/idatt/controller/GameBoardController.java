@@ -14,6 +14,13 @@ public class GameBoardController {
 
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
 
+  /**
+   *
+   * @param stage
+   * @param sceneManager
+   * @param gameType
+   * @throws FileNotFoundException
+   */
   public GameBoardController(Stage stage, SceneManager sceneManager, String gameType) throws FileNotFoundException {
     try{
       GameBoardView gameBoardView = new GameBoardView(game.getBoard(), game.getPlayers(), gameType);
