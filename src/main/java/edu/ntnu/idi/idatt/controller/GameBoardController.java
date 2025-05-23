@@ -15,11 +15,12 @@ public class GameBoardController {
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
 
   /**
+   *Initializer method for GameBoardController
    *
-   * @param stage
-   * @param sceneManager
-   * @param gameType
-   * @throws FileNotFoundException
+   * @param stage the stage the controller is working on
+   * @param sceneManager sceneManager responsible for switching between scenes
+   * @param gameType the type of game being played
+   * @throws FileNotFoundException if a file can not be found
    */
   public GameBoardController(Stage stage, SceneManager sceneManager, String gameType) throws FileNotFoundException {
     try{

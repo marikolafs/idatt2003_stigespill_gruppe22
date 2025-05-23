@@ -1,17 +1,17 @@
 package edu.ntnu.idi.idatt.engine;
 
+import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Piece;
+import edu.ntnu.idi.idatt.model.Player;
+import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.HomeEntryAction;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
-import edu.ntnu.idi.idatt.model.Board;
-import edu.ntnu.idi.idatt.model.Player;
-import edu.ntnu.idi.idatt.model.Tile;
+import edu.ntnu.idi.idatt.observer.Observable;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
-import edu.ntnu.idi.idatt.observer.Observable;
 import java.util.Optional;
 import javafx.scene.control.ChoiceDialog;
 
@@ -58,16 +58,29 @@ public class BoardGame extends Observable {
     this.observers = new ArrayList<>();
   }
 
+  /**
+   * The reset method resets the BoardGame instance
+   */
+  public static void reset() {
+    instance = null;
+  }
+
+  /**
+   * Accessor method for gameType
+   *
+   * @return the type of game being played
+   */
   public String getGameType() {
     return gameType;
   }
 
+  /**
+   * Mutator method for gameType
+   *
+   * @param gameType the type of game being played
+   */
   public void setGameType(String gameType) {
     this.gameType = gameType;
-  }
-
-  public static void reset() {
-    instance = null;
   }
 
   /**
@@ -180,7 +193,8 @@ public class BoardGame extends Observable {
    */
   public void giveLudoPieces(Player player) {
     for (int i = 0; i < 4; i++) {
-      player.getPieces().add(new Piece(player, board.getStartingTile(), false, true));
+      player.getPieces()
+          .add(new Piece(player, board.getStartingTileForPiece(player.getPiece()), false, true));
     }
   }
 
@@ -190,8 +204,7 @@ public class BoardGame extends Observable {
    *
    * @param rows and columns the number of rows and columns the board should contain.
    * @return null
-   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to
-   *                                  0.
+   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
    */
   public Board createBoard(int columns, int rows) {
 
@@ -247,8 +260,8 @@ public class BoardGame extends Observable {
 
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the
-   * first player reaches the last tile (goal), at which point a winner is decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the first
+   * player reaches the last tile (goal), at which point a winner is decided.
    */
   public static void play() {
     if (gameWon) {
@@ -262,6 +275,13 @@ public class BoardGame extends Observable {
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
+  /**
+   * The rollDice method is responsible for handling a turn in a Ladder game. It rolls the dice and
+   * moves the current player the appropriate amount of tiles, making sure to check for any
+   * potential tileActions on the destination tile
+   *
+   * @param player the player whose turn it is
+   */
   public static void rollDice(Player player) {
 
     if (player.shouldHold()) {
@@ -306,9 +326,8 @@ public class BoardGame extends Observable {
 
   /**
    * The playLudo method is responsible for managing Ludo game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the
-   * first player has gotten all their pieces into their home, at which point a winner is
-   * decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the first
+   * player has gotten all their pieces into their home, at which point a winner is decided.
    */
   public void playLudo() {
 
@@ -323,6 +342,7 @@ public class BoardGame extends Observable {
     notifyObservers(
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
+  //TODO: remove prints from ludo methods
 
   /**
    * The handleTurn method is responsible for handling a players turn, it rolls the dice and sees
@@ -335,32 +355,27 @@ public class BoardGame extends Observable {
 
     int diceValue = getDice().roll();
 
-    //List<Piece> activePieces = currentPlayer.getPieces();
-    /*
-    for (Piece piece : player.getPieces()) {
-      if (canMove(piece, diceValue)) {
-        activePieces.add(piece);
-      }
-    }
-
-     */
     List<Piece> activePieces = currentPlayer.getPieces().stream().filter(p -> canMove(p, diceValue))
         .toList();
 
-
     if (activePieces.isEmpty()) {
       notifyObservers(new GameEvent(Event.NO_MOVES, "No valid moves", currentPlayer));
+      System.out.println(player.getName() + " has no active pieces");
       nextLudoTurn();
       return;
     } else if (activePieces.size() == 1) {
+      System.out.println(player.getName() + " has 1 active piece moving " + diceValue + " steps");
       movePiece(activePieces.get(0), diceValue);
 
+      //player can go again if they rolled a 6
       if (diceValue != 6) {
         nextLudoTurn();
       }
       return;
 
     } else {
+      System.out.println(
+          player.getName() + " has multiple active pieces that can move " + diceValue + " steps");
       List<String> options = new ArrayList<>();
       for (int i = 0; i < activePieces.size(); i++) {
         options.add("Piece " + (i + 1));
@@ -389,13 +404,16 @@ public class BoardGame extends Observable {
   }
 
   /**
-   * The nextTurn handles updating the current player.
+   * The nextTurn handles updating the current player
    */
   public static void nextTurn() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     play();
   }
 
+  /**
+   * The nextLudoTurn method handles updating the current player in Ludo
+   */
   public void nextLudoTurn() {
     System.out.println("NextLudoTurn() called");
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
@@ -435,7 +453,8 @@ public class BoardGame extends Observable {
 
     // Move piece to its starting tile when activated
     if (piece.isInStart()) {
-      notifyObservers(new GameEvent(Event.PLAYER_MOVED, "Players piece moved onto entry tile" + piece.getPlayer().getName(), getCurrentPlayer()));
+      notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+          "Players piece moved onto entry tile" + piece.getPlayer().getName(), getCurrentPlayer()));
       System.out.println("Moving " + piece.getPlayer().getName() + " onto entry tile");
       Tile entryTile = board.getTile(
           board.getStartingTileForPiece(piece.getPlayer().getPiece()).getTileId());
@@ -457,7 +476,9 @@ public class BoardGame extends Observable {
 
     destination.addPiece(piece);
     piece.setCurrentTile(destination);
-    notifyObservers(new GameEvent(Event.PLAYER_MOVED, "Players piece moved " + piece.getPlayer().getName(), getCurrentPlayer()));
+    notifyObservers(
+        new GameEvent(Event.PLAYER_MOVED, "Players piece moved " + piece.getPlayer().getName(),
+            getCurrentPlayer()));
   }
 
   /**

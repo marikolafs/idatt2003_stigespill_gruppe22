@@ -42,35 +42,7 @@ public class BoardGameApp extends Application {
 
     new WelcomeController(primaryStage, sceneManager);
 
-
     primaryStage.show();
-
-    /*
-    boardGameFactory.createLadderGame90();
-
-    game.addPlayer(new Player("player1", game, "piece1"));
-    game.addPlayer(new Player("player2", game, "piece2"));
-
-    game.getPlayers().getFirst().move(2);
-
-    game.play();
-
-     */
-
-    //View view = new View(stage);
-    //GameBoardView gameBoardView = view.getGameBoardView();
-    //PlayerView playerView = view.getPlayerView();
-    //WelcomeView welcomeView = new WelcomeView();
-
-    //LadderGameView ladderGameView = new  LadderGameView(gameBoardView, playerView);
-    //Scene scene = new Scene(welcomeView, 1000, 800);
-    //stage.setScene(scene);
-    //stage.setFullScreen(true);
-    //stage.show();
-
-    //PlayerController playerController = new PlayerController(game.getDice(), playerView);
-    //observable.addObserver(playerView);
-    //observable.addObserver(gameBoardView);
   }
 
 

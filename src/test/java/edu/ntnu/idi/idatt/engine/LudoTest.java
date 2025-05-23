@@ -88,8 +88,8 @@ public class LudoTest {
       Piece testPiece = testPlayer.getPieces().get(0);
       testPiece.setInStart(false);
       testPiece.setCurrentTile(board.getTile(1));
-      game.movePiece(testPiece, 1);
-      assertEquals(2, testPiece.getCurrentTile().getTileId());
+      game.movePiece(testPiece, 3);
+      assertEquals(4, testPiece.getCurrentTile().getTileId());
     }
 
     @Test
