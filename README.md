@@ -14,44 +14,8 @@ The objective of this project was to develop a flexible GUI based board game fra
 - Maven for building and running
 
 ## Project structure
-$ tree
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── edu/ntnu/idi/idatt/
-│   │   │       ├── controller/
-│   │   │       │   ├── GameBoardController.java
-│   │   │       │   ├── PlayerController.java
-│   │   │       │   └── SceneManager.java
-│   │   │       ├── engine/
-│   │   │       │   └── BoardGame.java
-│   │   │       ├── exceptions/
-│   │   │       │   └── JsonParsingException.java
-│   │   │       ├── io/
-│   │   │       │   └── BoardFileReaderGson.java
-│   │   │       ├── model/
-│   │   │       │   ├── actions/
-│   │   │       │   │   ├── EntryAction.java
-│   │   │       │   │   ├── HoldAction.java
-│   │   │       │   │   ├── HomeEntryAction.java
-│   │   │       │   │   ├── LadderAction.java
-│   │   │       │   │   └── ReturnAction.java
-│   │   │       │   ├── Board.java
-│   │   │       │   ├── Player.java
-│   │   │       │   └── Tile.java
-│   │   │       └── view/
-│   │   │           └── GameBoardView.java
-│   │   └── resources/
-│   │       ├── ExampleBoard.json
-│   │       └── images/
-│   └── test/
-│       └── java/
-│           └── edu/ntnu/idi/idatt/
-│               ├── engine/
-│               │   └── BoardGameTest.java
-│               └── io/
-│                   └── BoardFileReaderGsonTest.java
-└── pom.xml
+![image](https://github.com/user-attachments/assets/26941fb3-8427-4ad2-bfc2-b237dfff77a2)
+
 
 ## Link to repository
 https://github.com/marikolafs/idatt2003_stigespill_gruppe22
