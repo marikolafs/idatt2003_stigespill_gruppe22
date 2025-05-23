@@ -14,7 +14,7 @@ The objective of this project was to develop a flexible GUI based board game fra
 - Maven for building and running
 
 ## Project structure
-$tree
+$ tree
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -57,8 +57,18 @@ $tree
 https://github.com/marikolafs/idatt2003_stigespill_gruppe22
 
 ## How to run the project
+#### Run using Maven
+mvn javafx:run
+
+#### Run using IntelliJ
+![image](https://github.com/user-attachments/assets/c35a4af2-afd5-466d-9a6a-9412ff042270)
 
 ## How to run the tests
+#### Run tests in Mavne
+mvn test
+#### Run tests in IntelliJ
+The IntelliJ Run Application and Run All Tests should be bundled with the repository under .idea/runConfigurations
+![image](https://github.com/user-attachments/assets/eb996366-f0e0-4954-b6cf-2d96c7eaadf1)
 
 
 
