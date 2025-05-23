@@ -14,6 +14,7 @@ The objective of this project was to develop a flexible GUI based board game fra
 - Maven for building and running
 
 ## Project structure
+$tree
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -53,9 +54,13 @@ The objective of this project was to develop a flexible GUI based board game fra
 └── pom.xml
 
 ## Link to repository
+https://github.com/marikolafs/idatt2003_stigespill_gruppe22
 
 ## How to run the project
+
 ## How to run the tests
+
+
 
 ## Features
 - Players can choose from a set of predefined game variants: Multiple variants of Snakes and Ladders and Ludo.
