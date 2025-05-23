@@ -56,29 +56,23 @@ public class WelcomeView {
 
   public void setButtonStyle() throws FileNotFoundException {
 
-    FileInputStream ladderGameImageStream = new FileInputStream("src/main/resources/game_images/ladderGame.png");
-    FileInputStream ludoImageStream = new FileInputStream("src/main/resources/game_images/ludo.png");
-    FileInputStream ladderGame90ImageStream = new FileInputStream("src/main/resources/game_images/LadderGame90.PNG");
-    FileInputStream ladderGame90PlusImageStream = new FileInputStream("src/main/resources/game_images/LadderGame90Plus.PNG");
-    FileInputStream ladderGame45ImageStream = new FileInputStream("src/main/resources/game_images/LadderGame45.PNG");
+    FileInputStream ludoImageStream = new FileInputStream("src/main/resources/images/game_images/Ludo.png");
+    FileInputStream ladderGame90ImageStream = new FileInputStream("src/main/resources/images/game_images/LadderGame90.png");
+    FileInputStream ladderGame90PlusImageStream = new FileInputStream("src/main/resources/images/game_images/LadderGame90Plus.png");
+    FileInputStream ladderGame45ImageStream = new FileInputStream("src/main/resources/images/game_images/LadderGame45.png");
 
 
-    //Image ladderGame90Image = new Image(ladderGameImageStream);
     Image ludoImage = new Image(ludoImageStream);
     Image ladderGame90PlusImage = new Image(ladderGame90PlusImageStream);
     Image ladderGame45Image = new Image(ladderGame45ImageStream);
     Image ladderGame90Image = new Image(ladderGame90ImageStream);
 
 
-    javafx.scene.image.ImageView ladderGameImageView = new javafx.scene.image.ImageView(ladderGame90Image);
     javafx.scene.image.ImageView ludoImageView = new ImageView(ludoImage);
     javafx.scene.image.ImageView ladderGame90ImageView = new javafx.scene.image.ImageView(ladderGame90Image);
     javafx.scene.image.ImageView ladderGame90PlusImageView = new javafx.scene.image.ImageView(ladderGame90PlusImage);
     javafx.scene.image.ImageView ladderGame45ImageView = new javafx.scene.image.ImageView(ladderGame45Image);
 
-
-    ladderGameImageView.setFitWidth(65);
-    ladderGameImageView.setFitHeight(65);
 
     ladderGame90ImageView.setFitWidth(65);
     ladderGame90ImageView.setFitHeight(65);

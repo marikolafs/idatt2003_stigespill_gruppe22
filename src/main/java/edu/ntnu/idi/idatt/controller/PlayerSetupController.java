@@ -88,7 +88,7 @@ public class PlayerSetupController {
         game.play();
       }
       try {
-        new GameBoardController(stage, sceneManager);
+        new GameBoardController(stage, sceneManager, gameType);
       } catch (FileNotFoundException ex) {
         throw new RuntimeException(ex);
       }
