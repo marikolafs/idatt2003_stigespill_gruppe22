@@ -12,6 +12,8 @@ import edu.ntnu.idi.idatt.view.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 import edu.ntnu.idi.idatt.observer.Observable;
+import java.util.Optional;
+import javafx.scene.control.ChoiceDialog;
 
 
 /**
@@ -27,6 +29,7 @@ public class BoardGame extends Observable {
   private static BoardGame instance;
   private static String name;
   private static String description;
+  private static String gameType;
 
   public static BoardGame getInstance(String name, String description) {
     if (instance == null) {
@@ -53,6 +56,14 @@ public class BoardGame extends Observable {
     this.board = new Board();
     this.players = new ArrayList<>();
     this.observers = new ArrayList<>();
+  }
+
+  public String getGameType() {
+    return gameType;
+  }
+
+  public void setGameType(String gameType) {
+    this.gameType = gameType;
   }
 
   public static void reset() {
@@ -179,7 +190,8 @@ public class BoardGame extends Observable {
    *
    * @param rows and columns the number of rows and columns the board should contain.
    * @return null
-   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to 0.
+   * @throws IllegalArgumentException if the number of rows or columns is less than or equal to
+   *                                  0.
    */
   public Board createBoard(int columns, int rows) {
 
@@ -235,8 +247,8 @@ public class BoardGame extends Observable {
 
   /**
    * The play method is responsible for managing the game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the first
-   * player reaches the last tile (goal), at which point a winner is decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the
+   * first player reaches the last tile (goal), at which point a winner is decided.
    */
   public static void play() {
     if (gameWon) {
@@ -246,12 +258,18 @@ public class BoardGame extends Observable {
     Player player = players.get(currentPlayerIndex);
     setCurrentPlayer(player);
 
-
     notifyObservers(
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
 
   public static void rollDice(Player player) {
+
+    if (player.shouldHold()) {
+      System.out.println(player.getName() + " holds ");
+      player.setHoldAction(false);
+      nextTurn();
+    }
+
     int diceValue = dice.roll();
 
     Tile currentTile = player.getCurrentTile();
@@ -288,17 +306,20 @@ public class BoardGame extends Observable {
 
   /**
    * The playLudo method is responsible for managing Ludo game play. It iterates over the players,
-   * allowing each player to roll the dice and move on the board. The game concludes when the first
-   * player has gotten all their pieces into their home, at which point a winner is decided.
+   * allowing each player to roll the dice and move on the board. The game concludes when the
+   * first player has gotten all their pieces into their home, at which point a winner is
+   * decided.
    */
   public void playLudo() {
+
+    System.out.println("playLudo() called");
 
     if (gameWon) {
       return;
     }
 
     Player player = players.get(currentPlayerIndex);
-    handleTurn(player);
+    setCurrentPlayer(player);
     notifyObservers(
         new GameEvent(Event.PLAYER_CHANGE, "Player changed to " + player.getName(), player));
   }
@@ -310,21 +331,60 @@ public class BoardGame extends Observable {
    * @param player
    */
   public void handleTurn(Player player) {
-    int diceValue = dice.roll();
-    List<Piece> activePieces = player.getPieces().stream().filter(p -> canMove(p, diceValue))
+    System.out.println("handleTurn() called");
+
+    int diceValue = getDice().roll();
+
+    //List<Piece> activePieces = currentPlayer.getPieces();
+    /*
+    for (Piece piece : player.getPieces()) {
+      if (canMove(piece, diceValue)) {
+        activePieces.add(piece);
+      }
+    }
+
+     */
+    List<Piece> activePieces = currentPlayer.getPieces().stream().filter(p -> canMove(p, diceValue))
         .toList();
 
+
     if (activePieces.isEmpty()) {
+      notifyObservers(new GameEvent(Event.NO_MOVES, "No valid moves", currentPlayer));
       nextLudoTurn();
       return;
     } else if (activePieces.size() == 1) {
       movePiece(activePieces.get(0), diceValue);
-      return;
-    }
 
-    // Player can go again if they rolled a 6
-    if (diceValue != 6) {
-      nextLudoTurn();
+      if (diceValue != 6) {
+        nextLudoTurn();
+      }
+      return;
+
+    } else {
+      List<String> options = new ArrayList<>();
+      for (int i = 0; i < activePieces.size(); i++) {
+        options.add("Piece " + (i + 1));
+      }
+
+      ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+      dialog.setTitle("Choose piece");
+      dialog.setHeaderText("Choose which piece to move");
+      dialog.setContentText("Which piece do you want to move?");
+      Optional<String> result = dialog.showAndWait();
+
+      if (result.isPresent()) {
+        int index = options.indexOf(result.get());
+        Piece chosen = activePieces.get(index);
+        movePiece(chosen, diceValue);
+
+        if (diceValue != 6) {
+          nextLudoTurn();
+        }
+      } else {
+        System.out.println("No piece selected");
+        nextLudoTurn();
+      }
+      return;
     }
   }
 
@@ -337,7 +397,9 @@ public class BoardGame extends Observable {
   }
 
   public void nextLudoTurn() {
+    System.out.println("NextLudoTurn() called");
     currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    setCurrentPlayer(players.get(currentPlayerIndex)); //kan hende denne bør flyttes?
     playLudo();
   }
 
@@ -350,6 +412,7 @@ public class BoardGame extends Observable {
    * @return whether or not the piece can move
    */
   public boolean canMove(Piece piece, int diceValue) {
+    System.out.println("canMove() called");
     if (piece.isHome()) {
       return false;
     }
@@ -367,10 +430,13 @@ public class BoardGame extends Observable {
    * @param diceValue the value rolled on the die
    */
   public void movePiece(Piece piece, int diceValue) {
+    System.out.println("movePiece() called");
     piece.getPlayer().setCurrentPiece(piece);
 
     // Move piece to its starting tile when activated
     if (piece.isInStart()) {
+      notifyObservers(new GameEvent(Event.PLAYER_MOVED, "Players piece moved onto entry tile" + piece.getPlayer().getName(), getCurrentPlayer()));
+      System.out.println("Moving " + piece.getPlayer().getName() + " onto entry tile");
       Tile entryTile = board.getTile(
           board.getStartingTileForPiece(piece.getPlayer().getPiece()).getTileId());
       piece.setCurrentTile(entryTile);
@@ -391,6 +457,7 @@ public class BoardGame extends Observable {
 
     destination.addPiece(piece);
     piece.setCurrentTile(destination);
+    notifyObservers(new GameEvent(Event.PLAYER_MOVED, "Players piece moved " + piece.getPlayer().getName(), getCurrentPlayer()));
   }
 
   /**
@@ -402,6 +469,7 @@ public class BoardGame extends Observable {
    * @return the tile the piece should move to
    */
   public Tile getDestinationTile(Piece piece, int diceValue) {
+    System.out.println("getDestinationTile() called");
     Tile current = piece.getCurrentTile();
     for (int i = 0; i < diceValue; i++) {
       //Check whether a piece has reached its home entry tile.
@@ -431,6 +499,7 @@ public class BoardGame extends Observable {
    * @param player the player being examined
    */
   public void setLudoWinner(Player player) {
+    System.out.println("setLudoWinner() called");
     int homeCount = 0;
     for (Piece piece : player.getPieces()) {
       if (piece.isHome()) {
@@ -438,12 +507,12 @@ public class BoardGame extends Observable {
       }
     }
     if (homeCount == 4) {
+      gameWon = true;
+      player.isWinner(true);
       notifyObservers(new GameEvent(Event.PLAYER_WIN,
           player.getName() + " wins the game!", player));
       notifyObservers(new GameEvent(Event.GAME_END,
           "The game has ended.", null));
-      gameWon = true;
-      player.isWinner(true);
     }
   }
 
@@ -473,6 +542,5 @@ public class BoardGame extends Observable {
       }
     }
     return winner;
-
   }
 }
