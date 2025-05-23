@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.engine;
 
 
+import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
+import edu.ntnu.idi.idatt.io.PlayerFiles;
+import edu.ntnu.idi.idatt.io.BoardFileWriterGson;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
@@ -9,8 +12,11 @@ import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.Observable;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Paths;
 
 
 /**
@@ -320,5 +326,54 @@ public class BoardGame extends Observable {
       }
     }
     return winner;
+  }
+
+  /**
+   * Responsible for resetting the game state. It clears the players list,
+   * resets the board and dice
+   */
+  public void restartGameWithSavedPlayers() {
+    try {
+      String playersFilePath = "src/main/resources/players.csv";
+      String boardFilePath = "src/main/resources/board.json";
+
+      PlayerFiles playersToFile = new PlayerFiles();
+      BoardFileWriterGson boardFileWriter = new BoardFileWriterGson();
+      BoardFileReaderGson boardFileReader = new BoardFileReaderGson();
+      playersToFile.writePlayersToFile(players);
+      boardFileWriter.writeBoard(board);
+
+      if (!new File(playersFilePath).exists() || !new File(boardFilePath).exists()) {
+        throw new Exception("Required files not found.");
+      }
+
+      dice = new Dice(2);
+      gameWon = false;
+      currentPlayerIndex = 0;
+
+      players.clear();
+      board = boardFileReader.readBoard(Paths.get(boardFilePath));
+
+      PlayerFiles.addPlayersThroughFile(new File(playersFilePath));
+
+      Tile startingTile = board.getStartingTile();
+      if (startingTile == null) {
+        throw new Exception("Starting tile is not set on the board.");
+      }
+
+      for (Player player : players) {
+        if (player.getCurrentTile() != null) {
+          player.getCurrentTile().leavePlayer(player);
+        }
+        player.placeOnTile(startingTile);
+        startingTile.landPlayer(player);
+
+        notifyObservers(new GameEvent(Event.PLAYER_MOVED,
+            player.getName() + " placed on starting tile.", player));
+      }
+
+    } catch (Exception e) {
+      System.err.println("Failed to restart game: " + e.getMessage());
+    }
   }
 }
