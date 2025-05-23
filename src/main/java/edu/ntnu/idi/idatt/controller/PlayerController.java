@@ -8,7 +8,9 @@ import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.observer.GameEvent;
 import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * The PlayerController class handles the player actions in the game.

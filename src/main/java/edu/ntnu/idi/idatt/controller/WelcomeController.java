@@ -9,12 +9,11 @@ import javafx.stage.Stage;
 
 public class WelcomeController {
 
-  private SceneManager sceneManager;
   private String gameType;
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
-  private final SceneManager sceneManager;
-  private final WelcomeView welcomeView;
-  private final Scene welcomeScene;
+  private SceneManager sceneManager;
+  private WelcomeView welcomeView;
+  private Scene welcomeScene;
 
   public WelcomeController(Stage stage, SceneManager sceneManager) throws FileNotFoundException {
     this.sceneManager = sceneManager;
@@ -34,13 +33,14 @@ public class WelcomeController {
     welcomeView.getLadder90PlusButton().setOnAction(event -> {
       new PlayerSetupController(stage, sceneManager, "LadderGame90Plus");
       game.setGameType("LadderGame90Plus");
-    showWelcomeScene();
-    setupEventHandlers(stage);
-    sceneManager.addScene("Welcome", welcomeScene);
+    });
+      showWelcomeScene();
+      setupEventHandlers(stage);
+      sceneManager.addScene("Welcome", welcomeScene);
   }
 
   private void setupEventHandlers(Stage stage) {
-    welcomeView.getLadderButton().setOnAction(event -> {
+    welcomeView.getLadder90Button().setOnAction(event -> {
       new PlayerSetupController(stage, sceneManager, "LadderGame");
     });
 
