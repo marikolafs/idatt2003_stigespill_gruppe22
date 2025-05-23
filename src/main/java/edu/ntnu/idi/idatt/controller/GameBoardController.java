@@ -14,16 +14,16 @@ public class GameBoardController {
 
   BoardGame game = BoardGame.getInstance(BoardGame.getName(), BoardGame.getDescription());
 
-  public GameBoardController(Stage stage, SceneManager sceneManager) throws FileNotFoundException {
+  public GameBoardController(Stage stage, SceneManager sceneManager, String gameType) throws FileNotFoundException {
     try{
-      GameBoardView gameBoardView = new GameBoardView(game.getBoard(), game.getPlayers());
+      GameBoardView gameBoardView = new GameBoardView(game.getBoard(), game.getPlayers(), gameType);
       PlayerView playerView = new PlayerView();
 
       LadderGameView layout = new LadderGameView(gameBoardView, playerView);
       Scene gameScene = new Scene(layout, 1000, 800);
       sceneManager.switchScene(gameScene, "LadderGame");
 
-      PlayerController playerController = new PlayerController(game.getDice(), playerView);
+      PlayerController playerController = new PlayerController(game.getDice(), playerView, gameType);
 
       game.addObserver(gameBoardView);
       game.addObserver(playerView);
