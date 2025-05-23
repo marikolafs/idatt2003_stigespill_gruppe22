@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.controller;
 
-import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.view.WelcomeView;
 import java.io.FileNotFoundException;

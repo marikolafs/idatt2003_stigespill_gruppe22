@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt;
 
 import edu.ntnu.idi.idatt.engine.BoardGame;
+import edu.ntnu.idi.idatt.factory.BoardGameFactory;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.model.actions.HoldAction;
 import edu.ntnu.idi.idatt.model.actions.LadderAction;

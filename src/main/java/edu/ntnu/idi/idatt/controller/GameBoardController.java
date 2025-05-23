@@ -1,7 +1,5 @@
 package edu.ntnu.idi.idatt.controller;
 
-import edu.ntnu.idi.idatt.Game;
-import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.view.GameBoardView;
 import edu.ntnu.idi.idatt.view.LadderGameView;

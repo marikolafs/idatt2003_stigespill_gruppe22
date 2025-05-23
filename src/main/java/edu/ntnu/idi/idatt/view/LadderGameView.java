@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.view;
 
-import edu.ntnu.idi.idatt.BoardGameFactory;
+import edu.ntnu.idi.idatt.factory.BoardGameFactory;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.exceptions.JsonParsingException;
 import edu.ntnu.idi.idatt.io.BoardFileReaderGson;

@@ -1,19 +1,12 @@
 package edu.ntnu.idi.idatt.ui;
 
-import edu.ntnu.idi.idatt.BoardGameFactory;
-import edu.ntnu.idi.idatt.SceneManager;
+import edu.ntnu.idi.idatt.factory.BoardGameFactory;
+import edu.ntnu.idi.idatt.controller.SceneManager;
 import edu.ntnu.idi.idatt.controller.WelcomeController;
-import edu.ntnu.idi.idatt.io.PlayerFiles;
-import edu.ntnu.idi.idatt.controller.PlayerController;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.model.Board;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.observer.Observable;
-import edu.ntnu.idi.idatt.view.GameBoardView;
-import edu.ntnu.idi.idatt.view.LadderGameView;
-import edu.ntnu.idi.idatt.view.PlayerSetupView;
-import edu.ntnu.idi.idatt.view.PlayerView;
-import edu.ntnu.idi.idatt.view.View;
 import edu.ntnu.idi.idatt.view.WelcomeView;
 import java.util.List;
 import javafx.application.Application;

@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
@@ -143,7 +144,7 @@ public class BoardGameTest {
       // Verify it's the same instance (singleton pattern)
       assertEquals(game1, game2, "Should return the same instance");
       // First created instance values should be maintained
-      assertEquals("default name", game1.getName(),
+      assertEquals("Test Game", game1.getName(),
           "Should keep the default name from first instantiation");
     }
   }

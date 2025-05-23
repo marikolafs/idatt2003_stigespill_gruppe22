@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.controller;
 
-import edu.ntnu.idi.idatt.BoardGameFactory;
-import edu.ntnu.idi.idatt.SceneManager;
+import edu.ntnu.idi.idatt.factory.BoardGameFactory;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.io.BoardFileReaderGson;
 import edu.ntnu.idi.idatt.model.Board;
@@ -9,7 +8,6 @@ import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.view.PlayerSetupView;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

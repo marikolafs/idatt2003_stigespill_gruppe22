@@ -1,12 +1,8 @@
 package edu.ntnu.idi.idatt.controller;
 
-import edu.ntnu.idi.idatt.SceneManager;
 import edu.ntnu.idi.idatt.engine.BoardGame;
 import edu.ntnu.idi.idatt.engine.Dice;
-import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
-import edu.ntnu.idi.idatt.observer.GameEvent;
-import edu.ntnu.idi.idatt.observer.events.Event;
 import edu.ntnu.idi.idatt.view.PlayerView;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

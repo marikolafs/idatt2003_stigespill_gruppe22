@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt;
+package edu.ntnu.idi.idatt.controller;
 
 import java.util.HashMap;
 import java.util.Map;
