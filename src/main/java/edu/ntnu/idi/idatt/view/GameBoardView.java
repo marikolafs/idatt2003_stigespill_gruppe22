@@ -1,17 +1,18 @@
 package edu.ntnu.idi.idatt.view;
 
 import edu.ntnu.idi.idatt.model.Board;
+import edu.ntnu.idi.idatt.model.Piece;
 import edu.ntnu.idi.idatt.model.Player;
 import edu.ntnu.idi.idatt.model.Tile;
 import edu.ntnu.idi.idatt.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.observer.GameEvent;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -31,20 +32,28 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
   private final Board board;
   private final List<Player> players;
   private Text winnerDeclaration;
+  private String gameType;
+  private ImageView boardImage;
 
-  public GameBoardView(Board board, List<Player> players) throws FileNotFoundException {
+
+  public GameBoardView(Board board, List<Player> players, String gameType) throws FileNotFoundException {
     this.board = board;
     this.players = players;
     this.gridPane = new GridPane();
     this.gridPane.setAlignment(Pos.CENTER);
     this.winnerDeclaration = new Text();
+    this.gameType = gameType;
 
     this.winnerDeclaration.setStyle("-fx-font-size: 90;");
 
+    this.boardImage = addPicturesToGrid();
     addTilesToGrid();
     addPlayersToGrid();
 
-    this.getChildren().addAll(gridPane, winnerDeclaration);
+    StackPane stackPane = new StackPane();
+    stackPane.getChildren().addAll(boardImage, gridPane);
+
+    this.getChildren().addAll(stackPane, winnerDeclaration);
   }
 
   /**
@@ -56,17 +65,19 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
 
     for (Tile tile : tiles.values()) {
       StackPane tilePane = new StackPane();
-      Label label = new Label("Tile: " + tile.getTileId());
+      //Label label = new Label("Tile: " + tile.getTileId());
       Rectangle rectangle = new Rectangle(TILE_SIZE, TILE_SIZE);
 
       // Set tile color
       if (tile.getTileId() % 2 == 0) {
-        rectangle.setFill(Color.BEIGE);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setStroke(Color.TRANSPARENT);
       } else {
-        rectangle.setFill(Color.OLIVE);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setStroke(Color.TRANSPARENT);
       }
 
-      tilePane.getChildren().addAll(rectangle, label);
+      tilePane.getChildren().addAll(rectangle);
       gridPane.add(tilePane, tile.getX(), tile.getY());
     }
   }
@@ -76,29 +87,73 @@ public class GameBoardView extends StackPane implements BoardGameObserver {
    * @throws FileNotFoundException if the image file cannot be found.
    */
   private void addPlayersToGrid() throws FileNotFoundException {
-    for (Player player : players) {
-      StackPane playerPane = new StackPane();
+    if (gameType.equals("Ludo")) {
+      for (Player player : players) {
+        for (Piece piece : player.getPieces()) {
+          Tile tile = piece.getCurrentTile();
+          if (tile == null) {
+            continue;
+          }
 
-      // Load player image
-      String piecePath = "/images/pieces/" + player.getPiece() + ".png";;
-      InputStream inputStream = getClass().getResourceAsStream(piecePath);
-      if (inputStream == null) {
-        throw new IllegalArgumentException("Image not found at path: " + piecePath);
+          StackPane piecePane = new StackPane();
+
+          String piecePath = "/images/pieces/" + player.getPiece() + ".png";
+          InputStream pieceStream = getClass().getResourceAsStream(piecePath);
+          if (pieceStream == null) {
+            throw new IllegalArgumentException("Image not found: " + piecePath);
+          }
+
+          Image pieceImage = new Image(pieceStream);
+          ImageView pieceImageView = new ImageView(pieceImage);
+          pieceImageView.setFitHeight(40);
+          pieceImageView.setFitWidth(40);
+
+          piecePane.getChildren().add(pieceImageView);
+          gridPane.add(piecePane, piece.getCurrentTile().getX(), piece.getCurrentTile().getY());
+        }
       }
+    } else {
+      for (Player player : players) {
+        Tile tile = player.getCurrentTile();
+        if (tile == null) {
+          continue;
+        }
 
-      Image image = new Image(inputStream);
-      ImageView imageView = new ImageView(image);
-      imageView.setFitHeight(40);
-      imageView.setFitWidth(40);
+        StackPane playerPane = new StackPane();
 
-      Label label = new Label(player.getPiece());
-      label.setStyle("-fx-font-size: 5;");
+        // Load player image
+        String piecePath = "/images/pieces/" + player.getPiece() + ".png";
+        InputStream inputStream = getClass().getResourceAsStream(piecePath);
+        if (inputStream == null) {
+          throw new IllegalArgumentException("Image not found at path: " + piecePath);
+        }
 
-      playerPane.getChildren().addAll(imageView, label);
-      gridPane.add(playerPane, player.getCurrentTile().getX(), player.getCurrentTile().getY());
+        Image image = new Image(inputStream);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
 
+        playerPane.getChildren().add(imageView);
+
+        gridPane.add(playerPane, player.getCurrentTile().getX(), player.getCurrentTile().getY());
+      }
     }
   }
+
+  public ImageView addPicturesToGrid() throws FileNotFoundException {
+
+    String boardPath = "src/main/resources/images/game_images/" + gameType + ".png";
+    FileInputStream boardStream = new FileInputStream(boardPath);
+    if (boardStream == null) {
+      throw new IllegalArgumentException("Image not found: " + boardPath);
+    }
+    Image boardImage = new Image(boardStream);
+    ImageView boardImageView = new ImageView(boardImage);
+    boardImageView.setFitHeight(board.getRows() * TILE_SIZE);
+    boardImageView.setFitWidth(board.getColumns() * TILE_SIZE);
+    return boardImageView;
+  }
+
 
   public void updateBoard() throws FileNotFoundException {
     gridPane.getChildren().clear();
