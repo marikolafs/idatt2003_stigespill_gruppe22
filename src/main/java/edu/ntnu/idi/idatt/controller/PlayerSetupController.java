@@ -77,6 +77,9 @@ public class PlayerSetupController {
         usedPieces.add(piece);
         Player player = new Player(name, game, piece);
         game.addPlayer(player);
+        if (gameType.equals("Ludo")){
+          game.giveLudoPieces(player);
+        }
 
 
         player.setPiece(piece);

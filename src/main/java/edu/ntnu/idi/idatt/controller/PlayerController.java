@@ -59,6 +59,7 @@ public class PlayerController {
       } else if (gameType.equals("Ludo")) {
         System.out.println("Ludo should play");
         game.handleTurn(game.getCurrentPlayer());
+        playerView.setPieceImage(player.getPiece());
       }
     });
 
